@@ -1,0 +1,37 @@
+{
+  "name": "stops",
+  "plural": "stops",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "timeCreated": {
+      "type": "date",
+      "required": true
+    },
+    "timeLastModified": {
+      "type": "date",
+      "required": true
+    },
+    "location": {
+      "type": "geopoint",
+      "required": true
+    },
+    "address": {
+      "type": "object",
+      "required": true
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

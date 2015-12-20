@@ -1,0 +1,46 @@
+{
+  "name": "customer",
+  "plural": "customers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "subscribeSMS": {
+      "type": "boolean"
+    },
+    "phoneValidated": {
+      "type": "boolean"
+    },
+    "jobs": {
+      "type": [
+        "string"
+      ],
+      "required": true
+    },
+    "address": {
+      "type": "object",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

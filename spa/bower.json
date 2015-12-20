@@ -1,0 +1,15 @@
+{
+  "name": "bingfresheats-dispatcher-spa",
+  "description": "",
+  "main": "index.js",
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/austntatious/dispatch-service",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
