@@ -1,4 +1,30 @@
-extends layout
+//extends layout
 
 // add template for dispatch dashboard
 // render react app and components
+  aasdasdasda
+   if user
+      script(type='text/javascript').
+        var user = !{JSON.stringify(user)};
+    else
+      script(type='text/javascript').
+        var user = null;
+
+
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Dispatchr
+  body
+    #app-container
+
+    if user
+      script(type='text/javascript').
+        var user = !{JSON.stringify(user)};
+    else
+      script(type='text/javascript').
+        var user = null;
+    script(src='/js/spa/vendor.original.js')
+    script(src='/js/spa/app.original.js')

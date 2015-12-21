@@ -25,7 +25,7 @@ var webpackConfigBase = {
   //production: 'defined in extended config files'
 
   output:{
-    path: path.join(__dirname, './../client/assets/javascripts/spa/')//,
+    path: path.join(__dirname, './../public/js/spa/')//,
     //filename: 'defined in extended config files'
     // hot:false
   },
