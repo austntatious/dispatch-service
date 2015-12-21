@@ -43,7 +43,7 @@ for(var i = 0; i < drivers.features.length; i++) {
 
 // Add marker color, symbol, and size to library GeoJSON
 for (var i = 0; i < customers.features.length; i++) {
-  customers.features[i].properties['marker-color'] = '#4169E1';
+  customers.features[i].properties['marker-color'] = '#9c89cc';
   customers.features[i].properties['marker-symbol'] = 'embassy';
   customers.features[i].properties['marker-size'] = 'small';
 };
