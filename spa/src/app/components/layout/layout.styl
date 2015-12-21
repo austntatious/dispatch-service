@@ -14,34 +14,40 @@
       font-weight: 800
       font-size: 20px
     }
+
     .nav-link-container{
       border-top: 1px solid $blue3a
-      border-bottom: 1px solid $blue3b
-      padding: 15px 0
+      border-bottom: 2px solid $blue3b
       display: block
       text-decoration: none
-      border-left: 3px solid transparent
       font-weight: 400;
-
-      &:hover{
-        border-left: 3px solid $blue2
-      }
-
+      margin: 5px 0
       &.active{
-        border-color: $blue2
-        border-left: 1px 0 1px 3px
         background: $blue2
         color: $white3
         font-weight: 700
+
+        .nav-link{
+          border-left: 3px solid $blue2
+        }
+      }
+
+      &:hover{
+        .nav-link{
+          border-left: 3px solid $blue2
+        }
       }
 
       .nav-link{
+        border-left: 3px solid transparent
+        padding: 15px 0
         color: $white1
         font-family: $fontFam1
         text-transform: uppercase;
         letter-spacing: 4px;
         padding-left: 15px;
-
+        display: block
+        
         .fa{
           color: $blue4
         }
