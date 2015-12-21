@@ -1,36 +1,9 @@
 {
-<<<<<<< HEAD
-  "name": "dispatch-api",
-  "version": "1.0.0",
-  "main": "server/server.js",
-  "scripts": {
-    "start": "node .",
-    "pretest": "jshint ."
-  },
-  "dependencies": {
-    "compression": "^1.0.3",
-    "cors": "^2.5.2",
-    "loopback": "^2.22.0",
-    "loopback-boot": "^2.6.5",
-    "loopback-component-explorer": "^2.1.0",
-    "loopback-connector-mongodb": "^1.13.1",
-    "loopback-datasource-juggler": "^2.39.0",
-    "serve-favicon": "^2.0.1"
-  },
-  "devDependencies": {
-    "jshint": "^2.5.6"
-  },
-  "repository": {
-    "type": "",
-    "url": ""
-  },
-  "description": "dispatch-api"
-=======
-  "name": "hackathon-starter",
+  "name": "dispatch-service",
   "version": "3.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+    "url": "https://github.com/austntatious/dispatch-service.git"
   },
   "scripts": {
     "start": "node app.js",
@@ -96,5 +69,4 @@
     "supertest": "^1.1.0"
   },
   "license": "MIT"
->>>>>>> e39871f1059332f67101e8f1047bfe3919508b10
 }
