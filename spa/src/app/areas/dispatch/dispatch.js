@@ -1,10 +1,13 @@
 let Layout = require('components/layout/layout')
 
-module.exports = class Dispatch extends React.Component {
-  
+let Dispatch = React.createClass({
   render() {
-    return (<div>Dispatch
-          <Layout/>
-        </div>)
+    return (
+      <Layout navCurrent='dispatch'>
+        maps, etc
+      </Layout>
+    )
   }
-}
+})
+
+module.exports = Dispatch

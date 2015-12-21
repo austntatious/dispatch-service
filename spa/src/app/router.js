@@ -3,8 +3,8 @@ var Links = React.createClass({
     return (
       <div>
         <a href="/">go to home</a><br/><br/>
-        <a href="/dispatch">go to dispatch</a><br/><br/>
-        <a href="/analytics">go to analytics</a><br/><br/>
+        <a href="/dashboard/dispatch">go to dispatch</a><br/><br/>
+        <a href="/dashboard/analytics">go to analytics</a><br/><br/>
       </div>
     )
   }
@@ -50,7 +50,7 @@ var sitemap = window.sitemap = [
   },
   {
     routes: ['/analytics'],
-    handler: analytics
+    handler: require('areas/analytics/analytics')
   }
 ];
 
@@ -62,10 +62,14 @@ var Router = React.createClass({
   },
 
   componentDidMount() {
-    let self = this;
+    let self = this,
+      pathRoot = "/dashboard";
     _.each(sitemap, (area) => {
       _.each(area.routes, (route) => {
-        page(route, (ctx, next) => {
+        let routeNormalized = pathRoot + route;
+        console.log(routeNormalized);
+        
+        page(routeNormalized, (ctx, next) => {
 
           if(area.redirect) {
             console.log("redirecting to ", area.redirect)
