@@ -33,5 +33,7 @@ class Content extends React.Component {
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('app-container'));
+var Router = require('./router.js')
+
+ReactDOM.render(<Router/>, document.getElementById('app-container'));
 

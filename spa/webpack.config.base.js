@@ -25,7 +25,7 @@ var webpackConfigBase = {
   //production: 'defined in extended config files'
 
   output:{
-    path: path.join(__dirname, './../client/assets/javascripts/spa/')//,
+    path: path.join(__dirname, './../public/js/spa/')//,
     //filename: 'defined in extended config files'
     // hot:false
   },
@@ -39,6 +39,7 @@ var webpackConfigBase = {
     ],
     modulesDirectories: [
       "src/app",
+      "src/app/components/layout",
       'node_modules',
       'bower_components'
     ]
@@ -53,8 +54,11 @@ var webpackConfigBase = {
           presets: ['es2015', 'react']
         }
       },
-      { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
+      { test: /\.styl$/, loader: 'style!css!stylus'}
     ]
+  },
+  stylus: {
+    import: path.join(__dirname,'src/app/app.styl')
   }
 };
 

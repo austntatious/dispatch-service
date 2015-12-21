@@ -7,3 +7,5 @@ window.React.addons = {
 
 window.cs             = require('classnames')
 window.page           = require('page')
+window._              = require('lodash')
+window.MUI            = require('material-ui')
