@@ -1,5 +1,5 @@
 ## For all environments
-1. Ensure that ES6 is available for build process (Node version > 4, or 5). 
+Ensure that ES6 is available for build process (Node version > 4, or 5). 
 ```
 # From http://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version
 sudo npm cache clean -f
