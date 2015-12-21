@@ -1,0 +1,77 @@
+L.mapbox.accessToken = 'pk.eyJ1IjoiYXVzdG50YXRpb3VzIiwiYSI6ImNpaWY2NnYwbzAxbXR0eWtya3VmaXQxbTcifQ._bNp2h1g2hK_7XQakbhxjQ';
+
+// store GeoJSON objects in these variables
+var drivers = 
+{
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "Name": "VA Medical Center -- Leestown Division", "Address": "2250 Leestown Rd" }, "geometry": { "type": "Point", "coordinates": [ -73.939487, 40.772916 ] } },
+      { "type": "Feature", "properties": { "Name": "St. Joseph East", "Address": "150 N Eagle Creek Dr" }, "geometry": { "type": "Point", "coordinates": [ -73.980434, 40.798757 ] } },
+      { "type": "Feature", "properties": { "Name": "Central Baptist Hospital", "Address": "1740 Nicholasville Rd" }, "geometry": { "type": "Point", "coordinates": [ -73.912283, 40.718918 ] } },
+      { "type": "Feature", "properties": { "Name": "VA Medical Center -- Cooper Dr Division", "Address": "1101 Veterans Dr" }, "geometry": { "type": "Point", "coordinates": [ -73.906483, 40.72972 ] } },
+      { "type": "Feature", "properties": { "Name": "Shriners Hospital for Children", "Address": "1900 Richmond Rd" }, "geometry": { "type": "Point", "coordinates": [ -73.972941, 40.722564 ] } },
+      { "type": "Feature", "properties": { "Name": "Eastern State Hospital", "Address": "627 W Fourth St" }, "geometry": { "type": "Point", "coordinates": [ -73.998816, 40.760791 ] } },
+      { "type": "Feature", "properties": { "Name": "Cardinal Hill Rehabilitation Hospital", "Address": "2050 Versailles Rd" }, "geometry": { "type": "Point", "coordinates": [ -73.89212, 40.746568 ] } },
+      { "type": "Feature", "properties": { "Name": "St. Joseph Hospital", "ADDRESS": "1 St Joseph Dr" }, "geometry": { "type": "Point", "coordinates": [ -73.923636, 40.732475 ] } },
+      { "type": "Feature", "properties": { "Name": "UK Medical Center", "Address": "800 Rose St" }, "geometry": { "type": "Point", "coordinates": [ -73.908205, 40.731254 ] }
+      }
+    ]
+  }
+
+;
+var customers = 
+{
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "Name": "Village Branch", "Address": "2185 Versailles Rd" }, "geometry": { "type": "Point", "coordinates": [ -73.948369, 40.747876 ] } },
+      { "type": "Feature", "properties": { "Name": "Northside Branch", "ADDRESS": "1733 Russell Cave Rd" }, "geometry": { "type": "Point", "coordinates": [ -73.94135, 40.701734 ] } },
+      { "type": "Feature", "properties": { "Name": "Central Library", "ADDRESS": "140 E Main St" }, "geometry": { "type": "Point", "coordinates": [ -73.996894, 40.715459 ] } },
+      { "type": "Feature", "properties": { "Name": "Beaumont Branch", "Address": "3080 Fieldstone Way" }, "geometry": { "type": "Point", "coordinates": [ -73.957948, 40.712502 ] } },
+      { "type": "Feature", "properties": { "Name": "Tates Creek Branch", "Address": "3628 Walden Dr" }, "geometry": { "type": "Point", "coordinates": [ -73.958679, 40.779598 ] } },
+      { "type": "Feature", "properties": { "Name": "Eagle Creek Branch", "Address": "101 N Eagle Creek Dr" }, "geometry": { "type": "Point", "coordinates": [ -73.942219, 40.799437 ] } }
+    ]
+  }
+
+;
+
+// Add marker color, symbol, and size to hospital GeoJSON
+for(var i = 0; i < drivers.features.length; i++) {
+  drivers.features[i].properties['marker-color'] = '#DC143C';
+  drivers.features[i].properties['marker-symbol'] = 'car';
+  drivers.features[i].properties['marker-size'] = 'small';
+};
+
+// Add marker color, symbol, and size to library GeoJSON
+for (var i = 0; i < customers.features.length; i++) {
+  customers.features[i].properties['marker-color'] = '#4169E1';
+  customers.features[i].properties['marker-symbol'] = 'embassy';
+  customers.features[i].properties['marker-size'] = 'small';
+};
+
+var map = L.mapbox.map('map', 'mapbox.dark')
+    .setView([73.95, -40.7], 12);
+map.scrollWheelZoom.disable();
+
+var driversLayer = L.mapbox.featureLayer(drivers)
+    .addTo(map);
+var customersLayer = L.mapbox.featureLayer(customers)
+    .addTo(map);
+
+// When map loads, zoom to libraryLayer features
+map.fitBounds(customersLayer.getBounds());
+
+// Bind a popup to each feature in hospitalLayer and libraryLayer
+  driversLayer.eachLayer(function (layer) {
+    layer.bindPopup('<strong>' + layer.feature.properties.Name + '</strong>', { closeButton: false });
+  }).addTo(map);
+  customersLayer.eachLayer(function (layer) {
+    layer.bindPopup(layer.feature.properties.Name, { closeButton: false });
+  }).addTo(map);
+
+  // Open popups on hover
+  customersLayer.on('mouseover', function (e) {
+    e.layer.openPopup();
+  });
+  driversLayer.on('mouseover', function (e) {
+    e.layer.openPopup();
+  });

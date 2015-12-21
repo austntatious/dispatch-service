@@ -156,7 +156,7 @@ app.get('/api/bitgo', apiController.getBitGo);
 app.post('/api/bitgo', apiController.postBitGo);
 
 /**
- * Dispatch API routes
+ * Dispatch Service API routes
  */
 app.get('/dispatch', passportConf.isAuthenticated, dispatchController.getDispatch)
 
