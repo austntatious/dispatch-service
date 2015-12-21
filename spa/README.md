@@ -1,3 +1,13 @@
+## For all environments
+1. Ensure that ES6 is available for build process (Node version > 4, or 5). 
+```
+# From http://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+sudo ln -sf /usr/local/n/versions/node/<VERSION>/bin/node /usr/bin/node 
+```
+
 ## Getting started in local environment
 1. Go to the SPA folder:
 
