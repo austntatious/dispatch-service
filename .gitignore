@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-*.csv
-*.dat
-*.iml
-*.log
-*.out
-*.pid
-*.seed
-*.sublime-*
-*.swo
-*.swp
-*.tgz
-*.xml
-.DS_Store
-.idea
-.project
-.strong-pm
-coverage
-node_modules
-npm-debug.log
-=======
 lib-cov
 *.seed
 *.log
@@ -45,4 +24,4 @@ bower_components
 # OS metadata
 .DS_Store
 Thumbs.db
->>>>>>> e39871f1059332f67101e8f1047bfe3919508b10
+
