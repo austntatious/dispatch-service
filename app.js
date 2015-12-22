@@ -29,7 +29,7 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
-var dispatchController = require('./controllers/dispatch');
+var dashboardController = require('./controllers/dashboard');
 
 /**
  * API keys and Passport configuration.
@@ -156,9 +156,10 @@ app.get('/api/bitgo', apiController.getBitGo);
 app.post('/api/bitgo', apiController.postBitGo);
 
 /**
- * Dispatch API routes
+ * Dispatch Service API routes
  */
-app.get('/dispatch', passportConf.isAuthenticated, dispatchController.getDispatch)
+app.get('/dashboard*', passportConf.isAuthenticated, dashboardController.getDashboard)
+
 
 /**
  * OAuth authentication routes. (Sign in)
