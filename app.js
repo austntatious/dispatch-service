@@ -141,19 +141,21 @@ app.get('/api/paypal/cancel', apiController.getPayPalCancel);
 
 /**
  * Dispatch Service API routes
- */
+ 
 
 app.get('/api/customer',  );
 app.get('/api/organization', );
 app.get('/api/job');
 app.get('/api/destinations');
 
+**/
+
 /**
  * Driver Location API
  */
 
-app.get('/api/driver/login', )
-app.get('/')
+// app.get('/api/driver/login', )
+
 
 
 /**
