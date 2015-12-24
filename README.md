@@ -1,5 +1,5 @@
 
-# My Application
+# Nucleus Dispatch Service
 
 [ ![Codeship Status for austntatious/dispatch-service](https://codeship.com/projects/bef38eb0-8aad-0133-a161-6e0139c7f1f3/status?branch=master)](https://codeship.com/projects/123499)
 

@@ -18,18 +18,18 @@ var querystring = require('querystring');
 var secrets = require('../config/secrets');
 
 /**
- * GET /api
- * List of API examples.
+ * GET /plugins
+ * List of plugins examples.
  */
-exports.getApi = function(req, res) {
-  res.render('api/index', {
-    title: 'API Examples'
+exports.getPlugins = function(req, res) {
+  res.render('plugins/index', {
+    title: 'Plugin Examples'
   });
 };
 
 /**
- * GET /api/foursquare
- * Foursquare API example.
+ * GET /plugins/foursquare
+ * Foursquare plugins example.
  */
 exports.getFoursquare = function(req, res, next) {
   foursquare = require('node-foursquare')({ secrets: secrets.foursquare });
@@ -56,8 +56,8 @@ exports.getFoursquare = function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render('api/foursquare', {
-      title: 'Foursquare API',
+    res.render('plugins/foursquare', {
+      title: 'Foursquare plugins',
       trendingVenues: results.trendingVenues,
       venueDetail: results.venueDetail,
       userCheckins: results.userCheckins
@@ -68,8 +68,8 @@ exports.getFoursquare = function(req, res, next) {
 
 
 /**
- * GET /api/facebook
- * Facebook API example.
+ * GET /plugins/facebook
+ * Facebook plugins example.
  */
 exports.getFacebook = function(req, res, next) {
   graph = require('fbgraph');
@@ -92,8 +92,8 @@ exports.getFacebook = function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render('api/facebook', {
-      title: 'Facebook API',
+    res.render('plugins/facebook', {
+      title: 'Facebook plugins',
       me: results.getMe,
       friends: results.getMyFriends
     });
@@ -102,8 +102,8 @@ exports.getFacebook = function(req, res, next) {
 
 
 /**
- * GET /api/twitter
- * Twiter API example.
+ * GET /plugins/twitter
+ * Twiter plugins example.
  */
 exports.getTwitter = function(req, res, next) {
   Twit = require('twit');
@@ -119,15 +119,15 @@ exports.getTwitter = function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render('api/twitter', {
-      title: 'Twitter API',
+    res.render('plugins/twitter', {
+      title: 'Twitter plugins',
       tweets: reply.statuses
     });
   });
 };
 
 /**
- * POST /api/twitter
+ * POST /plugins/twitter
  * Post a tweet.
  */
 exports.postTwitter = function(req, res, next) {
@@ -137,7 +137,7 @@ exports.postTwitter = function(req, res, next) {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/api/twitter');
+    return res.redirect('/plugins/twitter');
   }
 
   var token = _.find(req.user.tokens, { kind: 'twitter' });
@@ -152,26 +152,26 @@ exports.postTwitter = function(req, res, next) {
       return next(err);
     }
     req.flash('success', { msg: 'Tweet has been posted.'});
-    res.redirect('/api/twitter');
+    res.redirect('/plugins/twitter');
   });
 };
 
 
 /**
- * GET /api/stripe
- * Stripe API example.
+ * GET /plugins/stripe
+ * Stripe plugins example.
  */
 exports.getStripe = function(req, res) {
   stripe = require('stripe')(secrets.stripe.secretKey);
 
-  res.render('api/stripe', {
-    title: 'Stripe API',
+  res.render('plugins/stripe', {
+    title: 'Stripe plugins',
     publishableKey: secrets.stripe.publishableKey
   });
 };
 
 /**
- * POST /api/stripe
+ * POST /plugins/stripe
  * Make a payment.
  */
 exports.postStripe = function(req, res, next) {
@@ -185,27 +185,27 @@ exports.postStripe = function(req, res, next) {
   }, function(err, charge) {
     if (err && err.type === 'StripeCardError') {
       req.flash('errors', { msg: 'Your card has been declined.' });
-      res.redirect('/api/stripe');
+      res.redirect('/plugins/stripe');
     }
     req.flash('success', { msg: 'Your card has been charged successfully.' });
-    res.redirect('/api/stripe');
+    res.redirect('/plugins/stripe');
   });
 };
 
 /**
- * GET /api/twilio
- * Twilio API example.
+ * GET /plugins/twilio
+ * Twilio plugins example.
  */
 exports.getTwilio = function(req, res) {
   twilio = require('twilio')(secrets.twilio.sid, secrets.twilio.token);
 
-  res.render('api/twilio', {
-    title: 'Twilio API'
+  res.render('plugins/twilio', {
+    title: 'Twilio plugins'
   });
 };
 
 /**
- * POST /api/twilio
+ * POST /plugins/twilio
  * Send a text message using Twilio.
  */
 exports.postTwilio = function(req, res, next) {
@@ -216,7 +216,7 @@ exports.postTwilio = function(req, res, next) {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/api/twilio');
+    return res.redirect('/plugins/twilio');
   }
 
   var message = {
@@ -229,13 +229,13 @@ exports.postTwilio = function(req, res, next) {
       return next(err.message);
     }
     req.flash('success', { msg: 'Text sent to ' + responseData.to + '.'});
-    res.redirect('/api/twilio');
+    res.redirect('/plugins/twilio');
   });
 };
 
 
 /**
- * GET /api/paypal
+ * GET /plugins/paypal
  * PayPal SDK example.
  */
 exports.getPayPal = function(req, res, next) {
@@ -273,7 +273,7 @@ exports.getPayPal = function(req, res, next) {
     var links = payment.links;
     for (var i = 0; i < links.length; i++) {
       if (links[i].rel === 'approval_url') {
-        res.render('api/paypal', {
+        res.render('plugins/paypal', {
           approvalUrl: links[i].href
         });
       }
@@ -282,7 +282,7 @@ exports.getPayPal = function(req, res, next) {
 };
 
 /**
- * GET /api/paypal/success
+ * GET /plugins/paypal/success
  * PayPal SDK example.
  */
 exports.getPayPalSuccess = function(req, res) {
@@ -290,12 +290,12 @@ exports.getPayPalSuccess = function(req, res) {
   var paymentDetails = { payer_id: req.query.PayerID };
   paypal.payment.execute(paymentId, paymentDetails, function(err) {
     if (err) {
-      res.render('api/paypal', {
+      res.render('plugins/paypal', {
         result: true,
         success: false
       });
     } else {
-      res.render('api/paypal', {
+      res.render('plugins/paypal', {
         result: true,
         success: true
       });
@@ -304,12 +304,12 @@ exports.getPayPalSuccess = function(req, res) {
 };
 
 /**
- * GET /api/paypal/cancel
+ * GET /plugins/paypal/cancel
  * PayPal SDK example.
  */
 exports.getPayPalCancel = function(req, res) {
   req.session.paymentId = null;
-  res.render('api/paypal', {
+  res.render('plugins/paypal', {
     result: true,
     canceled: true
   });

@@ -27,12 +27,12 @@ var sass = require('node-sass-middleware');
  */
 var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
-var apiController = require('./controllers/api');
+var pluginController = require('./controllers/plugins');
 var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
 
 /**
- * API keys and Passport configuration.
+ * plugins keys and Passport configuration.
  */
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
@@ -40,6 +40,7 @@ var passportConf = require('./config/passport');
 /**
  * Create Express server.
  * Create socket connection
+ * 
  */
 var app = express();
 var server = require('http').Server(app);
@@ -93,16 +94,31 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(function(req, res, next) {
-  if (/api/i.test(req.path)) {
+  if (/plugins/i.test(req.path)) { 
     req.session.returnTo = req.path;
   }
+  //regex pattern for testing case-insensitive, and redirect to original url after authentication
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
+/**
+ * Dispatch Service plugins route
+
+
+app.post('/api/drivers');
+app.post('/api/driver/login', );
+app.post('/api/driver/') 
+
+//how to filter and query in URL string to return only required fields??
+app.get('/api/organizations', );
+app.get('/api/jobs');
+app.get('/api/destinations');
+
+**/ 
 
 /**
- * Primary app routes.
+ * Primary web app routes.
  */
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
@@ -124,39 +140,20 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 app.get('/dashboard*', passportConf.isAuthenticated, dashboardController.getDashboard)
 
 /**
- * 3rd party API example routes.
+ * 3rd party plugins example routes.
  */
-app.get('/api', apiController.getApi);
-app.get('/api/stripe', apiController.getStripe);
-app.post('/api/stripe', apiController.postStripe);
-app.get('/api/twilio', apiController.getTwilio);
-app.post('/api/twilio', apiController.postTwilio);
-app.get('/api/foursquare', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getFoursquare);
-app.get('/api/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getFacebook);
-app.get('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getTwitter);
-app.post('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.postTwitter);
-app.get('/api/paypal', apiController.getPayPal);
-app.get('/api/paypal/success', apiController.getPayPalSuccess);
-app.get('/api/paypal/cancel', apiController.getPayPalCancel);
-
-/**
- * Dispatch Service API routes
- 
-
-app.get('/api/customer',  );
-app.get('/api/organization', );
-app.get('/api/job');
-app.get('/api/destinations');
-
-**/
-
-/**
- * Driver Location API
- */
-
-// app.get('/api/driver/login', )
-
-
+app.get('/plugins', pluginController.getPlugins);
+app.get('/plugins/stripe', pluginController.getStripe);
+app.post('/plugins/stripe', pluginController.postStripe);
+app.get('/plugins/twilio', pluginController.getTwilio);
+app.post('/plugins/twilio', pluginController.postTwilio);
+app.get('/plugins/foursquare', passportConf.isAuthenticated, passportConf.isAuthorized, pluginController.getFoursquare);
+app.get('/plugins/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, pluginController.getFacebook);
+app.get('/plugins/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, pluginController.getTwitter);
+app.post('/plugins/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, pluginController.postTwitter);
+app.get('/plugins/paypal', pluginController.getPayPal);
+app.get('/plugins/paypal/success', pluginController.getPayPalSuccess);
+app.get('/plugins/paypal/cancel', pluginController.getPayPalCancel);
 
 /**
  * OAuth authentication routes. (Sign in)
@@ -179,11 +176,11 @@ app.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRe
 });
 
 /**
- * OAuth authorization routes. (API examples)
+ * OAuth authorization routes. (plugins examples)
  */
 app.get('/auth/foursquare', passport.authorize('foursquare'));
-app.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/api' }), function(req, res) {
-  res.redirect('/api/foursquare');
+app.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/plugins' }), function(req, res) {
+  res.redirect('/plugins/foursquare');
 });
 
 /**
