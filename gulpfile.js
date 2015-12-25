@@ -20,7 +20,7 @@ gulp.task('test', function() {
     });
 });
 
-//find errors in javascript files
+//find errors in specific javascript files
 gulp.task('jshint', function() {
   gulp.src('./app.js')
     .pipe(jshint())

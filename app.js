@@ -103,11 +103,14 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
- * Dispatch Service plugins route
+ * Dispatch Service api routes
 **/ 
-/**
 app.post('/api/drivers',);  //post driver location or status update
-app.get('/api/drivers',);   //get new orders
+app.get('/api/drivers',);   //get current driver locations
+app.get('/api/drivers',);   //get a drivers new orders, events, and statuses
+app.post('/api/drivers',);   //post a drivers orders, events, and statuses
+
+/**
 
 //how to filter and query in URL string to return only required fields??
 app.get('/api/organizations', );

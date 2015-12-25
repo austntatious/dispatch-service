@@ -7,10 +7,21 @@
 Nucleus Dispatch Service [![Dependency Status](https://david-dm.org/sahat/hackathon-starter/status.svg?style=flat)](https://david-dm.org/sahat/hackathon-starter) [![Analytics](https://ga-beacon.appspot.com/UA-47447818-2/hackathon-starter?pixel)](https://github.com/igrigorik/ga-beacon)
 
 
-[![Join the chat at https://gitter.im/sahat/hackathon-starter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sahat/hackathon-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Thinkful Pair on Node](https://tf-assets-staging.s3.amazonaws.com/badges/thinkful_repo_badge.svg)](http://start.thinkful.com/node/)
-
-
 Jump to [What's new in 3.2.0?](#changelog)
+
+HOW TO SETUP
+
+1) Make sure you have node and npm installed
+
+2) Clone or fork this repo
+
+3) npm install
+
+4) configure mongodb and check /config/secrets.js to make sure connection URI is accurate
+
+5) run "npm start" to start the server, and for dev, run "npm run watch"
+
+6) profit (?)
 
 A boilerplate for **Node.js** web applications.
 
