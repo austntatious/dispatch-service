@@ -104,19 +104,18 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 
 /**
  * Dispatch Service plugins route
-
-
-app.post('/api/drivers');
-app.post('/api/driver/login', );
-app.post('/api/driver/') 
+**/ 
+/**
+app.post('/api/drivers',);  //post driver location or status update
+app.get('/api/drivers',);   //get new orders
 
 //how to filter and query in URL string to return only required fields??
 app.get('/api/organizations', );
 app.get('/api/jobs');
 app.get('/api/destinations');
+app.get('api/other');
 
-**/ 
-
+**/
 /**
  * Primary web app routes.
  */
