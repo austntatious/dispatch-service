@@ -73,6 +73,19 @@ let Dispatch = React.createClass({
 
   },
 
+  getInitialState(){
+    return {items: []}
+  },
+
+  componentDidMount() {
+    setInterval(() => {
+      let id = _.uniqueId()
+      this.state.items.unshift({id: id, text: "[NEW ORDER] Order #" + id})
+      this.state.items = _.take(this.state.items, 15)
+      this.forceUpdate();
+    }, 1000)
+  },
+
   render() {
     return (
       <Layout navCurrent='dispatch'>
@@ -83,6 +96,13 @@ let Dispatch = React.createClass({
               zoomControl={false}
               center={[59.907433, 30.299848]} zoom={17}
               onMapCreated={this._onMapCreated}/>
+          </div>
+          <div style={{height: 1000}}>
+            <React.addons.CssTransitionGroup transitionName="transition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+              {this.state.items.map((item) => {
+                return <div key={item.id}>{item.text}</div>
+              })}
+            </React.addons.CssTransitionGroup>
           </div>
         </div>
       </Layout>

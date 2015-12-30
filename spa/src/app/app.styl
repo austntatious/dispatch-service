@@ -42,3 +42,23 @@ html, body {
 .pull-right{
   float: right
 }
+
+
+.transition-enter {
+  opacity: 0.01;
+  
+  &.transition-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+}
+
+.transition-leave {
+  opacity: 0;
+  
+  &.transition-leave-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+  }
+}
+
