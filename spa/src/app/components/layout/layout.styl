@@ -57,33 +57,40 @@
     
   }
 
-  #nav-top{
-    background: $white0
-    color: $gray3
-    height: 50px
-
-    #nav-top-right-links{
-      .nav-top-right-link{
-        display: inline-block
-        padding: 15px
-        border-left: 2px solid $gray4
-        cursor: pointer
-
-        .fa{
-          margin: 0 3px;
-          width: 14px;
-          text-align: center
-        }
-      }
-    }
-  }
-
   #content-prewrapper{
     margin-left: 230px
     background: $gray2
     min-height: 100%;
 
+    #nav-top{
+      background: $white0
+      color: $gray3
+      height: 50px
+
+      #nav-top-right-links{
+        .nav-top-right-link{
+          display: inline-block
+          padding: 15px
+          border-left: 2px solid $gray4
+          cursor: pointer
+
+          .fa{
+            margin: 0 3px;
+            width: 14px;
+            text-align: center
+          }
+        }
+      }
+    }
+    
+    #content-wrapper{
+      position: relative;
+      width: 100%;
+    }
   }
+  
+
+  
 }
   
   
