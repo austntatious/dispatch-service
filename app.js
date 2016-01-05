@@ -30,6 +30,8 @@ var userController = require('./controllers/user');
 var pluginController = require('./controllers/plugins');
 var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
+var driverController = require('./controllers/driver');
+var jobsController = require('./controllers/job');
 
 /**
  * plugins keys and Passport configuration.
@@ -56,25 +58,52 @@ mongoose.connection.on('error', function() {
 });
 
 /**
- * Express configuration.
+ * Express configuration for all routes.
  */
 app.set('port', process.env.PORT || 3000);
+app.use(compress());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
+app.use(methodOverride());
+app.use(cookieParser());
+
+/**
+ * Dispatch Service api routes
+ **/
+
+//log all activity 
+//add authentication to api routes
+
+//app.post('/api/drivers/', driverController.createDriver);  //create driver
+app.get('/api/drivers/:id', driverController.getInfo);   //get specific driver info
+app.get('/api/drivers', driverController.getDrivers); //get all drivers and info
+app.put('/api/drivers/:id', driverController.updateInfo); //update driver info/status/location
+
+
+/** TO DO
+//how to filter and query in URL string to return only required fields??
+//associate an organization with all jobs and drivers, so all requests will return drivers or jobs
+//that are under that organization
+app.get('/api/organizations', );
+app.get('/api/jobs');
+app.get('/api/destinations');
+app.get('api/other');
+**/
+
+/**
+ *  Express config & Middleware for primary web app routes
+ */
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(compress());
 app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   debug: true,
   outputStyle: 'expanded'
 }));
-app.use(logger('dev'));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
-app.use(methodOverride());
-app.use(cookieParser());
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -102,23 +131,6 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
-/**
- * Dispatch Service api routes
-
-app.post('/api/drivers',);  //post driver location or status update
-app.get('/api/drivers',);   //get current driver locations, events, and status updates
-app.get('/api/drivers',);   //get a drivers new orders, events, and statuses
-app.post('/api/drivers',);   //post a drivers orders, events, and statuses
-**/ 
-/**
-
-//how to filter and query in URL string to return only required fields??
-app.get('/api/organizations', );
-app.get('/api/jobs');
-app.get('/api/destinations');
-app.get('api/other');
-
-**/
 /**
  * Primary web app routes.
  */

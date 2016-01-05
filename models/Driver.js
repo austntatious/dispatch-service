@@ -1,31 +1,24 @@
-var bcrypt = require('bcrypt-nodejs');
-var crypto = require('crypto');
 var mongoose = require('mongoose');
 
-var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, lowercase: true },
-  password: String,
-  organization: String,
-  role: String, //admin, superuser, etc
-
-  facebook: String,
-  twitter: String,
-  google: String,
-  tokens: Array,
-
-  profile: {
-    name: { type: String, default: '' },
-    location: { type: String, default: '' },
-    picture: { type: String, default: '' }
-  },
-
-  resetPasswordToken: String,
-  resetPasswordExpires: Date
+var driverSchema = new mongoose.Schema({
+  timeCreated: Date,
+  timeLastModified: { type: Date, default: Date.now }, 
+  organization: String,  //organization ID to associate driver
+  name: String,
+  phone: String,
+  email: String,
+  onDuty: Boolean,
+  location: Array, //GeoJson or Long Lat ?
+  jobs: Array, //array of job IDs
+  // add analytics to track times and distances 
 });
+
+//TO DO
+
 
 /**
  * Password hash middleware.
- */
+
 userSchema.pre('save', function(next) {
   var user = this;
   if (!user.isModified('password')) {
@@ -44,10 +37,10 @@ userSchema.pre('save', function(next) {
     });
   });
 });
-
+*/
 /**
  * Helper method for validating user's password.
- */
+
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) {
@@ -57,9 +50,11 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
+ */
+
 /**
  * Helper method for getting user's gravatar.
- */
+ 
 userSchema.methods.gravatar = function(size) {
   if (!size) {
     size = 200;
@@ -70,5 +65,6 @@ userSchema.methods.gravatar = function(size) {
   var md5 = crypto.createHash('md5').update(this.email).digest('hex');
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
 };
+ **/
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Driver', driverSchema);
