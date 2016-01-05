@@ -7,11 +7,13 @@ html
     meta(name='viewport', content='initial-scale=1,maximum-scale=1,user-scalable=no')
     script(src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js')
     link(href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300', rel='stylesheet', type='text/css')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', rel='stylesheet', type='text/css')
     style.
       body { margin:2; padding:1; }
       #map { position:absolute; top:0; bottom:0; width:100%; }
   body
-    #map
+    //- #map<link href='' rel='stylesheet' type='text/css'>
     #app-container
 
     if user
@@ -21,6 +23,6 @@ html
       script(type='text/javascript').
         var user = null;
 
-    script(src='/js/mapbox.js')
+    //- script(src='/js/mapbox.js')
     script(src='/js/spa/vendor.original.js')
     script(src='/js/spa/app.original.js')

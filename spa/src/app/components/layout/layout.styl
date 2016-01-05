@@ -11,7 +11,7 @@
       height: 44px
       color: $white3
       padding: 12px 0 0 17px
-      font-weight: 800
+      font-weight: 700
       font-size: 20px
     }
 
@@ -50,32 +50,12 @@
         
         .fa{
           color: $blue4
+          margin-right: 15px
         }
       }
     }
     
     
-  }
-
-  #nav-top{
-    background: $white0
-    color: $gray3
-    height: 50px
-
-    #nav-top-right-links{
-      .nav-top-right-link{
-        display: inline-block
-        padding: 15px
-        border-left: 2px solid $gray4
-        cursor: pointer
-
-        .fa{
-          margin: 0 3px;
-          width: 14px;
-          text-align: center
-        }
-      }
-    }
   }
 
   #content-prewrapper{
@@ -83,7 +63,35 @@
     background: $gray2
     min-height: 100%;
 
+    #nav-top{
+      background: $white0
+      color: $gray3
+      height: 50px
+
+      #nav-top-right-links{
+        .nav-top-right-link{
+          display: inline-block
+          padding: 15px
+          border-left: 2px solid $gray4
+          cursor: pointer
+
+          .fa{
+            margin: 0 3px;
+            width: 14px;
+            text-align: center
+          }
+        }
+      }
+    }
+    
+    #content-wrapper{
+      position: relative;
+      width: 100%;
+    }
   }
+  
+
+  
 }
   
   

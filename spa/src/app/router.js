@@ -41,8 +41,8 @@ var analytics = React.createClass({
 var sitemap = window.sitemap = [
   {
     routes: ['/'],
-    handler: noop
-    // redirect: '/dispatch'
+    handler: noop,
+    redirect: '/dispatch'
   },
   {
     routes: ['/dispatch'],
@@ -74,7 +74,7 @@ var Router = React.createClass({
           if(area.redirect) {
             console.log("redirecting to ", area.redirect)
             setTimeout( () => {
-              page(area.redirect);
+              page(pathRoot + area.redirect);
             }, 10)
             
           } else {
