@@ -76,10 +76,10 @@ app.use(cookieParser());
 //log all activity 
 //add authentication to api routes
 
-//app.post('/api/drivers/', driverController.createDriver);  //create driver
-app.get('/api/drivers/:id', driverController.getInfo);   //get specific driver info
+app.post('/api/drivers', driverController.createDriver);  //create driver
+app.get('/api/drivers/:id', driverController.getDriverInfo);   //get specific driver info
 app.get('/api/drivers', driverController.getDrivers); //get all drivers and info
-app.put('/api/drivers/:id', driverController.updateInfo); //update driver info/status/location
+app.put('/api/drivers/:id', driverController.updateDriverInfo); //update driver info/status/location
 
 
 /** TO DO

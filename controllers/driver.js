@@ -8,16 +8,20 @@ var secrets = require('../config/secrets');
 
 //Create new driver and send twilio message with app download link 
 
-exports.createDriver = function(req, res, next) {
+exports.createDriver = function(req, res) {
   //TODO sanitize request with express validator
+  req.assert('name', 'Name cannot be blank').notEmpty();
+  req.assert('phone', 'Password cannot be blank').notEmpty();
+  var errors = req.validationErrors();
+
   if (errors) {
     res.json({msg: errors});
-    return 
+    return console.log(errors);
   }
 
   var driver = new Driver({
     phone: req.body.phone,
-    password: req.body.password
+    name: req.body.name
   });
 
   Driver.findOne({ phone: req.body.phone }, function(err, existingUser) {
@@ -33,20 +37,20 @@ exports.createDriver = function(req, res, next) {
   });
 };
 
-exports.getInfo = function(req, res) {
-  Driver.findOne(req.params.id, function(err, driver) {
+exports.getDriverInfo = function(req, res) {
+  Driver.findById(req.params.id, function(err, driver) {
     if (err) return err;
     res.status(200).json(driver)
   })
 }
 
-exports.updateInfo = function(req, res) {
-  Driver.findOne(req.params.id, function(err, driver) {
+exports.updateDriverInfo = function(req, res) {
+  Driver.findById(req.params.id, function(err, driver) {
     location = req.body.location;
     driver.save(function(err) {
       if(err) return err;
     });
-    
+
     res.status(200).json(driver);
   });
 }

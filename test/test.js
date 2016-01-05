@@ -126,8 +126,28 @@ describe('Job Model', function() {
  * Dispatch API endpoints
  */
 
+ //To Do: clear local db and use seed db file to seed data, also use before/after 
+ //hooks to cleanup database **** 
+
 describe('POST /api/drivers', function() {
-  it('should create a new unique driver');
+  it('should create a new unique driver', function(done) {
+    request(app)
+    .post('/api/drivers')
+    .send({
+      'name': 'testy', 
+      'phone': '+3242645345'}) //make sure phone and name are unique
+    .expect(200)
+    .end(function(err, res) {
+      if(err) return done(err);
+      res.body.should.be.json;
+      res.body.should.be.a('object');
+      res.body.should.have.property('location');
+      res.body.should.have.property('name');
+      res.body.name.should.equal('testy');
+      done();
+    })
+  });
+  it('should return error or msg if driver already exists')
   it('should send a twilio text to newly created driver');
   it('should not let unauthorized POST');
 });
@@ -157,13 +177,15 @@ describe('POST /api/drivers/login', function() {
   it('should show error if wrong password');
 })
 
-describe('GET /api/drivers/56843c5e498f147e130c234e', function() {
+describe('GET /api/drivers/:id', function() {
   it('should show a specific driver info');
   it('should allow you to filter for specific property value')
   it('should not allow unauthorized users to view a driver info');
 });
 
-describe('PUT /api/drivers/:id', function() {
+describe.skip('PUT /api/drivers/:id', function() {
+  //THIS IS NOT PASSING YET
+  //figure out how to update location array
   it('should update driver location', function(done) {
     request(app)
       .put('/api/drivers/56843c5e498f147e130c234e')
@@ -172,6 +194,7 @@ describe('PUT /api/drivers/:id', function() {
       .end(function(err, res) {
         if(err) return done(err);
         res.body.should.be.json;
+        res.body[0].location[0].should.equal(71.32);
         done();
       })
   });

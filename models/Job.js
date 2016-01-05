@@ -31,7 +31,11 @@ var jobSchema = new mongoose.Schema({
     name: String,
     location: Array //long lat coordinates
   },
-  state: String, //assigned, confirmed, active (picked up), delay, completed (dropped off)
+  state: [
+  //array of objects with states  
+  ],
+  //current state
+     //assigned, confirmed, active (picked up), delay, completed (dropped off)
   completeBefore: Date, //optional -- shouldn't take longer than 1 hour from order time
   startBy: Date, //optional --food takes 15 minutes prep time
   notes: String, //optional
