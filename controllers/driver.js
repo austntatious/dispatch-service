@@ -48,7 +48,10 @@ exports.getDriverInfo = function(req, res) {
 
 exports.updateDriverInfo = function(req, res) {
   Driver.findById(req.params.id, function(err, driver) {
-    location = req.body.location;
+    var newLocation = req.body.location;
+    for(var i = 0; i < newLocation.length; i++) {
+      driver.location.push(newLocation[i]);
+    }
     driver.save(function(err) {
       if(err) return err;
     });
