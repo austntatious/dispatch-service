@@ -56,7 +56,7 @@ exports.updateDriverInfo = function(req, res) {
       if(err) return err;
     });
 
-    res.status(200).json(driver);
+    res.status(201).json(driver);
   });
 }
 

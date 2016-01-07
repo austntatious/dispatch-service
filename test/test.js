@@ -8,6 +8,16 @@ var should = chai.should();
 var User = require('../models/User');
 var Driver = require('../models/Driver');
 
+//Test variables
+var randomDigits = Math.floor((Math.random() * 1000000000) + 10000000000);
+var testPhone = '+' + randomDigits.toString(); 
+var testName = 'John Doe';
+var testEmail = 'test@example.com';
+var testPassword = 'password';
+var testGeo = [71.74,-41.04]
+var env;
+
+
 // Basic tests for checking all main web app routes
 describe('GET /', function() {
   it('should return 200 OK', function(done) {
@@ -60,12 +70,12 @@ describe('GET /random-url', function() {
 /** 
  * test models
  **/
-describe('Models', function() {
+describe.skip('Models', function() {
   describe('#User', function() {
     it('should create a new user', function(done) {
       var user = new User({
-        email: 'test@gmail.com',
-        password: 'password'
+        email: testEmail,
+        password: testPassword
       });
       user.save(function(err) {
         if (err) return done(err);
@@ -75,8 +85,8 @@ describe('Models', function() {
 
     it('should not create a user with the unique email', function(done) {
       var user = new User({
-        email: 'test@gmail.com',
-        password: 'password'
+        email: testEmail,
+        password: testPassword
       });
       user.save(function(err) {
         if (err) err.code.should.equal(11000);
@@ -85,27 +95,28 @@ describe('Models', function() {
     });
 
     it('should find user by email', function(done) {
-      User.findOne({ email: 'test@gmail.com' }, function(err, user) {
+      User.findOne({ email: testEmail }, function(err, user) {
         if (err) return done(err);
-        user.email.should.equal('test@gmail.com');
+        user.email.should.equal(testEmail);
         done();
       });
     });
 
     it('should delete a user', function(done) {
-      User.remove({ email: 'test@gmail.com' }, function(err) {
+      User.remove({ email: testEmail }, function(err) {
         if (err) return done(err);
         done();
       });
     });
   });
 
-  describe('#Driver', function() {
+  describe.skip('#Driver', function() {
     //To Do - add before and after functions to cleanup + seed DB 
     it('should create a new driver', function(done) {
       var driver = new Driver({
-        phone: '+123456789',
-        password: 'password'
+        //create unique phone&password to prevent error in later driver creation POST test
+        phone: testPhone,
+        password: testPassword
       });
       driver.save(function(err) {
         if (err) return done(err);
@@ -137,8 +148,9 @@ describe('Dispatch API endpoints', function () {
       request(app)
       .post('/api/drivers')
       .send({
-        'name': 'testy', 
-        'phone': '+3242645345'}) //make sure phone and name are unique
+        'name': testName, 
+        'phone': testPhone
+      })
       .expect(200)
       .end(function(err, res) {
         if(err) return done(err);
@@ -146,11 +158,27 @@ describe('Dispatch API endpoints', function () {
         res.body.should.be.a('object');
         res.body.should.have.property('location');
         res.body.should.have.property('name');
-        res.body.name.should.equal('testy');
+        res.body.name.should.equal(testName);
         done();
-      })
+      });
     });
-    it('should return error or msg if driver already exists')
+    it('should return error or msg if driver already exists', function(done) {
+      request(app)
+      .post('/api/drivers')
+      .send({
+        'name': testName,
+        'phone': testPhone
+      })
+      .expect(200)
+      .end(function(err, res) {
+        if(err) return done(err);
+        res.body.should.be.json;
+        res.body.should.be.a('object');
+        res.body.should.have.property('msg');
+        res.body.msg.should.equal('Driver already exists');
+        done();
+      });
+    });
     it('should send a twilio text to newly created driver');
     it('should not let unauthorized POST');
   });
@@ -173,24 +201,32 @@ describe('Dispatch API endpoints', function () {
     it('should not show drivers to unauthorized users');
   });
 
-  describe.skip('PUT /api/drivers/:id', function() {
-    //THIS IS NOT PASSING YET
-    //figure out how to update location array
-    //seed with test driver so it can be updated
+  describe('PUT /api/drivers/:id', function() {
+    var testDriverId;
+    before(function(done) {
+      Driver.findOne({ phone: testPhone }, function(err, driver) {
+        if (!driver) return done(err); //fix error handling
+      testDriverId = driver._id;
+      done();
+      });
+    });
     it('should update driver location', function(done) {
       request(app)
-        .put('/api/drivers/56843c5e498f147e130c234e')
-        .send({'location': [71.32, -43.04]})
-        .expect(200)
+        .put('/api/drivers/' + testDriverId)
+        .send({'location': testGeo})
+        .expect(201)
         .end(function(err, res) {
           if(err) return done(err);
           res.body.should.be.json;
-          res.body[0].location[0].should.equal(71.32);
+          res.body.location[0].should.equal(testGeo[0]);
+          res.body.location[1].should.equal(testGeo[1]);
           done();
-        })
+        });
     });
     it('should update driver status or state');
     it('should not allow unauthorized users to update driver');
+    //before function to make sure driver_id exists
+    //after function to clear data from driver_id
   });
 
   describe('POST /api/drivers/login', function() {
@@ -252,6 +288,7 @@ describe('Dispatch API endpoints', function () {
 
   * Route optimizer:
     will need to query all driver locations & statuses, job pickups & dropoffs, job statuses
+    will POST route info with specified order of execution (pickup, pickup, dropoff, pickup, dropoff)
 
 
 
