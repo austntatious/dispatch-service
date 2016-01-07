@@ -14,7 +14,9 @@ var testPhone = '+' + randomDigits.toString();
 var testName = 'John Doe';
 var testEmail = 'test@example.com';
 var testPassword = 'password';
-var testGeo = [71.74,-41.04]
+var testGeo = [(Math.random() * 10) + 70,
+              -((Math.random() * 10) + 40)];
+console.log(testGeo);
 var env;
 
 
