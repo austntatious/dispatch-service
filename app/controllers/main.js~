@@ -9,6 +9,14 @@ var User = require('../models/User');
 var secrets = require('../config/secrets');
 
 /**
+ *  GET /dashboard dispatch view
+*/
+
+exports.getDashboard = function(req, res) {
+   res.render('dashboard');
+ };
+
+/**
  * GET /login
  * Login page.
  */
@@ -383,5 +391,15 @@ exports.postForgot = function(req, res, next) {
       return next(err);
     }
     res.redirect('/forgot');
+  });
+};
+
+/**
+ * GET /
+ * Home page.
+ */
+exports.index = function(req, res) {
+  res.render('home', {
+    title: 'Home'
   });
 };

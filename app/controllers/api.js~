@@ -4,11 +4,18 @@ var _ = require('lodash');
 var async = require('async');
 var crypto = require('crypto');
 var passport = require('passport');
+
+// Load mongoose models and config
 var Driver = require('../models/Driver');
-var secrets = require('../config/secrets');
+var Job = require('../models/Job');
+var secrets = require('../config/config');
 
 
-//Create new driver and send twilio message with app download link 
+//To Do -- Send twilio text with download link to new driver
+
+/**
+ *  Driver controllers
+*/
 
 exports.createDriver = function(req, res) {
   //TODO sanitize request with express validator

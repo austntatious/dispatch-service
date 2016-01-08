@@ -2,13 +2,11 @@ var _ = require('lodash');
 var passport = require('passport');
 var request = require('request');
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var OAuthStrategy = require('passport-oauth').OAuthStrategy;
 var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
-var secrets = require('./secrets');
-var User = require('../models/User');
+var config = require('./config');
+var User = require('../app/models/User');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -40,6 +38,29 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 }));
 
 /**
+ * Login Required middleware.
+ */
+exports.isAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
+};
+
+/**
+ * Authorization Required middleware.
+ */
+exports.isAuthorized = function(req, res, next) {
+  var provider = req.path.split('/').slice(-1)[0];
+
+  if (_.find(req.user.tokens, { kind: provider })) {
+    next();
+  } else {
+    res.redirect('/auth/' + provider);
+  }
+};
+
+/**
  * OAuth Strategy Overview
  *
  * - User is already logged in.
@@ -54,10 +75,11 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
  *       - Else create a new account.
  */
 
+
 /**
  * Sign in with Facebook.
- */
-passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, refreshToken, profile, done) {
+
+passport.use(new FacebookStrategy(config.facebook, function(req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.findOne({ facebook: profile.id }, function(err, existingUser) {
       if (existingUser) {
@@ -104,10 +126,10 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
   }
 }));
 
-/**
+
  * Sign in with Google.
- */
-passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refreshToken, profile, done) {
+
+passport.use(new GoogleStrategy(config.google, function(req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.findOne({ google: profile.id }, function(err, existingUser) {
       if (existingUser) {
@@ -152,26 +174,4 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
     });
   }
 }));
-
-/**
- * Login Required middleware.
  */
-exports.isAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-};
-
-/**
- * Authorization Required middleware.
- */
-exports.isAuthorized = function(req, res, next) {
-  var provider = req.path.split('/').slice(-1)[0];
-
-  if (_.find(req.user.tokens, { kind: provider })) {
-    next();
-  } else {
-    res.redirect('/auth/' + provider);
-  }
-};

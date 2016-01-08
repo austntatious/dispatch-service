@@ -1,12 +1,10 @@
 'use strict'; 
 
-var request = require('supertest');
-var app = require('../app.js');
-var chai = require('chai');
-var should = chai.should();
-
-var User = require('../models/User');
-var Driver = require('../models/Driver');
+var request = require('supertest'),
+  app = require('../app.js'),
+  chai = require('chai'),
+  should = chai.should(),
+  Driver = require('../app/models/Driver');
 
 //Test variables
 var randomDigits = Math.floor((Math.random() * 1000000000) + 10000000000);
@@ -16,125 +14,56 @@ var testEmail = 'test@example.com';
 var testPassword = 'password';
 var testGeo = [(Math.random() * 10) + 70,
               -((Math.random() * 10) + 40)];
-console.log(testGeo);
-var env;
 
 
 // Basic tests for checking all main web app routes
-describe('GET /', function() {
+describe('Web app endpoints', function() {
+  describe('GET /', function() {
   it('should return 200 OK', function(done) {
     request(app)
       .get('/')
       .expect(200, done);
-  });
-});
-
-describe('GET /login', function() {
-  it('should return 200 OK', function(done) {
-    request(app)
-      .get('/login')
-      .expect(200, done);
-  });
-});
-
-describe('GET /signup', function() {
-  it('should return 200 OK', function(done) {
-    request(app)
-      .get('/signup')
-      .expect(200, done);
-  });
-});
-
-describe('GET /plugins', function() {
-  it('should return 200 OK', function(done) {
-    request(app)
-      .get('/plugins')
-      .expect(200, done);
-  });
-});
-
-describe('GET /contact', function() {
-  it('should return 200 OK', function(done) {
-    request(app)
-      .get('/contact')
-      .expect(200, done);
-  });
-});
-
-describe('GET /random-url', function() {
-  it('should return 404', function(done) {
-    request(app)
-      .get('/reset')
-      .expect(404, done);
-  });
-});
-
-/** 
- * test models
- **/
-describe.skip('Models', function() {
-  describe('#User', function() {
-    it('should create a new user', function(done) {
-      var user = new User({
-        email: testEmail,
-        password: testPassword
-      });
-      user.save(function(err) {
-        if (err) return done(err);
-        done();
-      })
-    });
-
-    it('should not create a user with the unique email', function(done) {
-      var user = new User({
-        email: testEmail,
-        password: testPassword
-      });
-      user.save(function(err) {
-        if (err) err.code.should.equal(11000);
-        done();
-      });
-    });
-
-    it('should find user by email', function(done) {
-      User.findOne({ email: testEmail }, function(err, user) {
-        if (err) return done(err);
-        user.email.should.equal(testEmail);
-        done();
-      });
-    });
-
-    it('should delete a user', function(done) {
-      User.remove({ email: testEmail }, function(err) {
-        if (err) return done(err);
-        done();
-      });
     });
   });
 
-  describe.skip('#Driver', function() {
-    //To Do - add before and after functions to cleanup + seed DB 
-    it('should create a new driver', function(done) {
-      var driver = new Driver({
-        //create unique phone&password to prevent error in later driver creation POST test
-        phone: testPhone,
-        password: testPassword
-      });
-      driver.save(function(err) {
-        if (err) return done(err);
-        done();
-      })
+  describe('GET /login', function() {
+    it('should return 200 OK', function(done) {
+      request(app)
+        .get('/login')
+        .expect(200, done);
     });
-    it('should not create a driver with the unique phone');
-    it('should find driver by phone');
-    it('should list driver event and order updates');
-    it('should delete a driver');
   });
 
-  describe('#Job', function() {
-    it('should create a new job');
-    it('should not create a job with an existing ID');
-    it('should update a job state');
+  describe('GET /signup', function() {
+    it('should return 200 OK', function(done) {
+      request(app)
+        .get('/signup')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /plugins', function() {
+    it('should return 200 OK', function(done) {
+      request(app)
+        .get('/plugins')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /contact', function() {
+    it('should return 200 OK', function(done) {
+      request(app)
+        .get('/contact')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /random-url', function() {
+    it('should return 404', function(done) {
+      request(app)
+        .get('/reset')
+        .expect(404, done);
+    });
   });
 });
 
