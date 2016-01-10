@@ -18,8 +18,7 @@ var express     = require('express'),
   expressValidator = require('express-validator'),
   sass          = require('node-sass-middleware'),
   morgan        = require('morgan'),
-  logger        = require('./logger'),
-  config        = require('./config');
+  logger        = require('./logger');
 
 // TO DO : Add environment variables to config -- testing, staging, production
 
