@@ -1,12 +1,9 @@
-var _ = require('lodash');
-var passport = require('passport');
-var request = require('request');
-var LocalStrategy = require('passport-local').Strategy;
-var OAuthStrategy = require('passport-oauth').OAuthStrategy;
-var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
-
-var config = require('./config');
-var User = require('../app/models/User');
+var _           = require('lodash'),
+  passport      = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
+  OAuthStrategy = require('passport-oauth').OAuthStrategy,
+  OAuth2Strategy = require('passport-oauth').OAuth2Strategy,
+  User          = require('../app/models/User');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
