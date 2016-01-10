@@ -21,7 +21,7 @@ var connect = function () {
     server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
     replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } }
   };
-  mongoose.connect(config.db, options);
+  mongoose.connect(process.env.MONGODB, options);
 };
 connect();
 
