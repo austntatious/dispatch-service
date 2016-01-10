@@ -7,8 +7,8 @@
 var _     = require('lodash'), 
 
 // Load mongoose models and config
-  Driver = require('../models/Driver'),
-  Job    = require('../models/Job');
+  Driver  = require('../models/Driver'),
+  Job     = require('../models/Job');
 
 
 //To Do -- Send twilio text with download link to new driver
@@ -53,9 +53,10 @@ exports.getDriverInfo = function(req, res) {
 
 exports.updateDriverInfo = function(req, res) {
   Driver.findById(req.params.id, function(err, driver) {
+    //To Do : add logic for different request bodies
     var newLocation = req.body.location;
     for(var i = 0; i < newLocation.length; i++) {
-      driver.location.push(newLocation[i]);
+      driver.location[i] = newLocation[i];
     }
     driver.save(function(err) {
       if(err) { return err; }

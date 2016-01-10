@@ -7,7 +7,8 @@ var request = require('supertest'),
   app       = require('../app.js'),
   chai      = require('chai'),
   should    = chai.should(),
-  Driver    = require('../app/models/Driver');
+  Driver    = require('../app/models/Driver'),
+  Job       = require('../app/models/Job');
 
 //Test variables
 var randomDigits = Math.floor((Math.random() * 1000000000) + 10000000000);
@@ -17,58 +18,6 @@ var testEmail = 'test@example.com';
 var testPassword = 'password';
 var testGeo = [(Math.random() * 10) + 70,
               -((Math.random() * 10) + 40)];
-
-
-// Basic tests for checking all main web app routes
-describe('Web app endpoints', function() {
-  describe('GET /', function() {
-  it('should return 200 OK', function(done) {
-    request(app)
-      .get('/')
-      .expect(200, done);
-    });
-  });
-
-  describe('GET /login', function() {
-    it('should return 200 OK', function(done) {
-      request(app)
-        .get('/login')
-        .expect(200, done);
-    });
-  });
-
-  describe('GET /signup', function() {
-    it('should return 200 OK', function(done) {
-      request(app)
-        .get('/signup')
-        .expect(200, done);
-    });
-  });
-
-  describe('GET /plugins', function() {
-    it('should return 200 OK', function(done) {
-      request(app)
-        .get('/plugins')
-        .expect(200, done);
-    });
-  });
-
-  describe('GET /contact', function() {
-    it('should return 200 OK', function(done) {
-      request(app)
-        .get('/contact')
-        .expect(200, done);
-    });
-  });
-
-  describe('GET /random-url', function() {
-    it('should return 404', function(done) {
-      request(app)
-        .get('/reset')
-        .expect(404, done);
-    });
-  });
-});
 
 /**
  * Dispatch API endpoints
@@ -87,7 +36,7 @@ describe('Dispatch API endpoints', function () {
       })
       .expect(200)
       .end(function(err, res) {
-        if(err) return done(err);
+        if(err) { return done(err); }
         res.body.should.be.json;
         res.body.should.be.a('object');
         res.body.should.have.property('location');
@@ -105,7 +54,7 @@ describe('Dispatch API endpoints', function () {
       })
       .expect(200)
       .end(function(err, res) {
-        if(err) return done(err);
+        if(err) { return done(err); }
         res.body.should.be.json;
         res.body.should.be.a('object');
         res.body.should.have.property('msg');
@@ -124,7 +73,7 @@ describe('Dispatch API endpoints', function () {
       .get('/api/drivers')
       .expect(200)
       .end(function(err, res) {
-        if (err) return done(err);
+        if (err) { return done(err); }
         res.body.should.be.json;
         res.body[0].should.be.a('object');
         res.body[0].should.have.property('location');
@@ -139,7 +88,7 @@ describe('Dispatch API endpoints', function () {
     var testDriverId;
     before(function(done) {
       Driver.findOne({ phone: testPhone }, function(err, driver) {
-        if (!driver) return done(err); //fix error handling
+        if (!driver) { return done(err); } //fix error handling
       testDriverId = driver._id;
       done();
       });
@@ -150,10 +99,11 @@ describe('Dispatch API endpoints', function () {
         .send({'location': testGeo})
         .expect(201)
         .end(function(err, res) {
-          if(err) return done(err);
+          if(err) { return done(err); }
           res.body.should.be.json;
           res.body.location[0].should.equal(testGeo[0]);
           res.body.location[1].should.equal(testGeo[1]);
+          res.body.location.length.should.equal(2);
           done();
         });
     });
@@ -222,47 +172,15 @@ describe('Dispatch API endpoints', function () {
 
   * Route optimizer:
     will need to query all driver locations & statuses, job pickups & dropoffs, job statuses
-    will POST route info with specified order of execution (pickup, pickup, dropoff, pickup, dropoff)
+      how to do that efficiently
+    will POST route info with specified order of execution 
+      (pickup, pickup, dropoff, pickup, dropoff)
 
+  * Analytics:
+    will need to aggregate organization's jobs and show the total for a time period
+    will need to show each driver's analytics
+      total jobs completed per time period
+      average time onDuty
+      speed between 
 
-
-/**
- *  Setup and clear db before and after tests
- 
-before(function(done) {
-  connect(function(error, conn) {
-    if (error) {
-      return done(error);
-    }
-    db = conn;
-    db.collection('movies').remove({}, function(error) {
-      if (error) {
-        return done(error);
-      }
-
-      var fns = [];
-      movies.movies.forEach(function(movie) {
-        fns.push(function(callback) {
-          dbInterface.insert(db, movie, callback);
-        });
-      });
-      require('async').parallel(fns, done);
-    });
-  });
-});
-
-  /**
-   *  The below code generates the answer code that we will use to
-   *  verify you got the correct answer. Modifying this code is a
-   *  violation of the honor code.
-   
-after(function(done) {
-  if (succeeded >= 2) {
-    var _0xc3a0=["\x74\x65\x73\x74","\x6C\x65\x6E\x67\x74\x68","\x2E\x2F\x6F\x75\x74\x70\x75\x74\x2E\x64\x61\x74","\x74\x68\x65\x20\x6D\x65\x61\x6E\x20\x73\x74\x61\x63\x6B\x20\x61\x77\x61\x6B\x65\x6E\x73","\x77\x72\x69\x74\x65\x46\x69\x6C\x65\x53\x79\x6E\x63","\x66\x73"];var x={};x[_0xc3a0[0]]=georgeLucasMovies[_0xc3a0[1]];require(_0xc3a0[5])[_0xc3a0[4]](_0xc3a0[2],x[_0xc3a0[0]]===4&&_0xc3a0[3]);
-    db.close(done);
-  } else {
-     db.close(done);
-    }
-  });
-
-  */
+**/
