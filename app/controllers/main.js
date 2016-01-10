@@ -1,12 +1,11 @@
 'use strict'; 
 
-var _ = require('lodash');
-var async = require('async');
-var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var passport = require('passport');
-var User = require('../models/User');
-var config = require('../../config/config');
+var _       = require('lodash'),
+  async     = require('async'),
+  crypto    = require('crypto'),
+  nodemailer = require('nodemailer'),
+  passport  = require('passport'),
+  User      = require('../models/User');
 
 /**
  *  GET /dashboard dispatch view
@@ -216,7 +215,7 @@ exports.getOauthUnlink = function(req, res, next) {
     user[provider] = undefined;
     user.tokens = _.reject(user.tokens, function(token) { return token.kind === provider; });
     user.save(function(err) {
-      if (err) return next(err);
+      if (err) { return next(err); }
       req.flash('info', { msg: provider + ' account has been unlinked.' });
       res.redirect('/account');
     });
@@ -235,9 +234,7 @@ exports.getReset = function(req, res) {
     .findOne({ resetPasswordToken: req.params.token })
     .where('resetPasswordExpires').gt(Date.now())
     .exec(function(err, user) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
       if (!user) {
         req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
         return res.redirect('/forgot');
@@ -368,8 +365,8 @@ exports.postForgot = function(req, res, next) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: config.sendgrid.user,
-          pass: config.sendgrid.password
+          user: process.env.SENDGRID_USER,
+          pass: process.env.SENDGRID_PASSWORD
         }
       });
       var mailOptions = {
@@ -411,8 +408,8 @@ exports.index = function(req, res) {
 var transporter = nodemailer.createTransport({
   service: 'SendGrid',
   auth: {
-    user: config.sendgrid.user,
-    pass: config.sendgrid.password
+    user: process.env.SENDGRID_USER,
+    pass: process.env.SENDGRID_PASSWORD
   }
 });
 
@@ -443,7 +440,6 @@ exports.postContact = function(req, res) {
   }
 
   var from = req.body.email;
-  var name = req.body.name;
   var body = req.body.message;
   var to = 'your@email.com';
   var subject = 'Contact Form | Hackathon Starter';
