@@ -1,10 +1,13 @@
 'use strict'; 
 
+// set process_env to test to disable detailed logging
+process.env.NODE_ENV = 'test';
+
 var request = require('supertest'),
-  app = require('../app.js'),
-  chai = require('chai'),
-  should = chai.should(),
-  Driver = require('../app/models/Driver');
+  app       = require('../app.js'),
+  chai      = require('chai'),
+  should    = chai.should(),
+  Driver    = require('../app/models/Driver');
 
 //Test variables
 var randomDigits = Math.floor((Math.random() * 1000000000) + 10000000000);

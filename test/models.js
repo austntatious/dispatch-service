@@ -1,5 +1,8 @@
 'use strict';
 
+// set process_env to test to disable detailed logging
+process.env.NODE_ENV = 'test';
+
 var chai = require('chai'),
   should = chai.should(),
   User   = require('../app/models/User'),
