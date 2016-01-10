@@ -9,7 +9,7 @@
     "start": "npm run local",
     "build:original": "webpack --config webpack.config.original.js",
     "build:minified": "webpack --config webpack.config.minified.js",
-    "local": "./node_modules/webpack/bin/webpack.js --config webpack.config.original.js --watch --progress --colors",
+    "local": "webpack --config webpack.config.original.js --watch --progress --colors",
     "dev": "npm run build:original",
     "pro": "npm run build:original && npm run build:minified"
   },
@@ -48,7 +48,7 @@
     "redux": "~3.0.5",
     "style-loader": "^0.13.0",
     "stylus": "~0.53.0",
-    "stylus-loader": "^1.4.2",
+    "stylus-loader": "^1.4.3",
     "webpack": "^1.9.10",
     "webpack-dev-server": "~1.14.0"
   },
