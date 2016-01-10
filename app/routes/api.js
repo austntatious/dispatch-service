@@ -1,13 +1,13 @@
+'use strict';
+
+var router 			= require('express').Router(),
+	apiController 	= require('../controllers/api');
+
 /**
  * Dispatch Service api routes
  **/
 
-'use strict';
-
-var router = require('express').Router(),
-	apiController = require('../controllers/api');
-
-//add authentication to api routes
+// to do : add authentication to api routes
 
 router.post('/drivers', apiController.createDriver);  //create driver
 router.get('/drivers/:id', apiController.getDriverInfo);   //get specific driver info

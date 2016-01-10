@@ -26,7 +26,7 @@ var connect = function () {
 connect();
 
 mongoose.connection.on('error', logger.error.bind(logger, 'mongoose-connection-error:'));
-mongoose.connection.on('open', logger.profile.bind(logger,'connected-to-mongodb'));
+mongoose.connection.on('open', logger.profile.bind(logger,'connect-to-mongodb'));
 mongoose.connection.on('disconnected', connect);
 
 // Essential Express middleware config

@@ -1,38 +1,29 @@
 'use strict';
 
-/**
- * Load Module dependencies.
- */
-
-var express = require('express'), 
-  cookieParser = require('cookie-parser'),   
-  compress = require('compression'),   
-  favicon = require('serve-favicon'),
-  session = require('express-session'),
-  passportConf  = require('./passport'),
-  bodyParser = require('body-parser'),
-  logger = require('morgan'),
-  errorHandler = require('errorhandler'),
-  lusca = require('lusca'),
+// Load module dependencies.
+var express     = require('express'), 
+  cookieParser  = require('cookie-parser'),   
+  compress      = require('compression'),   
+  favicon       = require('serve-favicon'),
+  session       = require('express-session'),
+  bodyParser    = require('body-parser'),
+  logger        = require('morgan'),
+  errorHandler  = require('errorhandler'),
+  lusca         = require('lusca'),
   methodOverride = require('method-override'),
-  _ = require('lodash'),
-  MongoStore = require('connect-mongo')(session),
-  flash = require('express-flash'),
-  path = require('path'),
-  mongoose = require('mongoose'),
-  passport = require('passport'),
+  MongoStore    = require('connect-mongo')(session),
+  flash         = require('express-flash'),
+  path          = require('path'),
+  passport      = require('passport'),
   expressValidator = require('express-validator'),
-  sass = require('node-sass-middleware'),
-  morgan = require('morgan'),
-  logger = require('./logger'),
-  config = require('./config');
+  sass          = require('node-sass-middleware'),
+  morgan        = require('morgan'),
+  logger        = require('./logger'),
+  config        = require('./config');
 
 // TO DO : Add environment variables to config -- testing, staging, production
 
-/**
- * Configuration for all routes
-*/
-
+//Config for all routes
 exports.primary = function(app) {
   app.set('port', process.env.PORT || 3000);
   app.use(compress());
@@ -50,11 +41,7 @@ exports.primary = function(app) {
   //To DO : turn off logger when running test suite
 };
 
-
-/**
- * Configuration for web app
-*/
-
+//Config for web app routes
 exports.web = function(app) {
 
   // Middleware for static assets in public directory
@@ -91,11 +78,11 @@ exports.web = function(app) {
     res.locals.user = req.user;
     next();
   });
+  //regex pattern for testing case-insensitive, and redirect to original url after authentication
   app.use(function(req, res, next) {
     if (/plugins/i.test(req.path)) { 
       req.session.returnTo = req.path;
     }
-    //regex pattern for testing case-insensitive, and redirect to original url after authentication
     next();
   });
 };
