@@ -30,6 +30,12 @@ if (process.env.NODE_ENV !== 'test') {
         ],
         exitOnError: false
     });
+} else {
+    // don't log anything if testing
+    var logger = new winston.Logger({
+        transports: [
+        ]
+    });
 }
 
 module.exports = logger;
