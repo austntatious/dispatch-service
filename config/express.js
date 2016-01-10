@@ -60,7 +60,7 @@ exports.web = function(app) {
   app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: config.sessionSecret,
+    secret: process.env.SESSION_SECRET,
     store: new MongoStore({ url: process.env.MONGODB, autoReconnect: true })
   }));
   app.use(methodOverride());
