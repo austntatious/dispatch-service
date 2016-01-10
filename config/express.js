@@ -40,7 +40,7 @@ exports.primary = function(app) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(expressValidator());
 
-  // error handling
+  // error handling in dev env
   //if (env === 'dev') {
     app.use(errorHandler());
   //}
@@ -86,6 +86,7 @@ exports.web = function(app) {
     xframe: 'SAMEORIGIN',
     xssProtection: true
   }));
+  // other middleware functions
   app.use(function(req, res, next) {
     res.locals.user = req.user;
     next();

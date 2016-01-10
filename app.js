@@ -4,7 +4,7 @@ var express   = require('express'),
   app         = express(),
   config      = require('./config/config'),
   logger      = require('./config/logger'),
-  mongoose  = require('mongoose');
+  mongoose    = require('mongoose');
 
 // Load http server & socket.io
 var server = require('http').Server(app);
@@ -29,19 +29,21 @@ mongoose.connection.on('error', logger.error.bind(logger, 'mongoose-connection-e
 mongoose.connection.on('open', logger.profile.bind(logger,'connected-to-mongodb'));
 mongoose.connection.on('disconnected', connect);
 
-// Essential Express configuration & middleware
+// Essential Express middleware config
 require('./config/express').primary(app);
 
 // Bootstrap api route
 app.use('/api', require('./app/routes/api'));
 
-// web app routes and middleware
+// Web app middleware
 require('./config/express').web(app); 
+
+// Bootstrap web app routes
 app.use('/', require('./app/routes/main'));
 app.use('/plugins', require('./app/routes/plugins'));
 
 // Start Express Server
-server.listen(app.get('port'), function() {
+server.listen(app.get('port'), function () {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
@@ -51,7 +53,7 @@ io.on('connection', function(socket) {
   socket.on('respond', function(data) {
     console.log(data);
   });
-  socket.on('disconnect', function() {
+  socket.on('disconnect', function () {
     console.log('Socket disconnected');
   });
 });
