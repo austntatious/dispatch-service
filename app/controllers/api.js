@@ -4,15 +4,11 @@
 
 'use strict'; 
 
-var _ = require('lodash');
-var async = require('async');
-var crypto = require('crypto');
-var passport = require('passport');
+var _     = require('lodash'), 
 
 // Load mongoose models and config
-var Driver = require('../models/Driver');
-var Job = require('../models/Job');
-var config = require('../../config/config');
+  Driver = require('../models/Driver'),
+  Job    = require('../models/Job');
 
 
 //To Do -- Send twilio text with download link to new driver
@@ -42,9 +38,7 @@ exports.createDriver = function(req, res) {
       return res.json({ msg: 'Driver already exists' });
     }
     driver.save(function(err) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
       res.status(200).json(driver);
     });
   });
@@ -52,10 +46,10 @@ exports.createDriver = function(req, res) {
 
 exports.getDriverInfo = function(req, res) {
   Driver.findById(req.params.id, function(err, driver) {
-    if (err) return err;
-    res.status(200).json(driver)
-  })
-}
+    if (err) { return err; }
+    res.status(200).json(driver);
+  });
+};
 
 exports.updateDriverInfo = function(req, res) {
   Driver.findById(req.params.id, function(err, driver) {
@@ -64,18 +58,18 @@ exports.updateDriverInfo = function(req, res) {
       driver.location.push(newLocation[i]);
     }
     driver.save(function(err) {
-      if(err) return err;
+      if(err) { return err; }
     });
 
     res.status(201).json(driver);
   });
-}
+};
 
 exports.getDrivers = function(req, res) {
   Driver.find({}, function(err, drivers) {
     res.status(200).json(drivers);
   });
-}
+};
 
 //get specified driver information and filter
 //if no id parameter provided, show all drivers
