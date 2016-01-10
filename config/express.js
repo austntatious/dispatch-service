@@ -61,7 +61,7 @@ exports.web = function(app) {
     resave: true,
     saveUninitialized: true,
     secret: config.sessionSecret,
-    store: new MongoStore({ url: config.db, autoReconnect: true })
+    store: new MongoStore({ url: process.env.MONGODB, autoReconnect: true })
   }));
   app.use(methodOverride());
   app.use(cookieParser());
