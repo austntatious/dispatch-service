@@ -2,17 +2,8 @@
  * Split into declaration and initialization for better startup performance.
  */
 var validator,
-cheerio,
-graph,
-Twit,
-twilio,
-request;
-
-var _ = require('lodash');
-var async = require('async');
-var querystring = require('querystring');
-
-var config = require('../../config/config');
+  twilio,
+  stripe;
 
 /**
  * GET /plugins
@@ -30,11 +21,11 @@ exports.getPlugins = function(req, res) {
  * Stripe plugins example.
  */
 exports.getStripe = function(req, res) {
-  stripe = require('stripe')(config.stripe.secretKey);
+  stripe = require('stripe')(process.env.STRIPE_SKEY);
 
   res.render('plugins/stripe', {
     title: 'Stripe plugins',
-    publishableKey: config.stripe.publishableKey
+    publishableKey: process.env.STRIPE_PKEY
   });
 };
 
@@ -54,6 +45,7 @@ exports.postStripe = function(req, res, next) {
     if (err && err.type === 'StripeCardError') {
       req.flash('errors', { msg: 'Your card has been declined.' });
       res.redirect('/plugins/stripe');
+      next(err);
     }
     req.flash('success', { msg: 'Your card has been charged successfully.' });
     res.redirect('/plugins/stripe');
@@ -65,7 +57,7 @@ exports.postStripe = function(req, res, next) {
  * Twilio plugins example.
  */
 exports.getTwilio = function(req, res) {
-  twilio = require('twilio')(config.twilio.sid, config.twilio.token);
+  twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
   res.render('plugins/twilio', {
     title: 'Twilio plugins'
