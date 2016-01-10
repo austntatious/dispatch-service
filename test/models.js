@@ -19,9 +19,9 @@ describe('Models', function() {
         password: 'password'
       });
       user.save(function(err) {
-        if (err) return done(err);
+        if (err) { return done(err); }
         done();
-      })
+      });
     });
 
     it('should not create a user with the unique email', function(done) {
@@ -30,14 +30,14 @@ describe('Models', function() {
         password: 'password'
       });
       user.save(function(err) {
-        if (err) err.code.should.equal(11000);
+        if (err) { err.code.should.equal(11000); }
         done();
       });
     });
 
     it('should find user by email', function(done) {
       User.findOne({ email: 'test@gmail.com' }, function(err, user) {
-        if (err) return done(err);
+        if (err) { return done(err); }
         user.email.should.equal('test@gmail.com');
         done();
       });
@@ -45,7 +45,7 @@ describe('Models', function() {
 
     it('should delete a user', function(done) {
       User.remove({ email: 'test@gmail.com' }, function(err) {
-        if (err) return done(err);
+        if (err) { return done(err); }
         done();
       });
     });
@@ -60,9 +60,9 @@ describe('Models', function() {
         password: 'password'
       });
       driver.save(function(err) {
-        if (err) return done(err);
+        if (err) { return done(err); }
         done();
-      })
+      });
     });
     it('should not create a driver with the unique phone');
     it('should find driver by phone');
