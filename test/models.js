@@ -1,9 +1,9 @@
 'use strict';
 
-var chai = require('chai');
-var should = chai.should();
-var User = require('../app/models/User');
-var Driver = require('../app/models/Driver');
+var chai = require('chai'),
+  should = chai.should(),
+  User   = require('../app/models/User'),
+  Driver = require('../app/models/Driver');
 
 /** 
  * test models
