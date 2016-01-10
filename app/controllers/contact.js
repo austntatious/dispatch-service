@@ -1,10 +1,11 @@
-var secrets = require('../config/secrets');
-var nodemailer = require("nodemailer");
+'use strict';
+
+var nodemailer  = require("nodemailer");
 var transporter = nodemailer.createTransport({
   service: 'SendGrid',
   auth: {
-    user: secrets.sendgrid.user,
-    pass: secrets.sendgrid.password
+    user: process.env.SENDGRID_USER,
+    pass: process.env.SENDGRID_PASSWORD
   }
 });
 
@@ -37,7 +38,7 @@ exports.postContact = function(req, res) {
   var from = req.body.email;
   var name = req.body.name;
   var body = req.body.message;
-  var to = 'your@email.com';
+  var to   = 'your@email.com';
   var subject = 'Contact Form | Hackathon Starter';
 
   var mailOptions = {
