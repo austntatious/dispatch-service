@@ -23,8 +23,8 @@ var testGeo = [(Math.random() * 10) + 70,
  * Dispatch API endpoints
  */
 
- //To Do: clear local db and use seed db file to seed data, also use before/after 
- //hooks to cleanup database **** 
+ // To Do: clear local db and use seed db file to seed data, also use before/after 
+ // hooks to cleanup database after tests**** 
 describe('Dispatch API endpoints', function () {
   describe('POST /api/drivers', function() {
     it('should create a new unique driver', function(done) {
@@ -67,7 +67,7 @@ describe('Dispatch API endpoints', function () {
   });
 
   describe('GET /api/drivers', function() {
-    //to do: seed db with test data then clean up after tests
+    // to do: seed db with test data then clear db up after tests
     it('should list all drivers in a specific organization', function(done) {
       request(app)
       .get('/api/drivers')
@@ -89,14 +89,14 @@ describe('Dispatch API endpoints', function () {
     before(function(done) {
       Driver.findOne({ phone: testPhone }, function(err, driver) {
         if (!driver) { return done(err); } //fix error handling
-      testDriverId = driver._id;
-      done();
+        testDriverId = driver._id;
+        done();
       });
     });
     it('should update driver location', function(done) {
       request(app)
         .put('/api/drivers/' + testDriverId)
-        .send({'location': testGeo})
+        .send({ 'location': testGeo })
         .expect(201)
         .end(function(err, res) {
           if(err) { return done(err); }
@@ -107,10 +107,50 @@ describe('Dispatch API endpoints', function () {
           done();
         });
     });
-    it('should update driver status or state');
+    it('should update driver active status to true', function(done) {
+      request(app)
+        .put('/api/drivers/' + testDriverId)
+        .send({ 'active': true })
+        .expect(201)
+        .end(function(err, res) {
+          if(err) { return done(err); }
+          res.body.active.should.equal(true);
+          done();
+        });
+    });
     it('should not allow unauthorized users to update driver');
     //before function to make sure driver_id exists
     //after function to clear data from driver_id
+  });
+
+  describe('GET /api/drivers/:id', function() {
+    var testDriverId;
+    before(function(done) {
+      Driver.findOne({ phone: testPhone }, function(err, driver) {
+        if (!driver) { return done(err); } //fix error handling
+        testDriverId = driver._id;
+        done();
+      });
+    });
+    it('should show a specific driver info', function(done) {
+      request(app)
+        .get('/api/drivers/' + testDriverId)
+        .expect(200)
+        .end(function(err, res) {
+          if(err) { return done(err); }
+          res.body.should.be.json;
+          res.body.active.should.be.a('boolean');
+          res.body.name.should.equal(testName);
+          res.body.phone.should.equal(testPhone);
+          done();
+        });
+    });
+    it('should allow you to filter for specific property value');
+    it('should not allow unauthorized users to view a driver info');
+  });
+
+  describe('DELETE /api/drivers', function () {
+    it('should delete a specific driver');
   });
 
   describe('POST /api/drivers/login', function() {
@@ -118,13 +158,8 @@ describe('Dispatch API endpoints', function () {
     it('should return the drivers id to use for new queries');
     it('should show error if wrong username');
     it('should show error if wrong password');
-  })
-
-  describe('GET /api/drivers/:id', function() {
-    it('should show a specific driver info');
-    it('should allow you to filter for specific property value')
-    it('should not allow unauthorized users to view a driver info');
   });
+
 
   describe('POST /api/jobs', function() {
     it('should create a new job');
