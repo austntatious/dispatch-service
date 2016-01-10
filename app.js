@@ -2,9 +2,13 @@
 
 var express   = require('express'),
   app         = express(),
-  config      = require('./config/config'),
   logger      = require('./config/logger'),
+  dotenv      = require('dotenv'),
   mongoose    = require('mongoose');
+
+// Load env varibles from .env file, API keys and other secrets are configured here
+// Default path: .env
+dotenv.load({ path: '.env' });
 
 // Load http server & socket.io
 var server = require('http').Server(app);
