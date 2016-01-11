@@ -1,12 +1,19 @@
 'use strict'; 
 
-var _ = require('lodash');
-var async = require('async');
-var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var passport = require('passport');
-var User = require('../models/User');
-var secrets = require('../config/secrets');
+var _       = require('lodash'),
+  async     = require('async'),
+  crypto    = require('crypto'),
+  nodemailer = require('nodemailer'),
+  passport  = require('passport'),
+  User      = require('../models/User');
+
+/**
+ *  GET /dashboard dispatch view
+*/
+
+exports.getDashboard = function(req, res) {
+   res.render('dashboard');
+ };
 
 /**
  * GET /login
@@ -208,7 +215,7 @@ exports.getOauthUnlink = function(req, res, next) {
     user[provider] = undefined;
     user.tokens = _.reject(user.tokens, function(token) { return token.kind === provider; });
     user.save(function(err) {
-      if (err) return next(err);
+      if (err) { return next(err); }
       req.flash('info', { msg: provider + ' account has been unlinked.' });
       res.redirect('/account');
     });
@@ -227,9 +234,7 @@ exports.getReset = function(req, res) {
     .findOne({ resetPasswordToken: req.params.token })
     .where('resetPasswordExpires').gt(Date.now())
     .exec(function(err, user) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
       if (!user) {
         req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
         return res.redirect('/forgot');
@@ -285,8 +290,8 @@ exports.postReset = function(req, res, next) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: secrets.sendgrid.user,
-          pass: secrets.sendgrid.password
+          user: config.sendgrid.user,
+          pass: config.sendgrid.password
         }
       });
       var mailOptions = {
@@ -360,8 +365,8 @@ exports.postForgot = function(req, res, next) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: secrets.sendgrid.user,
-          pass: secrets.sendgrid.password
+          user: process.env.SENDGRID_USER,
+          pass: process.env.SENDGRID_PASSWORD
         }
       });
       var mailOptions = {
@@ -383,5 +388,75 @@ exports.postForgot = function(req, res, next) {
       return next(err);
     }
     res.redirect('/forgot');
+  });
+};
+
+/**
+ * GET /
+ * Home page.
+ */
+exports.index = function(req, res) {
+  res.render('home', {
+    title: 'Home'
+  });
+};
+
+/**
+ * Contact Functions
+*/
+
+var transporter = nodemailer.createTransport({
+  service: 'SendGrid',
+  auth: {
+    user: process.env.SENDGRID_USER,
+    pass: process.env.SENDGRID_PASSWORD
+  }
+});
+
+/**
+ * GET /contact
+ * Contact form page.
+ */
+exports.getContact = function(req, res) {
+  res.render('contact', {
+    title: 'Contact'
+  });
+};
+
+/**
+ * POST /contact
+ * Send a contact form via Nodemailer.
+ */
+exports.postContact = function(req, res) {
+  req.assert('name', 'Name cannot be blank').notEmpty();
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('message', 'Message cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/contact');
+  }
+
+  var from = req.body.email;
+  var body = req.body.message;
+  var to = 'your@email.com';
+  var subject = 'Contact Form | Hackathon Starter';
+
+  var mailOptions = {
+    to: to,
+    from: from,
+    subject: subject,
+    text: body
+  };
+
+  transporter.sendMail(mailOptions, function(err) {
+    if (err) {
+      req.flash('errors', { msg: err.message });
+      return res.redirect('/contact');
+    }
+    req.flash('success', { msg: 'Email has been sent successfully!' });
+    res.redirect('/contact');
   });
 };
