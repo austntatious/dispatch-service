@@ -4,7 +4,9 @@ let Analytics = React.createClass({
   render() {
     return (
       <Layout navCurrent='analytics'>
-        charts, etc
+        <div id="analytics" className="cfww">
+
+        </div>
       </Layout>
     )
   }
