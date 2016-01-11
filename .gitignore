@@ -17,9 +17,13 @@ tmp
 node_modules
 bower_components
 
+# API keys and secrets
+.env
+
 # Editors
 .idea
 *.iml
+.jshintrc
 
 # OS metadata
 .DS_Store
