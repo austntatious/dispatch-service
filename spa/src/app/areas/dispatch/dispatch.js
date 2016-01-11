@@ -1,6 +1,6 @@
 let Layout = require('components/layout/layout')
 let Mapbox = require('components/mapbox/mapbox')
-require('./dispatch.styl')
+// require('./dispatch.styl')
 
 let Dispatch = React.createClass({
   _onMapCreated(map, L) {

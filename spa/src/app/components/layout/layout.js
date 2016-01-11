@@ -1,4 +1,4 @@
-require('./layout.styl')
+// require('./layout.styl')
 
 let NavLeft = React.createClass({
   getDefaultProps(){

@@ -1,4 +1,5 @@
-require("./app.styl");
+
+require("./../../../public/css/spa/app.css");
 
 class App extends React.Component {
   render() {

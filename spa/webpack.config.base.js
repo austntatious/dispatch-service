@@ -54,7 +54,7 @@ var webpackConfigBase = {
           presets: ['es2015', 'react']
         }
       },
-      { test: /\.styl$/, loader: 'style!css!stylus'}
+      { test: /\.css$/, loader: 'style!css', exclude: /node_modules/}
     ]
   },
   stylus: {
