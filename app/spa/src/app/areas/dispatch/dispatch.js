@@ -78,7 +78,7 @@ let Dispatch = React.createClass({
   },
 
   componentDidMount() {
-    setInterval(() => {
+    this.state.timer = setInterval(() => {
       let id = _.uniqueId()
       this.state.items.unshift({id: id, text: "[NEW ORDER] Order #" + id})
       this.state.items = _.take(this.state.items, 15)
@@ -86,10 +86,14 @@ let Dispatch = React.createClass({
     }, 1000)
   },
 
+  componentWillUnmount() {
+    clearInterval(this.state.timer);  
+  },
+
   render() {
     return (
       <Layout navCurrent='dispatch'>
-        <div id="dispatch">
+        <div id="dispatch" className="cfww">
           <div id="dispatch-map">
             <Mapbox
               access

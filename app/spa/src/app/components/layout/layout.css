@@ -1,78 +1,62 @@
 #layout{
-  #nav-left{
+  #nav-top{
+    color: $white1;
     background: $blue0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-height: 100%;
-    width: 230px;
-
-    .nav-header{
+    
+    #nav-top-header{
       height: 44px;
-      color: $white3;
       padding: 12px 0 0 17px;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 1.7em;
     }
 
-    .nav-link-container{
-      border-top: 1px solid $blue3a;
-      border-bottom: 2px solid $blue3b;
-      display: block;
-      text-decoration: none;
-      font-weight: 400;
-      margin: 5px 0;
-      &.active{
-        background: $blue2;
-        color: $white3;
-        font-weight: 700;
+    #nav-top-left{
+      .nav-link-container{
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 400;
+        margin: 5px 20px 0;
+        border-bottom: 5px solid transparent;
+        color: inherit;
+
+        &.active{
+          border-bottom: 5px solid $blue2;
+          color: inherit;
+          font-weight: 700;
+
+          .nav-link{
+          }
+        }
+
+        &:hover{
+          .nav-link{
+          }
+        }
 
         .nav-link{
-          border-left: 3px solid $blue2;
-        }
-      }
+          padding: 15px;
+          font-family: $fontFam1;
+          text-transform: uppercase;
+          letter-spacing: 4px;
+          display: block;
 
-      &:hover{
-        .nav-link{
-          border-left: 3px solid $blue2;
-        }
-      }
-
-      .nav-link{
-        border-left: 3px solid transparent;
-        padding: 15px 0;
-        color: $white1;
-        font-family: $fontFam1;
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        padding-left: 15px;
-        display: block;
-        
-        .fa{
-          color: $blue4;
-          margin-right: 15px;
+          .fa{
+            margin-right: 15px;
+          }
         }
       }
     }
-    
-    
-  }
 
-  #content-prewrapper{
-    margin-left: 230px;
-    background: $gray2;
-    min-height: 100%;
-
-    #nav-top{
-      background: $white0;
-      color: $gray3;
+    #nav-top-right{
+      // background: $white0;
+      color: $white3;
       height: 50px;
 
       #nav-top-right-links{
         .nav-top-right-link{
           display: inline-block;
-          padding: 15px;
-          border-left: 2px solid $gray4;
+          padding: 20px 15px;
+          // border-left: 2px solid $gray4;
           cursor: pointer;
 
           .fa{
@@ -83,15 +67,14 @@
         }
       }
     }
-    
-    #content-wrapper{
-      position: relative;
-      width: 100%;
-    }
   }
-  
 
-  
+
+  #content-wrapper{
+    background: $gray2;
+    position: relative;
+    width: 100%;
+  }
 }
   
   
