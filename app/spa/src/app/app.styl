@@ -1,0 +1,64 @@
+// All stylus ariables, and functions can go here
+// UI inspiration from https://dribbble.com/shots/2119206-Hixle-Feed/attachments/384630
+$blue0 = #333A4D  // NavLeft bg
+$blue1 = #3E445C  // NavLeft bg expanded
+$blue2 = #02AADB  // NavLeft active, left border
+$blue3a = #484f6b  // NavLeft row border-top
+$blue3b = #2E3246  // NavLeft row border-bottom
+$blue4 = #BCD9F5  // NavLeft icon color over dark
+
+
+$gray2 = #EEF3F6 // content-prewrapper
+$gray3 = #95AABC // Text on white, gray
+$gray4 = #F5F9FC // NavSecondary, Right Sidebar 
+$gray5 = #EEF3F6 // Content main tbackground
+
+$white0 = #fff
+$white1 = #DEE1E3  // NavLeft text color over dark
+$white2 = #E8E8EA  // NavLeft header color
+$white3 = #E1F4F8  // NavLeft text color over active
+
+$fontFam1 = 'Open Sans', sans-serif
+
+#app-container{
+  #app{
+    .nav{
+      color: red
+    }
+  }
+}
+
+
+html, body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  background: $gray5;
+  font-family: $fontFam1;
+}
+.pull-left{
+  float:left
+}
+.pull-right{
+  float: right
+}
+
+
+.transition-enter {
+  opacity: 0.01;
+  
+  &.transition-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+}
+
+.transition-leave {
+  opacity: 0;
+  
+  &.transition-leave-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+  }
+}
+
