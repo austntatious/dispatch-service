@@ -5,6 +5,7 @@ var express   = require('express'),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
   Sequelize   = require('sequelize'),
+  Promise     = require('bluebird'),
   mongoose    = require('mongoose');
 
 // Load env varibles from .env file, API keys and other secrets are configured here
@@ -35,19 +36,21 @@ mongoose.connection.on('open', logger.profile.bind(logger,'connect-to-mongodb'))
 mongoose.connection.on('disconnected', connect);
 
 // Connect to PostgreSQL
-var sequelize = new Sequelize(process.env.POSTGRES, {
+var pg = new Sequelize(process.env.POSTGRES, {
   dialect:'postgres'
 });
  
-sequelize
-  .authenticate()
-  .complete(function(err) {
-    if (!!err) {
+pg.authenticate()
+  .then(function(err) {
+    if (err) {
       logger.info('Unable to connect to the database:', err);
     } else {
-      logger.info('Connection has been established successfully.');
+      logger.info('Successful connection to Postgres!');
     }
   });
+
+// Sync tables to postgres
+pg.sync();
 
 // Essential Express middleware config
 require('./config/express').primary(app);
