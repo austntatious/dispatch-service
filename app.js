@@ -4,7 +4,7 @@ var express   = require('express'),
   app         = express(),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
-  Sequelize = require('sequelize'),
+  Sequelize   = require('sequelize'),
   mongoose    = require('mongoose');
 
 // Load env varibles from .env file, API keys and other secrets are configured here
@@ -35,10 +35,9 @@ mongoose.connection.on('open', logger.profile.bind(logger,'connect-to-mongodb'))
 mongoose.connection.on('disconnected', connect);
 
 // Connect to PostgreSQL
-var sequelize = new Sequelize(process.env.PGDB, process.env.PGUSER, process.env.PGPASS, {
-      dialect: "postgres", // or 'sqlite', mysql', 'mariadb'
-      port:    5432, // or 5432 (for postgres)
-    });
+var sequelize = new Sequelize(process.env.POSTGRES, {
+  dialect:'postgres'
+});
  
 sequelize
   .authenticate()
