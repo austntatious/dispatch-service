@@ -5,7 +5,6 @@ var express   = require('express'),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
   Sequelize   = require('sequelize'),
-  Promise     = require('bluebird'),
   mongoose    = require('mongoose');
 
 // Load env varibles from .env file, API keys and other secrets are configured here
@@ -50,7 +49,9 @@ pg.authenticate()
   });
 
 // Sync tables to postgres
-pg.sync();
+pg.sync({
+  logging: logger
+});
 
 // Essential Express middleware config
 require('./config/express').primary(app);
