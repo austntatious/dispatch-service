@@ -7,8 +7,7 @@
 var _     = require('lodash'), 
 
 // Load mongoose models and config
-  Driver  = require('../models/Driver'),
-  Job     = require('../models/Job');
+  Driver  = require('../models/Driver');
 
 
 //To Do -- Send twilio text with download link to new driver
@@ -24,25 +23,23 @@ exports.createDriver = function(req, res) {
   var errors = req.validationErrors();
 
   if (errors) {
-    res.json({msg: errors});
+    res.json({ msg: errors });
     return console.log(errors);
   }
 
-  var driver = new Driver({
+  // send driver data and create new entry unless already existing
+  Driver.findOrCreate({ 
+    where: {
     phone: req.body.phone,
-    name: req.body.name
+    firstName: req.body.firstName,
+    lastName: req.body.lastName
+    } 
+  }).success(function(driver, created) {
+    if (!created) { res.json('Driver already exists'); }
+      else { res.json(driver); } // new driver created data
+  }).error(function(err) {
+    console.log(err);
   });
-
-  Driver.findOne({ phone: req.body.phone }, function(err, existingUser) {
-    if (existingUser) {
-      return res.json({ msg: 'Driver already exists' });
-    }
-    driver.save(function(err) {
-      if (err) { return next(err); }
-      res.status(200).json(driver);
-    });
-  });
-};
 
 exports.getDriverInfo = function(req, res) {
   Driver.findById(req.params.id, function(err, driver) {
@@ -69,16 +66,17 @@ exports.updateDriverInfo = function(req, res) {
   });
 };
 
+// Get ALL drivers associated with an organization
 exports.getDrivers = function(req, res) {
-  Driver.find({}, function(err, drivers) {
+  Driver.findAll({}).then(function(err, drivers) {
     res.status(200).json(drivers);
   });
 };
 
-//get specified driver information and filter
-//if no id parameter provided, show all drivers
+// get specified driver information and filter
+// if no id parameter provided, show all drivers
 
-//to do 
-//authentication
-//query filtering
+// to do 
+// authentication
+// query filtering
 
