@@ -1,25 +1,49 @@
 'use strict'; 
 
-var mongoose = require('mongoose');
+var Sequelize = require('sequelize');
 
-var driverSchema = new mongoose.Schema({
-  updatedAt: { type: Date, default: Date.now() }, 
-  organization: String,  //organization ID to associate driver
-  name: String,
-  phone: String,
-  email: String,
-  password: String, //hash the password and return json token
-  active: { type: Boolean, default: false },
-  location: Array, //GeoJson or Long Lat ?
-  currentJobs: [], //array of job ref IDs
-  route: Array, // array of pickup and dropoff objects
-                // e.g. [{type: pickup, jobid: refId }, {pickup: }, {dropoff: }]
-                // allow driver to mark task as delayed
+  var Driver = Sequelize.define('Driver', {
+    // Postgres autogenerates UUID and timestamps
+    accountToken: {
+      type: Sequelize.STRING,
+      field: 'account_token'
+    },
+    passwordToken: {
+      type: Sequelize.STRING,
+      field: 'password_token',
+      unique: true,
+    },
+    firstName: {
+      type: Sequelize.STRING,
+      field: 'first_name'
+    },
+    lastName: {
+      type: Sequelize.STRING,
+      field: 'last_name'
+    },
+    phone: {
+      type: Sequelize.STRING,
+      unique: true
+      // add validation
+    },
+    latitude: {
+      type: Sequelize.INTEGER
+    },
+    longitude: {
+      type: Sequelize.INTEGER
+    },
+    locationLastUpdated: {
 
-  // add analytics to track times and distances 
-});
+    }
+  }, {
+      // OPTIONS
+      // add autoIncrement IDs
+    // classMethods:
+    underscored: true
+  });
 
-// TO DO
-// add mongoose methods to schema
+  // TO DO : Add foreign keys, relationships, and indexes
 
-module.exports = mongoose.model('Driver', driverSchema);
+
+module.exports = Driver;
+
