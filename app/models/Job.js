@@ -1,5 +1,52 @@
 'use strict'; 
 
+var Sequelize = require('sequelize');
+
+// DEFAULT SCOPE SHOULD BE ORGANIZATION OR DRIVER FOR ALL QUERIES
+// Jobs belong to Drivers & Organizations
+// Has Final Recipient info - phone, name, etc
+// Has pickup & dropoff data
+// has startBy and FinishBefore fields signifying when order needs to be completed
+module.exports = function (sequelize) {
+   var Job = sequelize.define('Job', {
+
+    accountToken: {
+      type: Sequelize.STRING,
+      field: 'account_token'
+    },
+    passwordToken: {
+      type: Sequelize.STRING,
+      field: 'password_token',
+      unique: true,
+    },
+    firstName: {
+      type: Sequelize.STRING,
+      field: 'first_name'
+    },
+    lastName: {
+      type: Sequelize.STRING,
+      field: 'last_name'
+    },
+    phone: {
+      type: Sequelize.STRING,
+      unique: true
+      // add validation
+    },
+    latitude: {
+      type: Sequelize.INTEGER
+    },
+    longitude: {
+      type: Sequelize.INTEGER
+    }
+  }, {
+      // OPTIONS
+      // add autoIncrement IDs
+      // classMethods:
+    underscored: true
+  });
+   return Job;
+};
+
 var mongoose = require('mongoose');
 
 var jobSchema = new mongoose.Schema({

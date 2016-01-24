@@ -3,6 +3,7 @@
 var Sequelize = require('sequelize');
 
 // Default Query should always query based on organization ID ***
+// DEFAULT SCOPE IS ORGANIZATION 
 module.exports = function (sequelize) {
    var Driver = sequelize.define('Driver', {
 
@@ -27,6 +28,9 @@ module.exports = function (sequelize) {
       type: Sequelize.STRING,
       unique: true
       // add validation
+    },
+    onDuty: {
+      type: Sequelize.BOOLEAN
     },
     location: {
       type: Sequelize.ARRAY(Sequelize.INTEGER)

@@ -63,12 +63,16 @@ sequelize
 // Load sequelize models and sync if in development!!
 var Driver = require('./app/models/Driver')(sequelize);
 
+// Set run environment variables so sync and drop tables only occur in DEVELOPMENT
+
 // TO DO : add sync to ALL models besides Driver
-if (process.env.NODE_ENV === 'development') {
-  Driver.sync().then(function(){
-    logger.info('Models and db tables synced!');
-  });
+if (process.env.NODE_ENV === 'production') {
+  console.log('this is working');
 }
+Driver.sync().then(function(){
+  logger.info('Models and db tables synced!');
+});
+
 
 // TO DO: add single models index to sync all models at once
 exports.sequelize = sequelize;

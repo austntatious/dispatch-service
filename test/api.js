@@ -14,7 +14,7 @@ var request   = require('supertest'),
 var randomDigits    = Math.floor((Math.random() * 1000000000) + 10000000000);
 var testPhone       = '+' + randomDigits.toString(); 
 var testFirstName   = 'Liu';
-var testLastName    = 'Kang'
+var testLastName    = 'Kang';
 var testEmail       = 'test@example.com';
 var testPassword    = 'password';
 var testGeo         = [(Math.random() * 10) + 70, -((Math.random() * 10) + 40)];
@@ -25,7 +25,7 @@ var testGeo         = [(Math.random() * 10) + 70, -((Math.random() * 10) + 40)];
 
  // To Do: clear local db and use seed db file to seed data, also use before/after 
  // hooks to cleanup database after tests**** 
-describe('Dispatch API endpoints', function () {
+describe.skip('Dispatch API endpoints', function () {
   describe('POST /api/drivers', function() {
     it('should create a new unique driver', function(done) {
       request(app)
