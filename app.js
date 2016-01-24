@@ -55,7 +55,8 @@ var Driver = require('./app/models/Driver')(sequelize);
 Driver.sync().then(function(){
   console.log('Models and db tables synced!');
 });
-
+// TO DO: add single models index to sync all models at once
+exports.sequelize = sequelize;
 
 // Essential Express middleware config
 require('./config/express').primary(app);
@@ -86,4 +87,7 @@ io.on('connection', function(socket) {
   });
 });
 
-module.exports = app;
+console.log('this is the Driver variable being exported in app.js' + Driver);
+
+module.exports.app  = app;
+
