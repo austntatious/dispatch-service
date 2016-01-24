@@ -11,14 +11,13 @@ var request   = require('supertest'),
   Driver      = require('../app/models/Driver')(model);
 
 //Test variables
-var randomDigits  = Math.floor((Math.random() * 1000000000) + 10000000000);
-var testPhone     = '+' + randomDigits.toString(); 
-var testFirstName = 'Liu';
-var testLastName  = 'Kang'
-var testEmail     = 'test@example.com';
-var testPassword  = 'password';
-var testLong      = (Math.random() * 10) + 70; 
-var testLat       = -((Math.random() * 10) + 40);
+var randomDigits    = Math.floor((Math.random() * 1000000000) + 10000000000);
+var testPhone       = '+' + randomDigits.toString(); 
+var testFirstName   = 'Liu';
+var testLastName    = 'Kang'
+var testEmail       = 'test@example.com';
+var testPassword    = 'password';
+var testGeo         = [(Math.random() * 10) + 70, -((Math.random() * 10) + 40)];
 
 /**
  * Dispatch API endpoints
@@ -41,8 +40,7 @@ describe('Dispatch API endpoints', function () {
         if(err) { return done(err); }
         res.body.should.be.json;
         res.body.should.be.a('object');
-        res.body.should.have.property('latitude');
-        res.body.should.have.property('longitude');
+        res.body.should.have.property('location');
         res.body.firstName.should.equal(testFirstName);
         res.body.lastName.should.equal(testLastName);
         done();

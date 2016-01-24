@@ -2,10 +2,11 @@
 
 var Sequelize = require('sequelize');
 
+// Default Query should always query based on organization ID ***
 module.exports = function (sequelize) {
    var Driver = sequelize.define('Driver', {
-    // Postgres autogenerates UUID and timestamps
-    accountToken: {
+
+    accountToken: { // WHAT IS THIS FOR -- FIGURE OUT AUTHENITCATION 
       type: Sequelize.STRING,
       field: 'account_token'
     },
@@ -27,21 +28,21 @@ module.exports = function (sequelize) {
       unique: true
       // add validation
     },
-    latitude: {
-      type: Sequelize.INTEGER
+    location: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER)
     },
-    longitude: {
-      type: Sequelize.INTEGER
-    }
   }, {
       // OPTIONS
       // add autoIncrement IDs
-    // classMethods:
+      // classMethods:
     underscored: true
   });
    return Driver;
 };
   // TO DO : Add foreign keys, relationships, and indexes
 
+  // Belongs to ONE organization
+  // Has many jobs -- orders have TWO tasks
+  // Has one route
 
 
