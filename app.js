@@ -41,7 +41,7 @@ var pgConnect = function() {
     logging : logger.info,
     dialect : 'postgres'
   };
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test' || 'production') {
       pgOptions.logging = false;
     } 
   var pg = new Sequelize(process.env.POSTGRES, pgOptions);
@@ -63,8 +63,8 @@ sequelize
 // Load sequelize models and sync if in development!!
 var Driver = require('./app/models/Driver')(sequelize);
 
+// TO DO : add sync to ALL models besides Driver
 if (process.env.NODE_ENV === 'development') {
-  logger.info('running IF statement in app.js with NODE_ENV as: ', process.env.NODE_ENV);
   Driver.sync().then(function(){
     logger.info('Models and db tables synced!');
   });
