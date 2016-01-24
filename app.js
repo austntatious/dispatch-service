@@ -20,7 +20,7 @@ var io     = require('socket.io')(server);
 // Recommended a 30 second connection timeout because it allows for
 // plenty of time in most operating environments.
 
-var connect = function () {
+var connectMongo = function () {
   logger.profile('connect-to-mongodb');
   var options = {
     server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
@@ -28,33 +28,48 @@ var connect = function () {
   };
   mongoose.connect(process.env.MONGODB, options);
 };
-connect();
+connectMongo();
 
 mongoose.connection.on('error', logger.error.bind(logger, 'mongoose-connection-error:'));
 mongoose.connection.on('open', logger.profile.bind(logger,'connect-to-mongodb'));
-mongoose.connection.on('disconnected', connect);
+mongoose.connection.on('disconnected', connectMongo);
 
 // Connect to PostgreSQL
-var sequelize = new Sequelize(process.env.POSTGRES, {
-  dialect:'postgres'
-});
- 
+var pgConnect = function() {
+  logger.profile('connect-to-postgres');
+  var pgOptions = {
+    logging : logger.info,
+    dialect : 'postgres'
+  };
+  if (process.env.NODE_ENV === 'test') {
+      pgOptions.logging = false;
+    } 
+  var pg = new Sequelize(process.env.POSTGRES, pgOptions);
+  return pg;
+};
+
+var sequelize = pgConnect();
+
 sequelize
   .authenticate()
   .then(function(err) {
     if (err) {
-      logger.info('Unable to connect to the database:', err);
+      logger.info('Unable to connect to the database: ', err);
     } else {
-      logger.info('Successful connection to Postgres!');
+      logger.profile('connect-to-postgres');
     }
   });
 
-// Load sequelize models and sync !!
+// Load sequelize models and sync if in development!!
 var Driver = require('./app/models/Driver')(sequelize);
 
-Driver.sync().then(function(){
-  console.log('Models and db tables synced!');
-});
+if (process.env.NODE_ENV === 'development') {
+  logger.info('running IF statement in app.js with NODE_ENV as: ', process.env.NODE_ENV);
+  Driver.sync().then(function(){
+    logger.info('Models and db tables synced!');
+  });
+}
+
 // TO DO: add single models index to sync all models at once
 exports.sequelize = sequelize;
 
@@ -87,7 +102,5 @@ io.on('connection', function(socket) {
   });
 });
 
-console.log('this is the Driver variable being exported in app.js' + Driver);
-
-module.exports.app  = app;
+module.exports.main = app;
 

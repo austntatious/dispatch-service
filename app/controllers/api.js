@@ -5,8 +5,8 @@
 'use strict'; 
 
 var logger      = require('../../config/logger'),
-    db          = require('../../app').sequelize,
-    Driver      = require('../models/Driver')(db);
+    model       = require('../../app').sequelize,
+    Driver      = require('../models/Driver')(model);
 
 //To Do -- Send twilio text with download link to new driver
 
@@ -28,8 +28,6 @@ exports.createDriver = function(req, res) {
 
   // send driver data and create new entry unless already existing
 
-  // TO DO ** WHY IS FINDORCREATE FUNCTION UNDEFINED ?!?!?! WTF
-  console.log(Driver, 'this is the Driver variable in api controllers');
   Driver.findOrCreate({ 
     where: {
     phone: req.body.phone,
