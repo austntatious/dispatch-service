@@ -2,7 +2,8 @@
 
 var Sequelize = require('sequelize');
 
-  var Driver = Sequelize.define('Driver', {
+module.exports = function (sequelize) {
+   var Driver = sequelize.define('Driver', {
     // Postgres autogenerates UUID and timestamps
     accountToken: {
       type: Sequelize.STRING,
@@ -31,9 +32,6 @@ var Sequelize = require('sequelize');
     },
     longitude: {
       type: Sequelize.INTEGER
-    },
-    locationLastUpdated: {
-
     }
   }, {
       // OPTIONS
@@ -41,9 +39,9 @@ var Sequelize = require('sequelize');
     // classMethods:
     underscored: true
   });
-
+   return Driver;
+};
   // TO DO : Add foreign keys, relationships, and indexes
 
 
-module.exports = Driver;
 

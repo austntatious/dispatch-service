@@ -35,11 +35,12 @@ mongoose.connection.on('open', logger.profile.bind(logger,'connect-to-mongodb'))
 mongoose.connection.on('disconnected', connect);
 
 // Connect to PostgreSQL
-var pg = new Sequelize(process.env.POSTGRES, {
+var sequelize = new Sequelize(process.env.POSTGRES, {
   dialect:'postgres'
 });
  
-pg.authenticate()
+sequelize
+  .authenticate()
   .then(function(err) {
     if (err) {
       logger.info('Unable to connect to the database:', err);
@@ -48,10 +49,13 @@ pg.authenticate()
     }
   });
 
-// Sync tables to postgres
-pg.sync({
-  logging: logger
+// Load sequelize models and sync !!
+var Driver = require('./app/models/Driver')(sequelize);
+
+Driver.sync().then(function(){
+  console.log('Models and db tables synced!');
 });
+
 
 // Essential Express middleware config
 require('./config/express').primary(app);

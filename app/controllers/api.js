@@ -4,11 +4,9 @@
 
 'use strict'; 
 
-var _     = require('lodash'), 
-
-// Load mongoose models and config
-  Driver  = require('../models/Driver');
-
+var logger = require('../../config/logger');
+var Driver = require('../models/Driver');
+var app = require('../../app');
 
 //To Do -- Send twilio text with download link to new driver
 
@@ -18,16 +16,19 @@ var _     = require('lodash'),
 
 exports.createDriver = function(req, res) {
   //TODO sanitize request with express validator
-  req.assert('name', 'Name cannot be blank').notEmpty();
+  req.assert('firstName', 'First Name cannot be blank').notEmpty();
+  req.assert('lastName', 'Last Name cannot be blank').notEmpty();
   req.assert('phone', 'Password cannot be blank').notEmpty();
   var errors = req.validationErrors();
 
   if (errors) {
     res.json({ msg: errors });
-    return console.log(errors);
+    return logger.error(errors);
   }
 
   // send driver data and create new entry unless already existing
+
+  // TO DO ** WHY IS FINDORCREATE FUNCTION UNDEFINED ?!?!?! WTF
   Driver.findOrCreate({ 
     where: {
     phone: req.body.phone,
@@ -38,8 +39,9 @@ exports.createDriver = function(req, res) {
     if (!created) { res.json('Driver already exists'); }
       else { res.json(driver); } // new driver created data
   }).error(function(err) {
-    console.log(err);
+    logger.error(err);
   });
+};
 
 exports.getDriverInfo = function(req, res) {
   Driver.findById(req.params.id, function(err, driver) {
