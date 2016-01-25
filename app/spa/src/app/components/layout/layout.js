@@ -1,5 +1,6 @@
 // require('./layout.styl')
 
+/*
 let NavLeft = React.createClass({
   getDefaultProps(){
     var links = [
@@ -13,6 +14,12 @@ let NavLeft = React.createClass({
         name: 'analytics',
         text: 'Analytics',
         url: '/dashboard/analytics',
+        icon: 'fa fa-bar-chart'
+      },
+      {
+        name: 'drivers',
+        text: 'Drivers',
+        url: '/dashboard/drivers',
         icon: 'fa fa-bar-chart'
       }
     ];
@@ -37,6 +44,7 @@ let NavLeft = React.createClass({
     );
   }
 });
+*/
 
 let NavTop = React.createClass({
   getDefaultProps(){
@@ -52,6 +60,12 @@ let NavTop = React.createClass({
         text: 'Analytics',
         url: '/dashboard/analytics',
         icon: 'fa fa-bar-chart'
+      },
+      {
+        name: 'drivers',
+        text: 'Drivers',
+        url: '/dashboard/drivers',
+        icon: 'fa fa-car'
       }
     ];
     return {links: links}

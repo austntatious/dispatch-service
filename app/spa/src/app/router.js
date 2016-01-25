@@ -51,6 +51,10 @@ var sitemap = window.sitemap = [
   {
     routes: ['/analytics'],
     handler: require('areas/analytics/analytics')
+  },
+  {
+    routes: ['/drivers'],
+    handler: require('areas/drivers/drivers')
   }
 ];
 
