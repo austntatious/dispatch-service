@@ -2,7 +2,10 @@ let Layout = require('components/layout/layout')
 
 let TableActions = React.createClass({
   render() {
-    return <span>some action</span>
+    return <span className="actions">
+      <i className="fa fa-pencil action"/>
+      <i className="fa fa-trash action"/>
+    </span>
   }
 })
 

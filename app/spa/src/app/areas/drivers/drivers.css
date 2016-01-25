@@ -24,6 +24,15 @@
         &.even{
           background: #FFFFFF;
         }
+
+        .column{
+          .actions{
+            .action{
+              margin: 0 10px;
+              cursor: pointer;
+            }
+          }
+        }
         
       }
     }
