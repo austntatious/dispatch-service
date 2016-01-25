@@ -33,13 +33,7 @@ let Drivers = React.createClass({
       return <div>loading...</div>
     }
 
-    return (
-      this.state.drivers.map(driver => {
-        return (
-          <p>{JSON.stringify(driver, null, 2)}</p>
-        )
-      })
-    )
+    return <Table items={this.state.drivers} />
   },
 
   render() {
@@ -51,6 +45,38 @@ let Drivers = React.createClass({
       </Layout>
     )
   }
-})
+});
+
+let Table = React.createClass({
+  getDefaultProps() {
+    return {
+      classNames: '',
+      header: '',
+      items: [] 
+    };
+  },
+
+  render() {
+    return (
+      <div className={`table ${this.props.classNames}`} >
+        <div className="table-header">{this.props.header}</div>
+        <div className="table-content">
+          {this.props.items.map(item => {
+            return <div className="table-row">
+              {JSON.stringify(item, null, 2)}
+            </div>
+          })}
+        </div>
+      </div>
+    )
+  }
+});
+
+
+
+
+
 
 module.exports = Drivers
+
+
