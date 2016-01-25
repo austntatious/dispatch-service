@@ -2,7 +2,8 @@ html, body {
   min-height: 100%;
   /*padding: 0;*/
   margin: 0;
-  background: #EEF3F6;
+  /* background: $gray5; */
+  background: #FAFAFA;
   font-family: 'Open Sans', sans-serif;
 }
 .pull-left{
@@ -36,6 +37,14 @@ html, body {
 .cfww{
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.widget{
+  background: #fff;
+  border: 1px solid #F1F1F1;
+  padding: 10px;
+  margin: 20px 0;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.14);
 }
 
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
@@ -427,9 +436,20 @@ td, th {
   padding: 0;
 }
 
-* {
+div{
+  overflow: auto;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  }
 
 
 /*Add custom classes here*/
@@ -727,6 +747,30 @@ body {
   position: relative;
 }
 
+.table .header{}
+
+.table .data .column{
+  display: inline-block;
+  padding: 0 10px;
+}
+
+.table .data .data-header{
+  padding: 15px 0;
+  border-bottom: 1px solid #F1F1F1;
+}
+
+.table .data .data-items .data-item{
+  padding: 5px 0
+}
+
+.table .data .data-items .data-item.even{
+  background: #FFFFFF;
+}
+
+.table .data .data-items .data-item.odd{
+  background: #FCFCFB;
+}
+
 #layout #nav-top{
   color: #DEE1E3;
   background: #333A4D;
@@ -790,9 +834,9 @@ body {
 }
 
 #layout #content-wrapper{
-  background: #EEF3F6;
   position: relative;
   width: 100%;
+  overflow: auto;
 }
   
   

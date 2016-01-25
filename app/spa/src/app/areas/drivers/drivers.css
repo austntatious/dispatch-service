@@ -1,0 +1,31 @@
+.table{
+  .header{
+
+  }
+
+  .data{
+
+    .column{
+      display: inline-block;
+      padding: 0 10px;
+    }
+
+    .data-header{
+      padding: 15px 0;
+      border-bottom: 1px solid #F1F1F1;
+    }
+
+    .data-items{
+      .data-item{
+        padding: 5px 0;
+        &.odd{
+          background: #FCFCFB;
+        }
+        &.even{
+          background: #FFFFFF;
+        }
+        
+      }
+    }
+  }
+}

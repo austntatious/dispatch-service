@@ -2,7 +2,8 @@ html, body {
   min-height: 100%;
   /*padding: 0;*/
   margin: 0;
-  background: $gray5;
+  /* background: $gray5; */
+  background: #FAFAFA;
   font-family: $fontFam1;
 }
 .pull-left{
@@ -35,4 +36,12 @@ html, body {
 .cfww{
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.widget{
+  background: #fff;
+  border: 1px solid #F1F1F1;
+  padding: 10px;
+  margin: 20px 0;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.14);
 }
