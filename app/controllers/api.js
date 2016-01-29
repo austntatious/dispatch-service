@@ -35,7 +35,7 @@ exports.createDriver = function(req, res) {
     lastName: req.body.lastName
     } 
   }).spread(function(driver, created) {
-    if (!created) { res.json('Driver already exists'); }
+    if (!created) { res.json({ "msg": 'Driver already exists' }); }
       else { res.json(driver); } // new driver created data
   });
 };

@@ -1,25 +1,25 @@
 'use strict';
 
 // Load module dependencies.
-var express     = require('express'), 
-  cookieParser  = require('cookie-parser'),   
-  compress      = require('compression'),   
-  favicon       = require('serve-favicon'),
-  session       = require('express-session'),
-  bodyParser    = require('body-parser'),
-  logger        = require('morgan'),
-  errorHandler  = require('errorhandler'),
-  lusca         = require('lusca'),
-  methodOverride = require('method-override'),
-  MongoStore    = require('connect-mongo')(session),
-  flash         = require('express-flash'),
-  path          = require('path'),
-  passport      = require('passport'),
+var express       = require('express'), 
+  cookieParser    = require('cookie-parser'),   
+  compress        = require('compression'),   
+  favicon         = require('serve-favicon'),
+  session         = require('express-session'),
+  bodyParser      = require('body-parser'),
+  logger          = require('morgan'),
+  errorHandler    = require('errorhandler'),
+  lusca           = require('lusca'),
+  methodOverride  = require('method-override'),
+  MongoStore      = require('connect-mongo')(session),
+  flash           = require('express-flash'),
+  path            = require('path'),
+  passport        = require('passport'),
   expressValidator = require('express-validator'),
-  sass          = require('node-sass-middleware'),
-  morgan        = require('morgan'),
-  logger        = require('./logger'),
-  helmet        = require('helmet');
+  sass            = require('node-sass-middleware'),
+  morgan          = require('morgan'),
+  logger          = require('./logger'),
+  helmet          = require('helmet');
 
 // TO DO : Add environment variables to config -- testing, staging, production
 

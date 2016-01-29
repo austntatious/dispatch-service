@@ -41,9 +41,11 @@ var pgConnect = function() {
     logging : logger.info,
     dialect : 'postgres'
   };
-  if (process.env.NODE_ENV === 'test' || 'production') {
+  if (process.env.NODE_ENV === 'test') {
+      // SQL logging turned off for testing
       pgOptions.logging = false;
     } 
+  console.log(process.env.NODE_ENV, ' is the process env');
   var pg = new Sequelize(process.env.POSTGRES, pgOptions);
   return pg;
 };
@@ -66,10 +68,7 @@ var Driver = require('./app/models/Driver')(sequelize);
 // Set run environment variables so sync and drop tables only occur in DEVELOPMENT
 
 // TO DO : add sync to ALL models besides Driver
-if (process.env.NODE_ENV === 'production') {
-  console.log('this is working');
-}
-Driver.sync().then(function(){
+Driver.sync({ force:true }).then(function(){
   logger.info('Models and db tables synced!');
 });
 
