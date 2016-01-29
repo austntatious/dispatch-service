@@ -69,7 +69,12 @@ var Driver = require('./app/models/Driver')(sequelize);
 
 // TO DO : add sync to ALL models besides Driver
 Driver.sync({ force:true }).then(function(){
-  logger.info('Models and db tables synced!');
+  logger.info('Driver table synced!');
+});
+
+var Account = require('./app/models/Account')(sequelize);
+Account.sync({ force:true }).then(function(){
+  logger.info('Account table synced!');
 });
 
 
