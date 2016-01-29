@@ -4,6 +4,7 @@ var express   = require('express'),
   app         = express(),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
+  Sequelize   = require('sequelize'),
   mongoose    = require('mongoose');
 
 // Load env varibles from .env file, API keys and other secrets are configured here
@@ -19,7 +20,7 @@ var io     = require('socket.io')(server);
 // Recommended a 30 second connection timeout because it allows for
 // plenty of time in most operating environments.
 
-var connect = function () {
+var connectMongo = function () {
   logger.profile('connect-to-mongodb');
   var options = {
     server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
@@ -27,11 +28,53 @@ var connect = function () {
   };
   mongoose.connect(process.env.MONGODB, options);
 };
-connect();
+connectMongo();
 
 mongoose.connection.on('error', logger.error.bind(logger, 'mongoose-connection-error:'));
 mongoose.connection.on('open', logger.profile.bind(logger,'connect-to-mongodb'));
-mongoose.connection.on('disconnected', connect);
+mongoose.connection.on('disconnected', connectMongo);
+
+// Connect to PostgreSQL
+var pgConnect = function() {
+  logger.profile('connect-to-postgres');
+  var pgOptions = {
+    logging : logger.info,
+    dialect : 'postgres'
+  };
+  if (process.env.NODE_ENV === 'test') {
+      // SQL logging turned off for testing
+      pgOptions.logging = false;
+    } 
+  console.log(process.env.NODE_ENV, ' is the process env');
+  var pg = new Sequelize(process.env.POSTGRES, pgOptions);
+  return pg;
+};
+
+var sequelize = pgConnect();
+
+sequelize
+  .authenticate()
+  .then(function(err) {
+    if (err) {
+      logger.info('Unable to connect to the database: ', err);
+    } else {
+      logger.profile('connect-to-postgres');
+    }
+  });
+
+// Load sequelize models and sync if in development!!
+var Driver = require('./app/models/Driver')(sequelize);
+
+// Set run environment variables so sync and drop tables only occur in DEVELOPMENT
+
+// TO DO : add sync to ALL models besides Driver
+Driver.sync({ force:true }).then(function(){
+  logger.info('Models and db tables synced!');
+});
+
+
+// TO DO: add single models index to sync all models at once
+exports.sequelize = sequelize;
 
 // Essential Express middleware config
 require('./config/express').primary(app);
@@ -62,4 +105,5 @@ io.on('connection', function(socket) {
   });
 });
 
-module.exports = app;
+module.exports.main = app;
+

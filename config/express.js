@@ -1,28 +1,29 @@
 'use strict';
 
 // Load module dependencies.
-var express     = require('express'), 
-  cookieParser  = require('cookie-parser'),   
-  compress      = require('compression'),   
-  favicon       = require('serve-favicon'),
-  session       = require('express-session'),
-  bodyParser    = require('body-parser'),
-  logger        = require('morgan'),
-  errorHandler  = require('errorhandler'),
-  lusca         = require('lusca'),
-  methodOverride = require('method-override'),
-  MongoStore    = require('connect-mongo')(session),
-  flash         = require('express-flash'),
-  path          = require('path'),
-  passport      = require('passport'),
+var express       = require('express'), 
+  cookieParser    = require('cookie-parser'),   
+  compress        = require('compression'),   
+  favicon         = require('serve-favicon'),
+  session         = require('express-session'),
+  bodyParser      = require('body-parser'),
+  logger          = require('morgan'),
+  errorHandler    = require('errorhandler'),
+  lusca           = require('lusca'),
+  methodOverride  = require('method-override'),
+  MongoStore      = require('connect-mongo')(session),
+  flash           = require('express-flash'),
+  path            = require('path'),
+  passport        = require('passport'),
   expressValidator = require('express-validator'),
-  sass          = require('node-sass-middleware'),
-  morgan        = require('morgan'),
-  logger        = require('./logger');
+  sass            = require('node-sass-middleware'),
+  morgan          = require('morgan'),
+  logger          = require('./logger'),
+  helmet          = require('helmet');
 
 // TO DO : Add environment variables to config -- testing, staging, production
 
-//Config for all routes
+// Config for all routes
 exports.primary = function(app) {
   app.set('port', process.env.PORT || 3000);
   app.use(compress());
@@ -31,16 +32,16 @@ exports.primary = function(app) {
   app.use(expressValidator());
 
   // error handling in dev env
-  //if (env === 'dev') {
+  if (process.env.NODE === 'development') {
     app.use(errorHandler());
-  //}
+  }
 
   // Override Express logger with morgan logger
   app.use(morgan('short',{ 'stream': logger.stream }));
   //To DO : turn off logger when running test suite
 };
 
-//Config for web app routes
+// Config for web app routes
 exports.web = function(app) {
 
   // Middleware for static assets in public directory
@@ -62,6 +63,7 @@ exports.web = function(app) {
     secret: process.env.SESSION_SECRET,
     store: new MongoStore({ url: process.env.MONGODB, autoReconnect: true })
   }));
+  app.use(helmet());
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
@@ -72,6 +74,8 @@ exports.web = function(app) {
     xframe: 'SAMEORIGIN',
     xssProtection: true
   }));
+
+
   // other middleware functions
   app.use(function(req, res, next) {
     res.locals.user = req.user;

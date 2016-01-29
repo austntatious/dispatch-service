@@ -4,12 +4,9 @@
 
 'use strict'; 
 
-var _     = require('lodash'), 
-
-// Load mongoose models and config
-  Driver  = require('../models/Driver'),
-  Job     = require('../models/Job');
-
+var logger      = require('../../config/logger'),
+    model       = require('../../app').sequelize,
+    Driver      = require('../models/Driver')(model);
 
 //To Do -- Send twilio text with download link to new driver
 
@@ -19,28 +16,27 @@ var _     = require('lodash'),
 
 exports.createDriver = function(req, res) {
   //TODO sanitize request with express validator
-  req.assert('name', 'Name cannot be blank').notEmpty();
+  req.assert('firstName', 'First Name cannot be blank').notEmpty();
+  req.assert('lastName', 'Last Name cannot be blank').notEmpty();
   req.assert('phone', 'Password cannot be blank').notEmpty();
   var errors = req.validationErrors();
 
   if (errors) {
-    res.json({msg: errors});
-    return console.log(errors);
+    res.json({ msg: errors });
+    return logger.error(errors);
   }
 
-  var driver = new Driver({
-    phone: req.body.phone,
-    name: req.body.name
-  });
+  // send driver data and create new entry unless already existing
 
-  Driver.findOne({ phone: req.body.phone }, function(err, existingUser) {
-    if (existingUser) {
-      return res.json({ msg: 'Driver already exists' });
-    }
-    driver.save(function(err) {
-      if (err) { return next(err); }
-      res.status(200).json(driver);
-    });
+  Driver.findOrCreate({ 
+    where: {
+    phone: req.body.phone,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName
+    } 
+  }).spread(function(driver, created) {
+    if (!created) { res.json({ "msg": 'Driver already exists' }); }
+      else { res.json(driver); } // new driver created data
   });
 };
 
@@ -69,16 +65,17 @@ exports.updateDriverInfo = function(req, res) {
   });
 };
 
+// Get ALL drivers associated with an organization
 exports.getDrivers = function(req, res) {
-  Driver.find({}, function(err, drivers) {
+  Driver.findAll({}).then(function(err, drivers) {
     res.status(200).json(drivers);
   });
 };
 
-//get specified driver information and filter
-//if no id parameter provided, show all drivers
+// get specified driver information and filter
+// if no id parameter provided, show all drivers
 
-//to do 
-//authentication
-//query filtering
+// to do 
+// authentication
+// query filtering
 

@@ -1,25 +1,52 @@
 'use strict'; 
 
-var mongoose = require('mongoose');
+var Sequelize = require('sequelize');
 
-var driverSchema = new mongoose.Schema({
-  updatedAt: { type: Date, default: Date.now() }, 
-  organization: String,  //organization ID to associate driver
-  name: String,
-  phone: String,
-  email: String,
-  password: String, //hash the password and return json token
-  active: { type: Boolean, default: false },
-  location: Array, //GeoJson or Long Lat ?
-  currentJobs: [], //array of job ref IDs
-  route: Array, // array of pickup and dropoff objects
-                // e.g. [{type: pickup, jobid: refId }, {pickup: }, {dropoff: }]
-                // allow driver to mark task as delayed
+// Default Query should always query based on organization ID ***
+// DEFAULT SCOPE IS ORGANIZATION 
+module.exports = function (sequelize) {
+   var Driver = sequelize.define('Driver', {
 
-  // add analytics to track times and distances 
-});
+    accountToken: { // WHAT IS THIS FOR -- FIGURE OUT AUTHENITCATION 
+      type: Sequelize.STRING,
+      field: 'account_token'
+    },
+    passwordToken: {
+      type: Sequelize.STRING,
+      field: 'password_token',
+      unique: true,
+    },
+    firstName: {
+      type: Sequelize.STRING,
+      field: 'first_name'
+    },
+    lastName: {
+      type: Sequelize.STRING,
+      field: 'last_name'
+    },
+    phone: {
+      type: Sequelize.STRING,
+      unique: true
+      // add validation
+    },
+    onDuty: {
+      type: Sequelize.BOOLEAN
+    },
+    location: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER)
+    },
+  }, {
+      // OPTIONS
+      // add autoIncrement IDs
+      // classMethods:
+    underscored: true
+  });
+   return Driver;
+};
+  // TO DO : Add foreign keys, relationships, and indexes
 
-// TO DO
-// add mongoose methods to schema
+  // Belongs to ONE organization
+  // Has many jobs -- orders have TWO tasks
+  // Has one route
 
-module.exports = mongoose.model('Driver', driverSchema);
+
