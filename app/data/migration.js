@@ -1,17 +1,23 @@
-var _           = require('lodash'),
-    dbInstance  = require('../../config/db'),   // require knex instance
-    schema      = require('./schema').tables,   // require schema file
+var _               = require('lodash'),
+    dbConfig        = require('../../config/db'),   // require knex instance
+    dbInstance      = dbConfig.database,
+    schema          = require('./schema').tables,   // require schema file
     Promise         = require('bluebird'),
 
     schemaTables    = _.keys(schema),  // create array of tablename keys
     migrateUpFreshDb,
     init;
 
-// to do: check database and if already exists, don't migrate data unless told explictly
-init = function () {
-    migrateUpFreshDb();
-};
-
+// @returns {boolean}
+function checkTablesExist() {
+    // make sure that all tables exist
+    return schemaTables.every(function(key) {
+        dbInstance.schema.hasTable(key)
+        .then(function(exists) {
+            return exists;
+            });
+        });
+    }
 
 function addTableColumn(tablename, table, columnname) {
     var column,
@@ -51,8 +57,7 @@ function addTableColumn(tablename, table, columnname) {
 
 // table @param string is table name
 function createTable(table) {
-    var dbConfig = dbInstance.database;
-    return dbConfig.schema.createTable(table, function (t) {
+    return dbInstance.schema.createTable(table, function (t) {
         // create an array of column keys from schema attributes and field options
         var columnKeys = _.keys(schema[table]);
         // iterate through each item in tablename array and return a function that adds a column to the table
@@ -86,6 +91,13 @@ function sequence(tasks) {
         });
     }, []);
 }
+
+// define init function, check database and if migrate up new tables if database doesn't exist
+init = function () {
+    if(!checkTablesExist()){ 
+    migrateUpFreshDb();
+    }
+};
 
 // expose init function
 module.exports = {
