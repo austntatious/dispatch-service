@@ -5,7 +5,6 @@ var express   = require('express'),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
   migration   = require('./app/data/migration'),
-  dbInstance  = require('./config/db').database,
   mongoose    = require('mongoose');
 
 // Load env varibles from .env file, API keys and other secrets are configured here

@@ -4,9 +4,9 @@
 
 'use strict'; 
 
-var logger      = require('../../config/logger'),
-    model       = require('../../app').sequelize,
-    Driver      = require('../models/Driver')(model);
+var logger      = require('../../config/logger');
+// require models 
+    
 
 //To Do -- Send twilio text with download link to new driver
 
