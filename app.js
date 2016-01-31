@@ -40,14 +40,17 @@ mongoose.connection.on('disconnected', connectMongo);
 // Initialize models
 
 
-// Initalize database migration if necessary
-migration.init();
+// Initalize database migration if necessary and not testing
+if (process.env.NODE_ENV !== 'test' ){
+  migration.init();
+}
 
 // To Do : exit postgres connection on error or on failure
 
 
 
-// To Do: call these as init functions(?)
+// To Do: call these as init functions and chain them together to control async flow
+// make sure express server starts and logs last, after all settings and modules bootstrapped
 // Essential Express middleware config
 require('./config/express').primary(app);
 

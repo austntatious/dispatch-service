@@ -6,18 +6,19 @@ var _               = require('lodash'),
 
     schemaTables    = _.keys(schema),  // create array of tablename keys
     migrateUpFreshDb,
+    checkTablesExist,
     init;
 
-// @returns {boolean}
-function checkTablesExist() {
+// @returns promise that resolves to {boolean}
+checkTablesExist = function () {
     // make sure that all tables exist
     return schemaTables.every(function(key) {
-        dbInstance.schema.hasTable(key)
+        return dbInstance.schema.hasTable(key)
         .then(function(exists) {
             return exists;
             });
         });
-    }
+    };
 
 function addTableColumn(tablename, table, columnname) {
     var column,
@@ -79,6 +80,7 @@ migrateUpFreshDb = function () {
     console.log('data.migration.index.creatingTables');
     // where the magic happens -- MOVE THAT BUS, create all the tables
     tableSequence = sequence(tables);
+    console.log('Tables created!');
 };
 
 // reduces tasks @param array and @return an array of results 
@@ -93,12 +95,15 @@ function sequence(tasks) {
 }
 
 // define init function, check database and if migrate up new tables if database doesn't exist
+// also check environment variables
 init = function () {
-    if(!checkTablesExist()){ 
-    migrateUpFreshDb();
-    }
-};
-
+    if(!checkTablesExist()) {
+        console.log('Tables missing, creating them from specified schema');
+        migrateUpFreshDb();
+    } else {
+        console.log('Tables already exist, skipping migration');
+        }
+    };
 // expose init function
 module.exports = {
     init: init
