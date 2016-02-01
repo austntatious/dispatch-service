@@ -1,6 +1,11 @@
 .table{
   .header{
+    .left{
 
+    }
+    .right{
+      text-align: right;
+    }
   }
 
   .data{
@@ -26,15 +31,41 @@
         }
 
         .column{
-          .actions{
-            .action{
-              margin: 0 10px;
-              cursor: pointer;
-            }
-          }
+          
+
         }
         
       }
     }
   }
+}
+
+
+#drivers {
+  .column {
+    width: 230px;
+  }
+  .column.actions{
+    text-align: right;
+  }
+  .data-items{
+
+    .data-item{
+      .column{
+        &.active{
+          i.active{color: #92B85C;}
+          i.inactive{color: #DF793D;}
+        }
+        &.actions{
+          text-align: right;
+          .action{
+            margin: 0 10px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    
+  }
+  
 }

@@ -34,34 +34,30 @@ let Drivers = React.createClass({
     var tableProps = {
       classNames: '',
       header: {
-        title: 'Drivers',
-        rightSide: null
+        left: 'Drivers',
+        right: <a className="btn success">New Driver</a>
       },
       data: {
         columns: [
           {
             title: 'Active',
-            key: 'active',
-            width: '100px'
+            key: 'active'
           },
           {
             title: 'Name',
-            key: 'name',
-            width: '100px'
+            key: 'name'
           },
           {
             title: 'Orders',
-            key: 'orders',
-            width: '100px'
+            key: 'orders'
           },
           {
             title: 'Phone',
-            key: 'phone',
-            width: '100px'
+            key: 'phone'
           },
           {
             title: 'Actions',
-            width: '100px',
+            key: 'actions',
             component: TableActions,
             sortingDisabled: true
           }
@@ -72,9 +68,14 @@ let Drivers = React.createClass({
             updatedAt: new Date(), 
             organization: "Chop't",  //organization ID to associate driver
             name: "woosh",
-            phone: _.random(0, 9999999999),
+            phone: `${_.random(0, 999)}-${_.random(0, 999)}-${_.random(0, 9999)}`,
             email: "woosh",
-            active: (!!_.random(1)).toString(),
+            active: (() => {
+              var active = !!_.random(1);
+              return (
+                <i className={cs({"fa fa-circle": true, active: active, inactive: !active})} />
+              )
+s            })(),
             location: {}, //GeoJson or Long Lat ?
             orders: _.random(6), //array of job ref IDs
             route: [] // array of pickup and dropoff objects
@@ -108,12 +109,15 @@ let Table = React.createClass({
 
     return (
       <div className={`widget table ${this.props.classNames}`} >
-        <div className="header">{this.props.header.title}</div>
+        <div className="header grid">
+          <div className="col-1-2 left">{this.props.header.left}</div>
+          <div className="col-1-2 right">{this.props.header.right}</div>
+        </div>
         <div className="data">
           <div className="data-header">
             {columns.map((column, index) => {
               var column = columns[index];
-              return <span className={`column`} key={index} style={{width: column.width || 'initial'}}>{column.title}</span>
+              return <span className={`column ${column.key}`} key={index} >{column.title}</span>
             })}
           </div>
           <div className="data-items">
@@ -122,7 +126,7 @@ let Table = React.createClass({
                 <div className={`data-item ${index % 2 == 0? 'even' : 'odd'}`} key={index}>
                   {columns.map((column, index) => {
                     var column = columns[index];
-                    return <span className={`column`} key={index} style={{width: column.width || 'initial'}}>
+                    return <span className={`column ${column.key}`} key={index}>
                       {(() => {
                         var Component = column.component;
                         if(Component){
