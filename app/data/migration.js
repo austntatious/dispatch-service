@@ -1,4 +1,5 @@
 var _               = require('lodash'),
+    async           = require('async'),
     dbConfig        = require('../../config/db'),   // require knex instance
     dbInstance      = dbConfig.database,
     schema          = require('./schema').tables,   // require schema file
@@ -9,16 +10,20 @@ var _               = require('lodash'),
     checkTablesExist,
     init;
 
-// @returns promise that resolves to {boolean}
 checkTablesExist = function () {
     // make sure that all tables exist
-    return schemaTables.every(function(key) {
-        return dbInstance.schema.hasTable(key)
+    function checkTable(key, done) {
+    dbInstance.schema.hasTable(key)
         .then(function(exists) {
-            return exists;
+            return done(exists);
             });
+        }
+
+    async.every(schemaTables, checkTable, 
+        function(result) {
+            return result;
         });
-    };
+};
 
 function addTableColumn(tablename, table, columnname) {
     var column,
@@ -95,15 +100,16 @@ function sequence(tasks) {
 }
 
 // define init function, check database and if migrate up new tables if database doesn't exist
-// also check environment variables
+// to do: also check environment variables
 init = function () {
-    if(!checkTablesExist()) {
+    if(checkTablesExist() && process.env.NODE_ENV !== 'test') {
+        console.log('Tables already exist or testing, skipping migration!');
+    } else {
         console.log('Tables missing, creating them from specified schema');
         migrateUpFreshDb();
-    } else {
-        console.log('Tables already exist, skipping migration');
         }
     };
+
 // expose init function
 module.exports = {
     init: init

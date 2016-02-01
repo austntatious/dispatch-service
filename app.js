@@ -5,16 +5,16 @@ var express   = require('express'),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
   migration   = require('./app/data/migration'),
-  mongoose    = require('mongoose');
+  mongoose    = require('mongoose'),
+  models      = require('./app/models'),
 
+// Load http server & socket.io
+  server      = require('http').Server(app),
+  io          = require('socket.io')(server);
 // Load env varibles from .env file, API keys and other secrets are configured here
 // Default path: .env.example
 // TO DO: change default to .env, but use .env.example as fallback
 dotenv.load({ path: '.env.example' });
-
-// Load http server & socket.io
-var server = require('http').Server(app);
-var io     = require('socket.io')(server);
 
 // Connect to MongoDB
 // Mongoose by default sets the auto_reconnect option to true.
@@ -37,13 +37,12 @@ mongoose.connection.on('disconnected', connectMongo);
 
 // Initialize postgres connection and knex instance
 
-// Initialize models
-
-
+// Initialize models and bookshelf instance
+models.init().then(function() {
 // Initalize database migration if necessary and not testing
-if (process.env.NODE_ENV !== 'test' ){
   migration.init();
-}
+});
+
 
 // To Do : exit postgres connection on error or on failure
 
@@ -51,6 +50,7 @@ if (process.env.NODE_ENV !== 'test' ){
 
 // To Do: call these as init functions and chain them together to control async flow
 // make sure express server starts and logs last, after all settings and modules bootstrapped
+
 // Essential Express middleware config
 require('./config/express').primary(app);
 

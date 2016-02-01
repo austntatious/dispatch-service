@@ -12,6 +12,6 @@ database = require('knex')({
 			debug: true
 		}
 	});
-console.log('knex-instantiated and pg-connection successful!');
+console.log('knex instance created and pg-connection successful!');
 
 module.exports.database = database;
