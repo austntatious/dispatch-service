@@ -1,0 +1,53 @@
+
+/*Add custom classes here*/
+a{
+  text-decoration: none;
+}
+.hide{
+  display: none !important;
+}
+.invisible{
+  visibility: hidden;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.disabled-link{
+  pointer-events: none;
+  cursor: default;
+}
+
+.btn {
+  background: #DDD;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.2em;
+  user-select: none;
+  text-decoration: none;
+  cursor: pointer;
+  text-shadow: 0 1px 1px rgba(0,0,0,.1);
+  border: none;
+  border-radius: .25em;
+  box-shadow: none;
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 8px 14px 9px;
+  font-size: 1em;
+
+  &.primary{
+    background-color: #337ab7;
+    color: #fff;
+  }
+  &.success{
+    background-color: #2ab27b;
+    color: #fff;
+  }
+}
+
+.pull-right{}
