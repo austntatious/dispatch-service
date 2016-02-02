@@ -9,7 +9,7 @@ var express   = require('express'),
 
 // Load env varibles from .env file, API keys and other secrets are configured here
 // Default path: .env
-dotenv.load({ path: '.env.example' });
+dotenv.load({ path: '.env.dev' });
 
 // Load http server & socket.io
 var server = require('http').Server(app);
@@ -45,7 +45,7 @@ var pgConnect = function() {
       // SQL logging turned off for testing
       pgOptions.logging = false;
     } 
-  console.log(process.env.NODE_ENV, ' is the process env');
+  console.log('process env:', process.env.NODE_ENV);
   var pg = new Sequelize(process.env.POSTGRES, pgOptions);
   return pg;
 };
