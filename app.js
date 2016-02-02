@@ -5,11 +5,12 @@ var express   = require('express'),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
   Sequelize   = require('sequelize'),
-  mongoose    = require('mongoose');
+  mongoose    = require('mongoose'),
+  bodyParser  = require('body-parser');
 
 // Load env varibles from .env file, API keys and other secrets are configured here
 // Default path: .env
-dotenv.load({ path: '.env.example' });
+dotenv.load({ path: '.env.dev' });
 
 // Load http server & socket.io
 var server = require('http').Server(app);
@@ -45,7 +46,7 @@ var pgConnect = function() {
       // SQL logging turned off for testing
       pgOptions.logging = false;
     } 
-  console.log(process.env.NODE_ENV, ' is the process env');
+  console.log('process env:', process.env.NODE_ENV);
   var pg = new Sequelize(process.env.POSTGRES, pgOptions);
   return pg;
 };
@@ -68,14 +69,14 @@ var Driver = require('./app/models/Driver')(sequelize);
 // Set run environment variables so sync and drop tables only occur in DEVELOPMENT
 
 // TO DO : add sync to ALL models besides Driver
-Driver.sync({ force:true }).then(function(){
+Driver.sync({ force:false }).then(function(){
   logger.info('Driver table synced!');
 });
 
-var Account = require('./app/models/Account')(sequelize);
-Account.sync({ force:true }).then(function(){
-  logger.info('Account table synced!');
-});
+// var Account = require('./app/models/Account')(sequelize);
+// Account.sync({ force:true }).then(function(){
+//   logger.info('Account table synced!');
+// });
 
 
 // TO DO: add single models index to sync all models at once
@@ -83,6 +84,9 @@ exports.sequelize = sequelize;
 
 // Essential Express middleware config
 require('./config/express').primary(app);
+
+// JSON middleware
+app.use(bodyParser.json())
 
 // Bootstrap api route
 app.use('/api', require('./app/routes/api'));

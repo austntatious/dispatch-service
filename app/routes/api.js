@@ -14,7 +14,7 @@ router.post('/drivers', apiController.createDriver);  //create driver
 router.get('/drivers/:id', apiController.getDriverInfo);   //get specific driver info and filter values
 //get all drivers and info associated with organization, allow query logic for different info and drivers
 router.get('/drivers', apiController.getDrivers); 
-router.put('/drivers/:id', apiController.updateDriverInfo); //update driver info/status/location
+router.post('/drivers/:id', apiController.updateDriverInfo); //update driver info/status/location
 
 /**
 router.post('/drivers/login', apiController.postDriverAuth); // authenticate a driver

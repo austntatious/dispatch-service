@@ -6,21 +6,21 @@ var Sequelize = require('sequelize');
 // DEFAULT SCOPE IS ORGANIZATION 
 module.exports = function (sequelize) {
   var Driver = sequelize.define('Driver', {
-
-    driverToken: Sequelize.STRING,
+    driverToken: { type: Sequelize.STRING, unique: true },
 
     firstName: Sequelize.STRING,
     lastName: Sequelize.STRING,
 
     accountToken: Sequelize.STRING,
-    phone: Sequelize.STRING,
+    phone: { type: Sequelize.STRING, unique: true },
 
     onDuty: Sequelize.BOOLEAN,
 
     locationLatitude: Sequelize.DOUBLE,
-    locationLongitued: Sequelize.DOUBLE,
+    locationLongitude: Sequelize.DOUBLE,
     locationUpdatedAt: Sequelize.DATE,
   });
+
   return Driver;
 };
   // TO DO : Add foreign keys, relationships, and indexes
