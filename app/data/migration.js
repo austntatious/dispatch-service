@@ -28,13 +28,18 @@ checkTablesExist = function () {
 function addTableColumn(tablename, table, columnname) {
     var column,
         columnSpec = schema[tablename][columnname];
-
+    // to do: change to case and switch
+    // add support for boolean and other types
     // creation distinguishes between text with fieldtype, string with maxlength and all others
     if (columnSpec.type === 'text' && columnSpec.hasOwnProperty('fieldtype')) {
         column = table[columnSpec.type](columnname, columnSpec.fieldtype);
     } else if (columnSpec.type === 'string' && columnSpec.hasOwnProperty('maxlength')) {
         column = table[columnSpec.type](columnname, columnSpec.maxlength);
+    } else if 
+    (columnSpec.type === 'decimal' && columnSpec.hasOwnProperty('precision') && columnSpec.hasOwnProperty('scale')) {
+        column = table[columnSpec.type](columnname, columnSpec.precision, columnSpec.scale);
     } else {
+        // all other column types other than text and string
         column = table[columnSpec.type](columnname);
     }
 
@@ -53,7 +58,6 @@ function addTableColumn(tablename, table, columnname) {
         column.unsigned();
     }
     if (columnSpec.hasOwnProperty('references')) {
-        // check if table exists?
         column.references(columnSpec.references);
     }
     if (columnSpec.hasOwnProperty('defaultTo')) {

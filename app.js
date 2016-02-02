@@ -50,6 +50,7 @@ models.init().then(function() {
 
 // To Do: call these as init functions and chain them together to control async flow
 // make sure express server starts and logs last, after all settings and modules bootstrapped
+// move all route middleware to a middleware directory instead of a config directory
 
 // Essential Express middleware config
 require('./config/express').primary(app);

@@ -8,8 +8,9 @@ var router 			= require('express').Router(),
  **/
 
 // to do : add authentication to api routes
+// 		- add route index and bootstrap all middleware, authentication, and settings
 
-// Driver api endpoints
+// ## Driver api endpoints
 router.post('/drivers', apiController.createDriver);  //create driver
 router.get('/drivers/:id', apiController.getDriverInfo);   //get specific driver info and filter values
 //get all drivers and info associated with organization, allow query logic for different info and drivers
@@ -20,7 +21,7 @@ router.put('/drivers/:id', apiController.updateDriverInfo); //update driver info
 router.post('/drivers/login', apiController.postDriverAuth); // authenticate a driver
 router.delete('/drivers/:id', apiController.deleteDriver); // Destroy Driver
 
-// Job api endpoints
+// ## Job api endpoints
 router.post('/jobs', apiController.createJob); // create new Job
 router.get('/jobs/:id', apiController.getJobInfo);  // get job info and filter values
 router.put('/jobs/:id', apiController.updateJob); // update specific job

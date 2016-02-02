@@ -7,17 +7,16 @@ var request   = require('supertest'),
   app         = require('../app.js').main,
   chai        = require('chai'),
   should      = chai.should(),
-  model       = require('../app').sequelize,
-  Driver      = require('../app/models/Driver')(model);
+// require models
 
 //Test variables
-var randomDigits    = Math.floor((Math.random() * 1000000000) + 10000000000);
-var testPhone       = '+' + randomDigits.toString(); 
-var testFirstName   = 'Liu';
-var testLastName    = 'Kang';
-var testEmail       = 'test@example.com';
-var testPassword    = 'password';
-var testGeo         = [(Math.random() * 10) + 70, -((Math.random() * 10) + 40)];
+  randomDigits    = Math.floor((Math.random() * 1000000000) + 10000000000),
+  testPhone       = '+' + randomDigits.toString(),
+  testFirstName   = 'Liu',
+  testLastName    = 'Kang',
+  testEmail       = 'test@example.com',
+  testPassword    = 'password',
+  testGeo         = [(Math.random() * 10) + 70, -((Math.random() * 10) + 40)];
 
 /**
  * Dispatch API endpoints
@@ -26,7 +25,7 @@ var testGeo         = [(Math.random() * 10) + 70, -((Math.random() * 10) + 40)];
  // To Do: clear local db and use seed db file to seed data, also use before/after 
  // hooks to cleanup database after tests**** 
 describe.skip('Dispatch API endpoints', function () {
-  describe('POST /api/drivers', function() {
+  describe.skip('POST /api/drivers', function() {
     it('should create a new unique driver', function(done) {
       request(app)
       .post('/api/drivers')
