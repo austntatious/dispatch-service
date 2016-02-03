@@ -15,7 +15,7 @@ var Promise = require('bluebird'),
 exports = module.exports;
 
 models = [
-    'worker',
+    'driver',
     'organization',
     'admin',
     'job',

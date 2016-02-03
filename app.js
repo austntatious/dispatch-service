@@ -40,7 +40,7 @@ mongoose.connection.on('disconnected', connectMongo);
 // Initialize models and bookshelf instance
 models.init().then(function() {
 // Initalize database migration if necessary and not testing
-  migration.init();
+  return migration.init();
 });
 
 

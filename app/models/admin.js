@@ -2,17 +2,12 @@
 
 var _              = require('lodash'),
     Promise        = require('bluebird'),
-    errors         = require('../errors'),
     utils          = require('../utils'),
     bcrypt         = require('bcryptjs'),
     mainBookshelf = require('./base'),
     crypto         = require('crypto'),
     validator      = require('validator'),
     request        = require('request'),
-    validation     = require('../data/validation'),
-    config         = require('../config'),
-    events         = require('../events'),
-    i18n           = require('../i18n'),
 
     bcryptGenSalt  = Promise.promisify(bcrypt.genSalt),
     bcryptHash     = Promise.promisify(bcrypt.hash),
@@ -258,54 +253,13 @@ Admin = mainBookshelf.Model.extend({
         });
     },
 
-    transferOwnership: function transferOwnership(object, options) {
-        var ownerRole,
-            contextUser;
-
-        return Promise.join(ghostBookshelf.model('Role').findOne({name: 'Owner'}),
-                            User.findOne({id: options.context.user}, {include: ['roles']}))
-        .then(function then(results) {
-            ownerRole = results[0];
-            contextUser = results[1];
-
-            // check if user has the owner role
-            var currentRoles = contextUser.toJSON(options).roles;
-            if (!_.any(currentRoles, {id: ownerRole.id})) {
-                return Promise.reject(new errors.NoPermissionError(i18n.t('errors.models.user.onlyOwnerCanTransferOwnerRole')));
-            }
-
-            return Promise.join(ghostBookshelf.model('Role').findOne({name: 'Administrator'}),
-                                User.findOne({id: object.id}, {include: ['roles']}));
-        }).then(function then(results) {
-            var adminRole = results[0],
-                user = results[1],
-                currentRoles = user.toJSON(options).roles;
-
-            if (!_.any(currentRoles, {id: adminRole.id})) {
-                return Promise.reject(new errors.ValidationError('errors.models.user.onlyAdmCanBeAssignedOwnerRole'));
-            }
-
-            // convert owner to admin
-            return Promise.join(contextUser.roles().updatePivot({role_id: adminRole.id}),
-                                user.roles().updatePivot({role_id: ownerRole.id}),
-                                user.id);
-        }).then(function then(results) {
-            return Users.forge()
-                .query('whereIn', 'id', [contextUser.id, results[2]])
-                .fetch({withRelated: ['roles']});
-        }).then(function then(users) {
-            options.include = ['roles'];
-            return users.toJSON(options);
-        });
-    },
-
 
     // Get the user by email address, enforces case insensitivity rejects if the user is not found
     // When multi-user support is added, email addresses must be deduplicated with case insensitivity, so that
     // joe@bloggs.com and JOE@BLOGGS.COM cannot be created as two separate users.
     getByEmail: function getByEmail(email, options) {
         options = options || {};
-        
+
         // TO DO : FIX THIS AND MAKE IT EASIER **
         // We fetch all admins and process them in JS as there is no easy way to make this query across all DBs
         // Although they all support `lower()`, sqlite can't case transform unicode characters

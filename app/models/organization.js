@@ -2,15 +2,12 @@
 
 var _              = require('lodash'),
     Promise        = require('bluebird'),
-    errors         = require('../errors'),
     utils          = require('../utils'),
     bcrypt         = require('bcryptjs'),
     mainBookshelf = require('./base'),
     crypto         = require('crypto'),
     validator      = require('validator'),
     request        = require('request'),
-    events         = require('../events'),
-    i18n           = require('../i18n'),
 
     bcryptGenSalt  = Promise.promisify(bcrypt.genSalt),
     bcryptHash     = Promise.promisify(bcrypt.hash),
@@ -153,6 +150,6 @@ Organizations = mainBookshelf.Collection.extend({
 });
 
 module.exports = {
-    Driver: mainBookshelf.model('Organization', Organization),
-    Drivers: mainBookshelf.collection('Organizations', Organizations)
+    Organization: mainBookshelf.model('Organization', Organization),
+    Organizations: mainBookshelf.collection('Organizations', Organizations)
 };

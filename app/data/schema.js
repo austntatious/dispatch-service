@@ -3,7 +3,7 @@
 // Schema to migrate up fresh database
 // To do: add index on tables
 var db = {
-        workers: {
+        drivers: {
             id: {type: 'serial', nullable: false, primary: true},
             uuid: {type: 'string', maxlength: 36, nullable: false, validations: {isUUID: true}},
             name: {type: 'string', maxlength: 150, nullable: false},
@@ -77,32 +77,10 @@ var db = {
             user_id: {type: 'integer', nullable: false},
             permission_id: {type: 'integer', nullable: false}
         },
-        tags: {
-            id: {type: 'serial', nullable: false, primary: true},
-            uuid: {type: 'string', maxlength: 36, nullable: false, validations: {isUUID: true}},
-            name: {type: 'string', maxlength: 150, nullable: false, validations: {matches: /^([^,]|$)/}},
-            slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
-            description: {type: 'string', maxlength: 200, nullable: true},
-            image: {type: 'text', maxlength: 2000, nullable: true},
-            hidden: {type: 'bool', nullable: false, defaultTo: false, validations: {isIn: [[0, 1, false, true]]}},
-            parent_id: {type: 'integer', nullable: true},
-            meta_title: {type: 'string', maxlength: 150, nullable: true},
-            meta_description: {type: 'string', maxlength: 200, nullable: true},
-            created_at: {type: 'dateTime', nullable: false},
-            created_by: {type: 'integer', nullable: false},
-            updated_at: {type: 'dateTime', nullable: true},
-            updated_by: {type: 'integer', nullable: true}
-        },
-        posts_tags: {
-            id: {type: 'serial', nullable: false, primary: true},
-            post_id: {type: 'integer', nullable: false, unsigned: true, references: 'posts.id'},
-            tag_id: {type: 'integer', nullable: false, unsigned: true, references: 'tags.id'},
-            sort_order: {type: 'integer',  nullable: false, unsigned: true, defaultTo: 0}
-        },
-        accesstokens: {
+        driver_accesstokens: {
             id: {type: 'serial', nullable: false, primary: true},
             token: {type: 'string', nullable: false, unique: true},
-            user_id: {type: 'integer', nullable: false, unsigned: true, references: 'users.id'},
+            driver_id: {type: 'integer', nullable: false, unsigned: true, references: 'driver.id'},
             client_id: {type: 'integer', nullable: false, unsigned: true, references: 'clients.id'},
             expires: {type: 'bigInteger', nullable: false}
         },

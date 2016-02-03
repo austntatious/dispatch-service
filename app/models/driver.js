@@ -3,11 +3,11 @@
 var _              = require('lodash'),
     Promise        = require('bluebird'),
     bcrypt         = require('bcryptjs'),
-    mainBookshelf = require('./base'),
+    mainBookshelf  = require('./base'),
     crypto         = require('crypto'),
     validator      = require('validator'),
     request        = require('request'),
-    events         = require('../events'),
+    events		   = require('../events'),	
 
     bcryptGenSalt  = Promise.promisify(bcrypt.genSalt),
     bcryptHash     = Promise.promisify(bcrypt.hash),
@@ -16,8 +16,8 @@ var _              = require('lodash'),
     tokenSecurity  = {},
     activeStates   = ['active', 'warn-1', 'warn-2', 'warn-3', 'warn-4', 'locked'],
     invitedStates  = ['invited', 'invited-pending'],
-    Worker,
-    Workers;
+    Driver,
+    Drivers;
 
 function validatePasswordLength(password) {
     return validator.isLength(password, 8);
@@ -33,9 +33,9 @@ function generatePasswordHash(password) {
 
 // To Do : add event listeners to act on emitted changed events
 
-Worker = mainBookshelf.Model.extend({
+Driver = mainBookshelf.Model.extend({
 
-    tableName: 'Workers',
+    tableName: 'Drivers',
 
     organization: function organizations() {
         return this.belongsTo('Organization');
@@ -50,33 +50,33 @@ Worker = mainBookshelf.Model.extend({
     },
 
     findOne: function findOne() {
-    // return a Worker based on Worker id
+    // return a Driver based on Driver id
     },
-
+/**
     findAll: function findAll() {
-    // return all Workers in organization and filter values
+    // return all Drivers in organization and filter values
     	var self = this;
     	// where organization is the key
     	self.where().fetch()
-    		.then(function(Workers) {
-    			res.json(Workers);
+    		.then(function(Drivers) {
+    			res.json(Drivers);
     		})
     },
 
-    create: function createWorker() {
-    // create Worker with reference to organization
-    // return created Worker
+    create: function createDriver() {
+    // create Driver with reference to organization
+    // return created Driver
     },
 
-    update: function updateWorker() {
-    // return updated Worker and emit event
+    update: function updateDriver() {
+    // return updated Driver and emit event
     // 
     	var self = this;
     	self.forge({
 
     	}).save
     },
-
+**/
 
 
 
@@ -87,7 +87,7 @@ Worker = mainBookshelf.Model.extend({
     /// ######  Figure out data util and other methods later 
 
     emitChange: function emitChange(event) {
-        events.emit('Worker' + '.' + event, this);
+        events.emit('Driver' + '.' + event, this);
     },
 
     initialize: function initialize() {
@@ -96,7 +96,7 @@ Worker = mainBookshelf.Model.extend({
         this.on('created', function onCreated(model) {
             model.emitChange('added');
 
-            // offDuty is the default state, so if onDuty isn't provided, this will be offDuty Worker
+            // offDuty is the default state, so if onDuty isn't provided, this will be offDuty Driver
             if (!model.get('onDuty') || _.contains(activeStates, model.get('onDuty'))) {
                 model.emitChange('onDuty');
             }
@@ -133,7 +133,7 @@ Worker = mainBookshelf.Model.extend({
 
         if (this.hasChanged('slug') || !this.get('slug')) {
             // Generating a slug requires a db call to look for conflicting slugs
-            return mainBookshelf.Model.generateSlug(Worker, this.get('slug') || this.get('name'),
+            return mainBookshelf.Model.generateSlug(Driver, this.get('slug') || this.get('name'),
                 {status: 'all', transacting: options.transacting, shortSlug: !this.get('slug')})
                 .then(function then(slug) {
                     self.set({slug: slug});
@@ -141,7 +141,7 @@ Worker = mainBookshelf.Model.extend({
         }
     },
 
-    // Get the Worker from the options object
+    // Get the Driver from the options object
     contextUser: function contextUser(options) {
         // Default to context user
         if (options.context && options.context.user) {
@@ -153,7 +153,7 @@ Worker = mainBookshelf.Model.extend({
         } else if (this.get('id')) {
             return this.get('id');
         } else {
-            errors.logAndThrowError(new errors.NotFoundError(i18n.t('errors.models.user.missingContext')));
+            errors.logAndThrowError(new errors.NotFoundError(console.log('errors.models.user.missingContext')));
         }
     },
 
@@ -239,8 +239,8 @@ Worker = mainBookshelf.Model.extend({
 
             query = this.forge(data, {include: options.include});
 
-            query.query('join', 'roles_Workers', 'Workers.id', '=', 'roles_Workers.id');
-            query.query('join', 'roles', 'roles_Workers.role_id', '=', 'roles.id');
+            query.query('join', 'roles_Drivers', 'Drivers.id', '=', 'roles_Drivers.id');
+            query.query('join', 'roles', 'roles_Drivers.role_id', '=', 'roles.id');
             query.query('where', 'roles.name', '=', lookupRole);
         } else {
             // We pass include to forge so that toJSON has access
@@ -273,7 +273,7 @@ Worker = mainBookshelf.Model.extend({
 
         if (data.roles && data.roles.length > 1) {
             return Promise.reject(
-                new errors.ValidationError(i18n.t('errors.models.user.onlyOneRolePerWorkersupported'))
+                new errors.ValidationError(i18n.t('errors.models.user.onlyOneRolePerDriversupported'))
             );
         }
 
@@ -321,7 +321,7 @@ Worker = mainBookshelf.Model.extend({
      */
     add: function add(data, options) {
         var self = this,
-            userData = this.filterData(data),
+            driverData = this.filterData(data),
             roles;
 
         options = this.filterOptions(options, 'add');
@@ -329,10 +329,10 @@ Worker = mainBookshelf.Model.extend({
 
         // check for too many roles
         if (data.roles && data.roles.length > 1) {
-            return Promise.reject(new errors.ValidationError(i18n.t('errors.models.user.onlyOneRolePerWorkersupported')));
+            return Promise.reject(new errors.ValidationError(i18n.t('errors.models.user.onlyOneRolePerDriversupported')));
         }
 
-        if (!validatePasswordLength(userData.password)) {
+        if (!validatePasswordLength(driverData.password)) {
             return Promise.reject(new errors.ValidationError(i18n.t('errors.models.user.passwordDoesNotComplyLength')));
         }
 
@@ -345,17 +345,17 @@ Worker = mainBookshelf.Model.extend({
         roles = data.roles || getAuthorRole();
         delete data.roles;
 
-        return generatePasswordHash(userData.password).then(function then(hash) {
+        return generatePasswordHash(driverData.password).then(function then(hash) {
             // Assign the hashed password
-            WorkerData.password = hash;
+            DriverData.password = hash;
             // LookupGravatar
-            return self.gravatarLookup(userData);
-        }).then(function then(userData) {
+            return self.gravatarLookup(driverData);
+        }).then(function then(driverData) {
             // Save the user with the hashed password
-            return mainBookshelf.Model.add.call(self, userData, options);
-        }).then(function then(addedUser) {
-            // Assign the userData to our created user so we can pass it back
-            WorkerData = addedWorker;
+            return mainBookshelf.Model.add.call(self, driverData, options);
+        }).then(function then(addedDriver) {
+            // Assign the driverData to our created user so we can pass it back
+            DriverData = addedDriver;
             // if we are given a "role" object, only pass in the role ID in place of the full object
             return Promise.resolve(roles).then(function then(roles) {
                 roles = _.map(roles, function mapper(role) {
@@ -368,20 +368,20 @@ Worker = mainBookshelf.Model.extend({
                     }
                 });
 
-                return addedWorker.roles().attach(roles, options);
+                return addedDriver.roles().attach(roles, options);
             });
         }).then(function then() {
             // find and return the added user
-            return self.findOne({id: WorkerData.id, status: 'all'}, options);
+            return self.findOne({id: DriverData.id, status: 'all'}, options);
         });
     },
 
     setup: function setup(data, options) {
         var self = this,
-            userData = this.filterData(data);
+            driverData = this.filterData(data);
 
-        if (!validatePasswordLength(userData.password)) {
-            return Promise.reject(new errors.ValidationError(i18n.t('errors.models.user.passwordDoesNotComplyLength')));
+        if (!validatePasswordLength(driverData.password)) {
+            return Promise.reject(new errors.ValidationError(console.log('errors.models.user.passwordDoesNotComplyLength')));
         }
 
         options = this.filterOptions(options, 'setup');
@@ -390,15 +390,15 @@ Worker = mainBookshelf.Model.extend({
 
         return generatePasswordHash(data.password).then(function then(hash) {
             // Assign the hashed password
-            userData.password = hash;
+            driverData.password = hash;
 
-            return Promise.join(self.gravatarLookup(userData),
-                                mainBookshelf.Model.generateSlug.call(this, Worker, userData.name, options));
+            return Promise.join(self.gravatarLookup(driverData),
+                                mainBookshelf.Model.generateSlug.call(this, Driver, driverData.name, options));
         }).then(function then(results) {
-            userData = results[0];
-            userData.slug = results[1];
+            driverData = results[0];
+            driverData.slug = results[1];
 
-            return self.edit.call(self, userData, options);
+            return self.edit.call(self, driverData, options);
         });
     },
 
@@ -620,17 +620,17 @@ Worker = mainBookshelf.Model.extend({
     // TO DO : CHANGE TO GET BY PHONE
     // Get the user by email address, enforces case insensitivity rejects if the user is not found
     // When multi-user support is added, email addresses must be deduplicated with case insensitivity, so that
-    // joe@bloggs.com and JOE@BLOGGS.COM cannot be created as two separate Workers.
+    // joe@bloggs.com and JOE@BLOGGS.COM cannot be created as two separate Drivers.
     getByEmail: function getByEmail(email, options) {
         options = options || {};
-        // We fetch all Workers and process them in JS as there is no easy way to make this query across all DBs
+        // We fetch all Drivers and process them in JS as there is no easy way to make this query across all DBs
         // Although they all support `lower()`, sqlite can't case transform unicode characters
         // This is somewhat mute, as validator.isEmail() also doesn't support unicode, but this is much easier / more
         // likely to be fixed in the near future.
         options.require = true;
 
-        return Workers.forge(options).fetch(options).then(function then(Workers) {
-            var userWithEmail = Workers.find(function findUser(user) {
+        return Drivers.forge(options).fetch(options).then(function then(Drivers) {
+            var userWithEmail = Drivers.find(function findUser(user) {
                 return user.get('email').toLowerCase() === email.toLowerCase();
             });
             if (userWithEmail) {
@@ -640,13 +640,13 @@ Worker = mainBookshelf.Model.extend({
     }
 });
 
-Workers = mainBookshelf.Collection.extend({
-    model: Workers
+Drivers = mainBookshelf.Collection.extend({
+    model: Drivers
 });
 
 module.exports = {
-    Worker: mainBookshelf.model('Worker', Worker),
-    Workers: mainBookshelf.collection('Workers', Workers)
+    Driver: mainBookshelf.model('Driver', Driver),
+    Drivers: mainBookshelf.collection('Drivers', Drivers)
 };
 
 
