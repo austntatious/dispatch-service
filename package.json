@@ -24,6 +24,7 @@
     "cookie-parser": "^1.4.0",
     "dotenv": "^1.2.0",
     "errorhandler": "^1.4.2",
+    "events": "^1.1.0",
     "express": "^4.13.3",
     "express-flash": "^0.0.2",
     "express-session": "^1.12.1",
@@ -54,6 +55,7 @@
     "twilio": "^3.1.0-edge",
     "twit": "^2.1.1",
     "unidecode": "^0.1.8",
+    "util": "^0.10.3",
     "validator": "^4.4.0",
     "winston": "^2.1.1",
     "yui": "^3.18.1"
