@@ -22,6 +22,7 @@ var express       = require('express'),
   helmet          = require('helmet');
 
 // TO DO : Add environment variables to config -- testing, staging, production
+// add to middleware folder with authentication, logging, etc
 
 // Config for all routes
 exports.primary = function(app) {

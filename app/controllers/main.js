@@ -4,8 +4,7 @@ var _       = require('lodash'),
   async     = require('async'),
   crypto    = require('crypto'),
   nodemailer = require('nodemailer'),
-  passport  = require('passport'),
-  User      = require('../models/User');
+  passport  = require('passport');
 
 /**
  *  GET /dashboard dispatch view
@@ -99,6 +98,8 @@ exports.postSignup = function(req, res, next) {
     return res.redirect('/signup');
   }
 
+
+// TO DO: CHANGE TO POSTGRESQL AND BOOKSHELF
   var user = new User({
     email: req.body.email,
     password: req.body.password
@@ -297,7 +298,7 @@ exports.postReset = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: 'hackathon@starter.com',
-        subject: 'Your Hackathon Starter password has been changed',
+        subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };

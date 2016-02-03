@@ -15,19 +15,11 @@ var Promise = require('bluebird'),
 exports = module.exports;
 
 models = [
-    'accesstoken',
-    'app-field',
-    'app-setting',
-    'app',
-    'client-trusted-domain',
-    'client',
-    'permission',
-    'post',
-    'refreshtoken',
-    'role',
-    'settings',
-    'tag',
-    'user'
+    'worker',
+    'organization',
+    'admin',
+    'job',
+    'stop'
 ];
 
 function init() {
