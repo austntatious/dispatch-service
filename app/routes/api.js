@@ -9,12 +9,18 @@ var router = require('express').Router(),
 
 // to do : add authentication to api routes
 
+// Company api endpoints -- add API keys and authentication & business analytics / insights
+router.get('/company', api.company.listCompany)           // List
+router.post('/company', api.company.createCompany);       // Create
+router.get('/company/:id', api.company.readCompany);      // Read
+router.put('/company/:id', api.company.updateCompany);    // Update
+
 // Driver api endpoints
-router.post('/drivers', api.driver.createDriver);  //create driver
-router.get('/drivers/:id', api.driver.getDriverInfo);   //get specific driver info and filter values
 //get all drivers and info associated with organization, allow query logic for different info and drivers
-router.get('/drivers', api.driver.getDrivers); 
-router.post('/drivers/:id', api.driver.updateDriverInfo); //update driver info/status/location
+router.get('/drivers', api.driver.listDriver);        // List
+router.post('/drivers', api.driver.createDriver);     // Create
+router.get('/drivers/:id', api.driver.readDriver);    // Read
+router.post('/drivers/:id', api.driver.updateDriver); // Update
 
 /**
 router.post('/drivers/login', apiController.postDriverAuth); // authenticate a driver
@@ -28,11 +34,7 @@ router.put('/jobs/:id', apiController.updateJob); // update specific job
 router.get('/jobs', apiController.getJobs); 
 router.delete('/jobs/:id', apiController.deleteJob); // delete specified job
 
-// Organization api endpoints -- add API keys and authentication & business analytics / insights
-router.post('/company', apiController.createCompany); // create new company
-router.get('/company/:id', apiController.getCompany); // info on specific company
-router.put('/company/:id', apiController.updateCompany); // update specific company 
-router.delete('/company/:id', apiController.deleteCompany); // deleted specified org
+
 
 /** TO DO
 //how to filter and query in URL string to return only required fields??

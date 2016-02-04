@@ -58,7 +58,7 @@ exports.createDriver = function(req, res) {
   });
 };
 
-exports.getDriverInfo = function(req, res) {
+exports.readDriver = function(req, res) {
   var token = req.params.id;
 
   driver.findOne({
@@ -72,7 +72,7 @@ exports.getDriverInfo = function(req, res) {
   });
 };
 
-exports.updateDriverInfo = function(req, res) {
+exports.updateDriver = function(req, res) {
   var token 	= req.params.id,
   	location 	= req.body.location,
   	onDuty 		= req.body.onDuty;
@@ -96,7 +96,7 @@ exports.updateDriverInfo = function(req, res) {
 };
 
 // Get ALL drivers associated with a company
-exports.getDrivers = function(req, res) {
+exports.listDriver = function(req, res) {
   driver.findAll().then(function(drivers) {
     res.status(200).json(drivers);
   }).catch(function(error) {
