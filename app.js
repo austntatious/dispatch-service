@@ -5,8 +5,7 @@ var express   = require('express'),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
   Sequelize   = require('sequelize'),
-  mongoose    = require('mongoose'),
-  bodyParser  = require('body-parser');
+  mongoose    = require('mongoose');
 
 // Load env varibles from .env file, API keys and other secrets are configured here
 // Default path: .env
