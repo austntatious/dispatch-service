@@ -94,9 +94,6 @@ exports.sequelize = sequelize;
 // Essential Express middleware config
 require('./config/express').primary(app);
 
-// JSON middleware
-app.use(bodyParser.json())
-
 // Bootstrap api route
 app.use('/api', require('./app/routes/api'));
 
