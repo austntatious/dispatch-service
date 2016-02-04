@@ -78,6 +78,10 @@ Company.sync({ force:false }).then(function(){
   logger.info('Company table synced!');
 });
 
+var Job = require('./app/models/job')(sequelize);
+Job.sync({ force:false}).then(function() {
+  logger.info('Job tables synced');
+});
 // var Account = require('./app/models/Account')(sequelize);
 // Account.sync({ force:true }).then(function(){
 //   logger.info('Account table synced!');
