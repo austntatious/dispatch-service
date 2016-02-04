@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha --reporter spec --timeout 5000",
+    "test": "mocha ./app/test --reporter spec --timeout 5000",
     "watch": "gulp watch"
   },
   "dependencies": {

@@ -4,7 +4,7 @@
 process.env.NODE_ENV = 'test';
 
 var request = require('supertest'),
-  app       = require('../app.js').main,
+  app       = require('../../app').main,
   chai      = require('chai'),
   should    = chai.should();
 
