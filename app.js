@@ -10,7 +10,7 @@ var express   = require('express'),
 
 // Load env varibles from .env file, API keys and other secrets are configured here
 // Default path: .env
-dotenv.load({ path: '.env.dev' });
+dotenv.load({ path: '.env.example' });
 
 // Load http server & socket.io
 var server = require('http').Server(app);
@@ -71,6 +71,11 @@ var Driver = require('./app/models/driver')(sequelize);
 // TO DO : add sync to ALL models besides Driver
 Driver.sync({ force:false }).then(function(){
   logger.info('Driver table synced!');
+});
+
+var Company = require("./app/models/company")(sequelize);
+Company.sync({ force:false }).then(function(){
+  logger.info('Company table synced!');
 });
 
 // var Account = require('./app/models/Account')(sequelize);
