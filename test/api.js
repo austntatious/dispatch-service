@@ -8,7 +8,7 @@ var request   = require('supertest'),
   chai        = require('chai'),
   should      = chai.should(),
   model       = require('../app').sequelize,
-  Driver      = require('../app/models/Driver')(model);
+  Driver      = require('../app/models/driver')(model);
 
 //Test variables
 var randomDigits    = Math.floor((Math.random() * 1000000000) + 10000000000);

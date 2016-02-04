@@ -29,5 +29,5 @@ gulp.task('jshint', function() {
 
 //watch specified files for changes and rerun tasks
 gulp.task('watch', function() {
-  gulp.watch(['./app.js', './models/Driver.js'], ['test','jshint']);
+  gulp.watch(['./app.js', './models/driver.js'], ['test','jshint']);
 });
