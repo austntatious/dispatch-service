@@ -4,16 +4,10 @@ var Sequelize = require('sequelize');
 
 module.exports = function (sequelize) {
   var Company = sequelize.define('Company', {
-    
-    driverToken: { type: Sequelize.STRING, unique: true },
-    firstName: { type: Sequelize.STRING },
-    lastName: { type: Sequelize.STRING },
-    accountToken: { type: Sequelize.STRING },
-    phone: { type: Sequelize.STRING, unique: true },
-    onDuty: { type: Sequelize.BOOLEAN },
-    locationLatitude: { type: Sequelize.DOUBLE },
-    locationLongitude: { type: Sequelize.DOUBLE },
-    locationUpdatedAt: { type: Sequelize.DATE},
+    companyToken: { type: Sequelize.STRING, unique: true },
+    name: Sequelize.STRING,
+    address: Sequelize.STRING,
+    phone: Sequelize.STRING
   });
 
   return Company;
