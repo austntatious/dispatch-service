@@ -38,7 +38,7 @@ mainBookshelf.Model = mainBookshelf.Model.extend({
     // Bookshelf `hasTimestamps` - handles created_at and updated_at properties
     hasTimestamps: true,
 
-    // option handling - get permitted attributes from server/data/schema.js, where the DB schema is defined
+    // option handling - get permitted attributes from /data/schema.js, where the DB schema is defined
     permittedAttributes: function permittedAttributes() {
         return _.keys(schema.tables[this.tableName]);
     },
@@ -112,15 +112,8 @@ mainBookshelf.Model = mainBookshelf.Model.extend({
      * @return {Promise(mainBookshelf.Model)} Newly Added Model
      */
     add: function add(data, options) {
-        data = this.filterData(data);
-        options = this.filterOptions(options, 'add');
+        // todo: add filter for data and options
         var model = this.forge(data);
-        
-        // We allow you to disable timestamps when importing posts so that the new posts `updated_at` value is the same
-        // as the import json blob. More details refer to https://github.com/TryGhost/Ghost/issues/1696
-        if (options.importing) {
-            model.hasTimestamps = false;
-        }
         return model.save(null, options);
     },
 

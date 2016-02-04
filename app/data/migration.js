@@ -35,8 +35,8 @@ function addTableColumn(tablename, table, columnname) {
         column = table[columnSpec.type](columnname, columnSpec.fieldtype);
     } else if (columnSpec.type === 'string' && columnSpec.hasOwnProperty('maxlength')) {
         column = table[columnSpec.type](columnname, columnSpec.maxlength);
-    } else if 
-    (columnSpec.type === 'decimal' && columnSpec.hasOwnProperty('precision') && columnSpec.hasOwnProperty('scale')) {
+    } else if (columnSpec.type === 'decimal' && columnSpec.hasOwnProperty('precision') 
+        && columnSpec.hasOwnProperty('scale')) { 
         column = table[columnSpec.type](columnname, columnSpec.precision, columnSpec.scale);
     } else {
         // all other column types other than text and string
@@ -106,7 +106,7 @@ function sequence(tasks) {
 // define init function, check database and if migrate up new tables if database doesn't exist
 // to do: also check environment variables
 init = function () {
-    if(checkTablesExist() && process.env.NODE_ENV !== 'test') {
+    if(checkTablesExist() || process.env.NODE_ENV !== 'test') {
         console.log('Tables already exist or testing, skipping migration!');
     } else {
         console.log('Tables missing, creating them from specified schema');

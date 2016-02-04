@@ -50,59 +50,9 @@ Organization = mainBookshelf.Model.extend({
     findOne: function findOne(data, options) {
         options = options || {};
 
-        data = _.defaults(data || {}, {
-            status: 'published'
-        });
+        return mainBookshelf.Model.findOne.call(this, data, options).then(function then(organization) {
 
-        if (data.status === 'all') {
-            delete data.status;
-        }
-
-        // Add related objects
-        options.withRelated = _.union(options.withRelated, _.pull(
-            [].concat(options.include),
-            'next', 'next.author', 'next.tags', 'previous', 'previous.author', 'previous.tags')
-        );
-
-        return mainBookshelf.Model.findOne.call(this, data, options).then(function then(post) {
-            if ((withNext || withPrev) && post && !post.page) {
-                var publishedAt = post.get('published_at'),
-                    prev,
-                    next;
-
-                if (withNext) {
-                    next = Organization.forge().query(function queryBuilder(qb) {
-                        qb.where('status', '=', 'published')
-                            .andWhere('page', '=', 0)
-                            .andWhere('published_at', '>', publishedAt)
-                            .orderBy('published_at', 'asc')
-                            .limit(1);
-                    }).fetch({withRelated: nextRelations});
-                }
-
-                if (withPrev) {
-                    prev = Organization.forge().query(function queryBuilder(qb) {
-                        qb.where('status', '=', 'published')
-                            .andWhere('page', '=', 0)
-                            .andWhere('published_at', '<', publishedAt)
-                            .orderBy('published_at', 'desc')
-                            .limit(1);
-                    }).fetch({withRelated: prevRelations});
-                }
-
-                return Promise.join(next, prev)
-                    .then(function then(nextAndPrev) {
-                        if (nextAndPrev[0]) {
-                            post.relations.next = nextAndPrev[0];
-                        }
-                        if (nextAndPrev[1]) {
-                            post.relations.previous = nextAndPrev[1];
-                        }
-                        return post;
-                    });
-            }
-
-            return post;
+            return organization;
         });
     },
     /**
@@ -114,8 +64,9 @@ Organization = mainBookshelf.Model.extend({
         var self = this;
         options = options || {};
 
-        return mainBookshelf.Model.add.call(this, data, options).then(function then(organization) {
-            return self.findOne({status: 'all', id: organization.id}, options);
+        mainBookshelf.Model.add.call(this, data, options).then(function then(organization) {
+            // return the created model
+            return self.findOne({id: organization.id}, options);
         });
     },
 

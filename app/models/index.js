@@ -28,7 +28,6 @@ function init() {
     models.forEach(function (name) {
         _.extend(exports, require('./' + name));
     });
-
     return Promise.resolve();
 }
 

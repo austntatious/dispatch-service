@@ -48,29 +48,31 @@ Driver = mainBookshelf.Model.extend({
     stops: function stops() {
         return this.hasMany('Stop');
     },
-
-    findOne: function findOne() {
-    // return a Driver based on Driver id
-    },
 /**
+    findOne: function findOne(data, options) {
+    	// use a findbyPhone or findbyID based on phone or id
+
+    },
+
     findAll: function findAll() {
     // return all Drivers in organization and filter values
+    // right now, hard code organization ID into 'where'
+
     	var self = this;
     	// where organization is the key
-    	self.where().fetch()
-    		.then(function(Drivers) {
-    			res.json(Drivers);
-    		})
+    	return self.where({'organization_id': 1}).fetch()
+    		.then(function(drivers) {
+    			return drivers;
+    		});
     },
 
-    create: function createDriver() {
+    create: function createDriver(data, options) {
     // create Driver with reference to organization
     // return created Driver
     },
 
-    update: function updateDriver() {
+    update: function updateDriver(data, options) {
     // return updated Driver and emit event
-    // 
     	var self = this;
     	self.forge({
 
@@ -280,14 +282,14 @@ Driver = mainBookshelf.Model.extend({
         options = options || {};
         options.withRelated = _.union(options.withRelated, options.include);
 
-        return mainBookshelf.Model.edit.call(this, data, options).then(function then(user) {
+        return mainBookshelf.Model.edit.call(this, data, options).then(function then(driver) {
             if (!data.roles) {
-                return user;
+                return driver;
             }
 
             roleId = parseInt(data.roles[0].id || data.roles[0], 10);
 
-            return user.roles().fetch().then(function then(roles) {
+            return driver.roles().fetch().then(function then(roles) {
                 // return if the role is already assigned
                 if (roles.models[0].id === roleId) {
                     return;
@@ -300,7 +302,7 @@ Driver = mainBookshelf.Model.extend({
                     );
                 } else {
                     // assign all other roles
-                    return user.roles().updatePivot({role_id: roleId});
+                    return driver.roles().updatePivot({role_id: roleId});
                 }
             }).then(function then() {
                 options.status = 'all';

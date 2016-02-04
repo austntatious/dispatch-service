@@ -44,6 +44,7 @@ models.init().then(function() {
 });
 
 
+
 // To Do : exit postgres connection on error or on failure
 
 
@@ -56,7 +57,8 @@ models.init().then(function() {
 require('./config/express').primary(app);
 
 // Bootstrap api route
-app.use('/api', require('./app/routes/api'));
+// todo: set base api URI as config variable
+app.use('/api', require('./app/routes/api')());
 
 // Web app middleware
 require('./config/express').web(app); 
@@ -64,6 +66,7 @@ require('./config/express').web(app);
 // Bootstrap web app routes
 app.use('/', require('./app/routes/main'));
 app.use('/plugins', require('./app/routes/plugins'));
+// 
 
 // Start Express Server
 server.listen(app.get('port'), function () {

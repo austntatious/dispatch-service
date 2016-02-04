@@ -9,8 +9,8 @@ database = require('knex')({
 			user:	'austin',
 			password:	'password',
 			database:	'postgres',
-			debug: true
-		}
+		},
+		debug: true
 	});
 console.log('knex instance created and pg-connection successful!');
 
