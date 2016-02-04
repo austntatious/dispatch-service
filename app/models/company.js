@@ -3,7 +3,7 @@
 var Sequelize = require('sequelize');
 
 module.exports = function (sequelize) {
-  var Organization = sequelize.define('Organization', {
+  var Company = sequelize.define('Company', {
     
     driverToken: { type: Sequelize.STRING, unique: true },
     firstName: { type: Sequelize.STRING },
@@ -16,5 +16,5 @@ module.exports = function (sequelize) {
     locationUpdatedAt: { type: Sequelize.DATE},
   });
 
-  return Organization;
+  return Company;
 };

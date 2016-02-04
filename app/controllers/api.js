@@ -1,12 +1,12 @@
 /**
- *  All API controllers -- Drivers, Jobs, Organizations, Routes, etc etc
+ *  All API controllers -- Drivers, Jobs, Companies, Routes, etc etc
 */
 
 'use strict'; 
 
 var logger = require('../../config/logger'),
     model  = require('../../app').sequelize,
-    Driver = require('../models/Driver')(model),
+    Driver = require('../models/driver')(model),
     token   = require('../util/token');
 
 
@@ -99,7 +99,7 @@ exports.updateDriverInfo = function(req, res) {
   });
 };
 
-// Get ALL drivers associated with an organization
+// Get ALL drivers associated with a company
 exports.getDrivers = function(req, res) {
   Driver.findAll().then(function(drivers) {
     res.status(200).json(drivers);

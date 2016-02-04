@@ -29,10 +29,10 @@ router.get('/jobs', apiController.getJobs);
 router.delete('/jobs/:id', apiController.deleteJob); // delete specified job
 
 // Organization api endpoints -- add API keys and authentication & business analytics / insights
-router.post('/organization', apiController.createOrganization); // create new organization
-router.get('/organization/:id', apiController.getOrganizationInfo); // info on specific organization
-router.put('/organization/:id', apiController.updateOrganization); // update specific organzation 
-router.delete('/organization/:id', apiController.deleteOrganization); // deleted specified org
+router.post('/company', apiController.createCompany); // create new company
+router.get('/company/:id', apiController.getCompany); // info on specific company
+router.put('/company/:id', apiController.updateCompany); // update specific company 
+router.delete('/company/:id', apiController.deleteCompany); // deleted specified org
 
 /** TO DO
 //how to filter and query in URL string to return only required fields??

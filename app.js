@@ -64,7 +64,7 @@ sequelize
   });
 
 // Load sequelize models and sync if in development!!
-var Driver = require('./app/models/Driver')(sequelize);
+var Driver = require('./app/models/driver')(sequelize);
 
 // Set run environment variables so sync and drop tables only occur in DEVELOPMENT
 

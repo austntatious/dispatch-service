@@ -6,7 +6,7 @@ process.env.NODE_ENV = 'test';
 var chai = require('chai'),
   should = chai.should(),
   User   = require('../app/models/User'),
-  Driver = require('../app/models/Driver');
+  Driver = require('../app/models/driver');
 
 /** 
  * test models
