@@ -2,8 +2,8 @@
 
 var Sequelize = require('sequelize');
 
-// Default Query should always query based on organization ID ***
-// DEFAULT SCOPE IS ORGANIZATION 
+// Default Query should always query based on company ID ***
+// DEFAULT SCOPE IS COMPANY 
 module.exports = function (sequelize) {
 	var Account = sequelize.define('Account', {
 	    accountToken: Sequelize.STRING,

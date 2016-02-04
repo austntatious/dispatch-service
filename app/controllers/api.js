@@ -1,5 +1,5 @@
 /**
- *  All API controllers -- Drivers, Jobs, Organizations, Routes, etc etc
+ *  All API controllers -- Drivers, Jobs, Companies, Routes, etc etc
 */
 
 'use strict'; 
@@ -99,7 +99,7 @@ exports.updateDriverInfo = function(req, res) {
   });
 };
 
-// Get ALL drivers associated with an organization
+// Get ALL drivers associated with a company
 exports.getDrivers = function(req, res) {
   Driver.findAll().then(function(drivers) {
     res.status(200).json(drivers);
