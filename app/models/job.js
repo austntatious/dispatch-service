@@ -19,16 +19,14 @@ var Sequelize = require('sequelize');
 
 module.exports = function (sequelize) {
   var Job = sequelize.define('Job', {
-    driverToken: { type: Sequelize.STRING, unique: true },
-    firstName: { type: Sequelize.STRING },
-    lastName: { type: Sequelize.STRING },
-    accountToken: { type: Sequelize.STRING },
-    phone: { type: Sequelize.STRING, unique: true },
-    onDuty: { type: Sequelize.BOOLEAN },
-    locationLatitude: { type: Sequelize.DOUBLE },
-    locationLongitude: { type: Sequelize.DOUBLE },
-    locationUpdatedAt: { type: Sequelize.DATE},
+    jobToken: { type: Sequelize.STRING, unique: true },
+    description: { type: Sequelize.STRING },
+    type: { type: Sequelize.STRING },
+    notes: { type: Sequelize.STRING },
+    assignedBy: { type: Sequelize.STRING },
+    stops: { type: Sequelize.BOOLEAN }
+  
+  
   });
-
   return Job;
 };

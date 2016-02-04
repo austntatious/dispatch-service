@@ -4,12 +4,14 @@
 
 'use strict'; 
 
-var driver  = require('./driver_controller');
-var company = require('./company_controller');
+var driver  = require('./driver_controller'),
+    company = require('./company_controller'),
+    job     = require('./job_controller');
 
 module.exports = {
   driver  : driver,
-  company : company
+  company : company,
+  job     : job
 };
 
 // get specified driver information and filter
