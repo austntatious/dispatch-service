@@ -50,20 +50,20 @@ exports.createDriver = function(req, res) {
     }
   }).spread(function(driver, created) {
     if (!created) {
-      console.log("Driver with phone number", req.body.phone, "already exists.")
+      console.log("Driver with phone number", req.body.phone, "already exists.");
       res.json({ msg: 'Driver already exists' }); 
     } else {
-      console.log("Created driver:", driver)
+      console.log("Created driver:", driver);
       res.json(driver); 
     } // new driver created data
   }).catch(function(error) {
-    console.log("Error creating driver:", error)
-    res.sendStatus(500)
+    console.log("Error creating driver:", error);
+    res.sendStatus(500);
   });
 };
 
 exports.getDriverInfo = function(req, res) {
-  var token = req.params.id
+  var token = req.params.id;
 
   Driver.findOne({
     where: { driverToken: token }
@@ -77,9 +77,9 @@ exports.getDriverInfo = function(req, res) {
 };
 
 exports.updateDriverInfo = function(req, res) {
-  var token = req.params.id
-  var location = req.body.location;
-  var onDuty = req.body.onDuty;
+  var token 	= req.params.id,
+  	location 	= req.body.location,
+  	onDuty 		= req.body.onDuty;
 
   Driver.update({
     locationLatitude: location[0],
@@ -91,10 +91,10 @@ exports.updateDriverInfo = function(req, res) {
     if (!driver) {
       res.sendStatus(404);
     } else {
-      res.status(200).json(driver)
+      res.status(200).json(driver);
     }
   }).catch(function(error) {
-    console.log("Error updating driver:", token, error)
+    console.log("Error updating driver:", token, error);
     res.sendStatus(500);
   });
 };
@@ -104,8 +104,8 @@ exports.getDrivers = function(req, res) {
   Driver.findAll().then(function(drivers) {
     res.status(200).json(drivers);
   }).catch(function(error) {
-    console.log("Error receiving the drivers:", error)
-    res.sendStatus(500)
+    console.log("Error receiving the drivers:", error);
+    res.sendStatus(500);
   });
 };
 

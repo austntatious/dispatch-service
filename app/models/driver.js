@@ -7,18 +7,14 @@ var Sequelize = require('sequelize');
 module.exports = function (sequelize) {
   var Driver = sequelize.define('Driver', {
     driverToken: { type: Sequelize.STRING, unique: true },
-
-    firstName: Sequelize.STRING,
-    lastName: Sequelize.STRING,
-
-    accountToken: Sequelize.STRING,
+    firstName: { type: Sequelize.STRING },
+    lastName: { type: Sequelize.STRING },
+    accountToken: { type: Sequelize.STRING },
     phone: { type: Sequelize.STRING, unique: true },
-
-    onDuty: Sequelize.BOOLEAN,
-
-    locationLatitude: Sequelize.DOUBLE,
-    locationLongitude: Sequelize.DOUBLE,
-    locationUpdatedAt: Sequelize.DATE,
+    onDuty: { type: Sequelize.BOOLEAN },
+    locationLatitude: { type: Sequelize.DOUBLE },
+    locationLongitude: { type: Sequelize.DOUBLE },
+    locationUpdatedAt: { type: Sequelize.DATE},
   });
 
   return Driver;
