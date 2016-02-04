@@ -6,7 +6,7 @@
 
 var logger = require('../../config/logger'),
     model  = require('../../app').sequelize,
-    Driver = require('../models/Driver')(model),
+    Driver = require('../models/driver')(model),
     token   = require('../util/token');
 
 
