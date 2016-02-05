@@ -21,7 +21,7 @@ let DriversListing = React.createClass({
     var drivers = [];
     _.times(10, function() {
       drivers.push({
-
+        
       })
     })
     this.setState({'drivers': drivers});
