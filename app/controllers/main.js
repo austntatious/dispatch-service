@@ -13,10 +13,7 @@ var _       = require('lodash'),
 
 exports.getDashboard = function(req, res) {
 
-   res.render('dashboard', {
-    company: company,
-    location: location
-   });
+   res.render('dashboard', {});
  };
 
 /**
