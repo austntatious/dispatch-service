@@ -77,11 +77,17 @@ exports.updateDriver = function(req, res) {
   	location 	= req.body.location,
   	onDuty 		= req.body.onDuty;
 
-  driver.update({
-    locationLatitude: location[0],
-    locationLongitude: location[1],
-    onDuty: onDuty
-  }, {
+  var updateVals = {};
+
+  if (typeof req.body.location != 'undefined') {
+    updateVals.locationLatitude = location[0];
+    updateVals.locationLongitude = location[1];
+  }
+  if (typeof req.body.onDuty != 'undefined') {
+    updateVals.onDuty = onDuty;
+  }
+
+  driver.update(updateVals, {
     where: { driverToken: token }
   }).then(function(driver) {
     if (!driver) {
