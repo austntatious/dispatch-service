@@ -9,7 +9,7 @@ var request = require('supertest'),
   should    = chai.should();
 
 // Basic tests for checking all main web app routes
-describe('Web app endpoints', function() {
+describe.skip('Web app endpoints', function() {
   describe('GET /', function() {
   it('should return 200 OK', function(done) {
     request(app)
