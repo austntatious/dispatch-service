@@ -54,7 +54,11 @@ var sitemap = window.sitemap = [
   },
   {
     routes: ['/drivers'],
-    handler: require('areas/drivers/drivers')
+    handler: require('areas/drivers/listing/drivers-listing')
+  },
+  {
+    routes: ['/drivers/create', 'drivers/:driverId/edit'],
+    handler: require('areas/drivers/edit/driver-edit')
   }
 ];
 
