@@ -15,6 +15,7 @@ module.exports = function (sequelize) {
     locationLatitude: { type: Sequelize.DOUBLE },
     locationLongitude: { type: Sequelize.DOUBLE },
     locationUpdatedAt: { type: Sequelize.DATE},
+    // ADD SCHEDULE and startime or end time
   });
 
   return Driver;

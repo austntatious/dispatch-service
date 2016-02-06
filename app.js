@@ -5,10 +5,10 @@ var express   = require('express'),
   logger      = require('./config/logger'),
   dotenv      = require('dotenv'),
   Sequelize   = require('sequelize'),
-  mongoose    = require('mongoose'),
-  bodyParser  = require('body-parser');
+  mongoose    = require('mongoose');
 
 // Load env varibles from .env file, API keys and other secrets are configured here
+// remember to change .env.example to .env in root with proper keys
 // Default path: .env
 dotenv.load({ path: '.env' });
 
@@ -93,9 +93,6 @@ exports.sequelize = sequelize;
 
 // Essential Express middleware config
 require('./config/express').primary(app);
-
-// JSON middleware
-app.use(bodyParser.json())
 
 // Bootstrap api route
 app.use('/api', require('./app/routes/api'));

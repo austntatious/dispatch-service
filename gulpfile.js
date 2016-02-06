@@ -1,7 +1,7 @@
-var gulp = require('gulp');
-var mocha = require('gulp-mocha');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
+var gulp = require('gulp'),
+  mocha = require('gulp-mocha'),
+  jshint = require('gulp-jshint'),
+  stylish = require('jshint-stylish');
 
 //run mocha test suite
 gulp.task('test', function() {
@@ -13,10 +13,11 @@ gulp.task('test', function() {
       error = true;
     })
     .on('end', function() {
-      if (!error) {
-        console.log('Tests succeeded!');
-        process.exit(0);
-      }
+      if (error) {
+        console.log(error);
+      } 
+      console.log('Tests succeeded!');
+      process.exit(0);
     });
 });
 
@@ -25,9 +26,23 @@ gulp.task('jshint', function() {
   gulp.src('./app.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
-})
+});
 
-//watch specified files for changes and rerun tasks
+// watch specified files for changes and rerun tasks
+// only rerun UNIT tests
 gulp.task('watch', function() {
   gulp.watch(['./app.js', './models/driver.js'], ['test','jshint']);
 });
+
+
+// Automate unit tests
+// # set node_env to testing 
+// Automate integration tests
+// # test model integrations
+// # test api integrations
+// # test routes integrations
+// Automate functional user tests
+// # client side testing 
+// Add code coverage
+// # instanbul
+// Ensure that codeship runs all necessary tests

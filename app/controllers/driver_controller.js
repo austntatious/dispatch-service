@@ -6,13 +6,13 @@ var logger = require('../../config/logger'),
     token  = require('../util/token');
 
 
-var DEFAULT_LATITUDE = 40.7392534
-var DEFAULT_LONGITUDE = -74.0030267
+var DEFAULT_LATITUDE = 40.7392534;
+var DEFAULT_LONGITUDE = -74.0030267;
 
 //To Do -- Send twilio text with download link to new driver
 
 var createDriverToken = function() {
-  return "driver:" + token.createToken()
+  return "driver:" + token.createToken();
 };
 
 exports.createDriver = function(req, res) {
