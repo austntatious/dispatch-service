@@ -9,4 +9,6 @@ window.React.addons = {
 window.cs             = require('classnames')
 window.page           = require('page')
 window._              = require('lodash')
+
+window.Select         = require('react-select');
 window.MUI            = require('material-ui')

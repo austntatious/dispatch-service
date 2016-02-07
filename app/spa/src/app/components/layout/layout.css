@@ -5,7 +5,7 @@
     
     #nav-top-header{
       height: 44px;
-      padding: 12px 0 0 17px;
+      padding: 12px 0 0 0;
       font-weight: 700;
       font-size: 1.7em;
     }
@@ -49,6 +49,7 @@
 
     #nav-top-right{
       // background: $white0;
+      padding-right: 0;
       color: $white3;
       height: 50px;
 
