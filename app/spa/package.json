@@ -23,6 +23,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "auto-loader": "^0.2.0",
+    "axios": "^0.9.1",
     "babel": "~6.3.13",
     "babel-core": "~6.3.17",
     "babel-eslint": "~5.0.0-beta6",
@@ -60,6 +61,7 @@
     "react-select": "^1.0.0-beta8",
     "react-tap-event-plugin": "^0.2.2",
     "redux": "~3.0.5",
+    "rsvp": "^3.2.0",
     "style-loader": "^0.13.0",
     "stylus": "~0.53.0",
     "stylus-loader": "^1.4.3",

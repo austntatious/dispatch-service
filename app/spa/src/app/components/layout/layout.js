@@ -46,6 +46,8 @@ let NavLeft = React.createClass({
 });
 */
 
+MUI.MoreVert = require('material-ui/lib/svg-icons/navigation/more-vert');
+
 let NavTop = React.createClass({
   getDefaultProps(){
     var links = [
@@ -55,11 +57,18 @@ let NavTop = React.createClass({
         url: '/dashboard/dispatch',
         icon: 'fa fa-rocket'
       },
+      // {
+      //   name: 'analytics',
+      //   text: 'Analytics',
+      //   url: '/dashboard/analytics',
+      //   icon: 'fa fa-bar-chart'
+      // },
+
       {
-        name: 'analytics',
-        text: 'Analytics',
-        url: '/dashboard/analytics',
-        icon: 'fa fa-bar-chart'
+        name: 'orders',
+        text: 'Orders',
+        url: '/dashboard/orders',
+        icon: 'fa fa-tags'
       },
       {
         name: 'drivers',
@@ -90,7 +99,17 @@ let NavTop = React.createClass({
           <div id="nav-top-right"className="col-3-12">
             <div className="pull-right" id="nav-top-right-links">
               <div className="nav-top-right-link">
-                <i className="fa fa-cog" />
+                <MUI.IconMenu
+                  iconButtonElement={<MUI.IconButton><MUI.MoreVert/></MUI.IconButton>}
+                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                >
+                  <MUI.MenuItem primaryText="Refresh" />
+                  <MUI.MenuItem primaryText="Send feedback" />
+                  <MUI.MenuItem primaryText="Settings" />
+                  <MUI.MenuItem primaryText="Help" />
+                  <MUI.MenuItem primaryText="Sign out" />
+                </MUI.IconMenu>
               </div>
             </div>
           </div>

@@ -1,37 +1,35 @@
 let Layout  = require('components/layout/layout');
-let Loader  = require('components/loader/loader');
 let Table   = require('components/table/table');
 
 let TableActions = React.createClass({
   render() {
-    var driver = this.props.item;
-
     return <span className="actions">
-      <a href={`/dashboard/drivers/${driver.id}/edit`}>
-        <i className="fa fa-pencil action"/>
-      </a>
+      <i className="fa fa-pencil action"/>
+      <i className="fa fa-trash action"/>
     </span>
   }
 })
 
 let DriversListing = React.createClass({
-  getInitialState() {
+  initialState() {
     return {
       drivers: null
     }
   },
 
   componentWillMount() {
-    axios.get('/api/drivers')
-    .then((res) => {
-      var drivers = res.data;
-      this.setState({'drivers': drivers});
+    var drivers = [];
+    _.times(10, function() {
+      drivers.push({
+        
+      })
     })
+    this.setState({'drivers': drivers});
   },
 
   renderDrivers() {
     if (!this.state.drivers) {
-      return <Loader/>
+      return <div>loading...</div>
     }
 
     var tableProps = {
@@ -65,16 +63,16 @@ let DriversListing = React.createClass({
             sortingDisabled: true
           }
         ],
-        items: _.map(this.state.drivers, driver => {
+        items: _.map(_.range(0,10), id => {
           return {
-            id: driver.id,
-            updatedAt: new Date(driver.updatedAt), 
-            organization: "TODO Chop't",  //organization ID to associate driver
-            name: `${driver.firstName} ${driver.lastName}`,
-            phone: driver.phone,
-            email: driver.email || '',
+            id: id,
+            updatedAt: new Date(), 
+            organization: "Chop't",  //organization ID to associate driver
+            name: "woosh",
+            phone: `${_.random(0, 999)}-${_.random(0, 999)}-${_.random(0, 9999)}`,
+            email: "woosh",
             active: (() => {
-              var active = driver.onDuty;
+              var active = id < 6;
               return (
                 <i className={cs({"fa fa-circle": true, active: active, inactive: !active})} />
               )
@@ -91,8 +89,8 @@ s            })(),
 
   render() {
     return (
-      <Layout navCurrent='drivers'>
-        <div id="drivers" className="cfww">
+      <Layout navCurrent='orders'>
+        <div id="orders" className="cfww">
           {this.renderDrivers()}
         </div>
       </Layout>

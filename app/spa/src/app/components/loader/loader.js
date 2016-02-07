@@ -7,7 +7,7 @@ let Loader = React.createClass({
 
   render() {
     return (
-      <div className={`loader ${this.props.classNames}`}>...</div>
+      <div className={`loader ${this.props.classNames}`}><i className="fa fa-spinner"/></div>
     )
   }
 })

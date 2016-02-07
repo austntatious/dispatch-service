@@ -1,63 +1,24 @@
-var Links = React.createClass({
-  render() {
-    return (
-      <div>
-        <a href="/">go to home</a><br/><br/>
-        <a href="/dashboard/dispatch">go to dispatch</a><br/><br/>
-        <a href="/dashboard/analytics">go to analytics</a><br/><br/>
-      </div>
-    )
-  }
-})
-
-
-var noop = React.createClass({
-  componentDidMount() {
-  },
-  componentWillMount() {
-  },
-  render() {
-    console.log('index')
-    return (
-      <div>
-        <Links/>
-      </div>
-    )
-  }
-});
-
-
-
-var analytics = React.createClass({
-  render() {
-    return (
-      <div>analytics 
-        <Links/>
-      </div>
-    )
-  }
-});
-
 var sitemap = window.sitemap = [
-  {
-    routes: ['/'],
-    handler: noop,
-    redirect: '/dispatch'
-  },
   {
     routes: ['/dispatch'],
     handler: require('areas/dispatch/dispatch')
   },
+
   {
-    routes: ['/analytics'],
-    handler: require('areas/analytics/analytics')
+    routes: ['/orders'],
+    handler: require('areas/orders/listing/orders-listing')
   },
+  {
+    routes: ['/orders/create', 'orders/:orderId/edit'],
+    handler: require('areas/orders/edit/order-edit')
+  },
+
   {
     routes: ['/drivers'],
     handler: require('areas/drivers/listing/drivers-listing')
   },
   {
-    routes: ['/drivers/create', 'drivers/:driverId/edit'],
+    routes: ['/drivers/create', '/drivers/:driverId/edit'],
     handler: require('areas/drivers/edit/driver-edit')
   }
 ];
@@ -65,7 +26,7 @@ var sitemap = window.sitemap = [
 var Router = React.createClass({
   getInitialState() {
     return {
-      component: noop
+      component: <div/>
     }
   },
 
@@ -86,9 +47,17 @@ var Router = React.createClass({
             }, 10)
             
           } else {
+            var qsParsed = {}
+            _.each(ctx.querystring.split('&'), (frag) => {
+              var split = frag.split('=');
+              qsParsed[split[0]] = split[1];
+            });
+
             console.log("Setting handler", area.handler.displayName)
+            var Component = area.handler;
+
             self.setState({
-              component: area.handler
+              component:  <Component params={ctx.params} qs={ctx.querystring} qsParsed={qsParsed} context={ctx} next={next}/> 
             });
           }
             
@@ -100,7 +69,7 @@ var Router = React.createClass({
 
   render() {
     let Component = this.state.component;
-    return <Component/>
+    return Component;
   }
 })
 

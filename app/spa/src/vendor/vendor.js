@@ -12,3 +12,6 @@ window._              = require('lodash')
 
 window.Select         = require('react-select');
 window.MUI            = require('material-ui')
+require('react-tap-event-plugin')()
+window.axios          = require('axios');
+window.RSVP           = require('rsvp');

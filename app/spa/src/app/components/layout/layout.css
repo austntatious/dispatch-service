@@ -56,14 +56,11 @@
       #nav-top-right-links{
         .nav-top-right-link{
           display: inline-block;
-          padding: 20px 15px;
           // border-left: 2px solid $gray4;
           cursor: pointer;
-
-          .fa{
-            margin: 0 3px;
-            width: 14px;
-            text-align: center;
+          margin-top: 8px;
+          svg{
+            fill: #DEE1E3 !important;
           }
         }
       }
