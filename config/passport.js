@@ -1,9 +1,11 @@
-var _           = require('lodash'),
-  passport      = require('passport'),
-  LocalStrategy = require('passport-local').Strategy,
-  OAuthStrategy = require('passport-oauth').OAuthStrategy,
+var _            = require('lodash'),
+  passport       = require('passport'),
+  LocalStrategy  = require('passport-local').Strategy,
+  OAuthStrategy  = require('passport-oauth').OAuthStrategy,
   OAuth2Strategy = require('passport-oauth').OAuth2Strategy,
-  User          = require('../app/models/User');
+  BearerStrategy = require('passport-http-bearer').Strategy
+  User           = require('../app/models/User');
+  Token          = require('../app/models/Token');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -56,6 +58,33 @@ exports.isAuthorized = function(req, res, next) {
     res.redirect('/auth/' + provider);
   }
 };
+
+exports.isApiAuthenticated = function(req, res, next) {
+  return passport.authenticate('bearer', { session: false })(req, res, next);
+}
+
+passport.use(new BearerStrategy(
+  function(accessToken, callback) {
+    console.log('logging in with bearer:', accessToken)
+    Token.findOne({ value: accessToken }, function (err, token) {
+      if (err) { return callback(err); }
+
+      // No token found
+      if (!token) { return callback(null, false); }
+
+      User.findOne({ _id: token.userId }, function (err, user) {
+        if (err) { return callback(err); }
+
+        // No user found
+        if (!user) { return callback(null, false); }
+
+        // Simple example with no scope
+        callback(null, user, { scope: '*' });
+      });
+    });
+  }
+));
+
 
 /**
  * OAuth Strategy Overview
