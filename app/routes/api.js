@@ -1,7 +1,8 @@
 'use strict';
 
-var router = require('express').Router(),
-	api    = require('../controllers/api');
+var router       = require('express').Router(),
+	passportConf = require('../../config/passport'),
+	api          = require('../controllers/api');
 
 /**
  * Dispatch Service api routes
@@ -17,10 +18,11 @@ router.put('/company/:id', api.company.updateCompany);    // Update
 
 // ## Driver api endpoints
 //get all drivers and info associated with organization, allow query logic for different info and drivers
-router.get('/drivers', api.driver.listDriver);        // List
-router.post('/drivers', api.driver.createDriver);     // Create
-router.get('/drivers/:id', api.driver.readDriver);    // Read
-router.post('/drivers/:id', api.driver.updateDriver); // Update
+router.post('/driver-login', api.driver.login);        // Retrieve access token for driver.
+router.get('/drivers', passportConf.isApiAuthenticated, api.driver.listDriver);        // List
+router.post('/drivers', passportConf.isApiAuthenticated, api.driver.createDriver);     // Create
+router.get('/drivers/:id', passportConf.isApiAuthenticated, api.driver.readDriver);    // Read
+router.post('/drivers/:id', passportConf.isApiAuthenticated, api.driver.updateDriver); // Update
 
 // ## Job api endpoints
 router.post('/jobs', api.job.createJob);        // Create

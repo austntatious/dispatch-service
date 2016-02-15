@@ -1,10 +1,10 @@
 'use strict';
 
-var logger = require('../../config/logger'),
-    model  = require('../../app').sequelize,
-    driver = require('../models/driver')(model),
-    token  = require('../util/token');
-
+var logger     = require('../../config/logger'),
+    model      = require('../../app').sequelize,
+    driver     = require('../models/driver')(model),
+    passport   = require('passport'),
+    token_util = require('../util/token');
 
 var DEFAULT_LATITUDE = 40.7392534;
 var DEFAULT_LONGITUDE = -74.0030267;
@@ -12,7 +12,7 @@ var DEFAULT_LONGITUDE = -74.0030267;
 //To Do -- Send twilio text with download link to new driver
 
 var createDriverToken = function() {
-  return "driver:" + token.createToken();
+  return "driver:" + token_util.createToken();
 };
 
 exports.createDriver = function(req, res) {
@@ -109,4 +109,43 @@ exports.listDriver = function(req, res) {
     console.log("Error receiving the drivers:", error);
     res.sendStatus(500);
   });
+};
+
+exports.login = function(req, res) {
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('password', 'Password cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+
+  if (errors) {
+    res.sendStatus(400);
+  }
+
+  console.log("logging in", req.body.email, req.body.password)
+
+// TOOD: check for driver role
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      res.sendStatus(500);
+    }
+    if (!user) {
+      res.sendStatus(401);
+    }
+
+    var token = new Token({
+      value: token_util.createToken(),
+      userId: user._id
+    });
+
+    console.log('creating token', token)
+
+    token.save(function(err) {
+      if (err) {
+        console.log('error creating token', err)
+        res.sendStatus(500);
+      } else {
+        res.send(token.value);
+      }
+    });
+  })(req, res);
 };
