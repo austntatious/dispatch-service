@@ -70,15 +70,17 @@ let DriversListing = React.createClass({
             id: driver.id,
             updatedAt: new Date(driver.updatedAt), 
             organization: "TODO Chop't",  //organization ID to associate driver
-            name: `${driver.firstName} ${driver.lastName}`,
+            name: (() => {
+                return <a href={`/dashboard/drivers/${driver.id}/edit`}>{`${driver.firstName} ${driver.lastName}`}</a>
+              })(),
             phone: driver.phone,
             email: driver.email || '',
             active: (() => {
-              var active = driver.onDuty;
-              return (
-                <i className={cs({"fa fa-circle": true, active: active, inactive: !active})} />
-              )
-s            })(),
+                var active = driver.onDuty;
+                return (
+                  <i className={cs({"fa fa-circle": true, active: active, inactive: !active})} />
+                )
+             })(),
             location: {}, //GeoJson or Long Lat ?
             orders: _.random(6), //array of job ref IDs
             route: [] // array of pickup and dropoff objects

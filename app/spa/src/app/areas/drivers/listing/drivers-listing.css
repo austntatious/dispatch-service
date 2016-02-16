@@ -24,6 +24,7 @@
           i.active{color: #92B85C;}
           i.inactive{color: #DF793D;}
         }
+        
         &.actions{
           text-align: right;
           .action{
