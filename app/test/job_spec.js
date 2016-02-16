@@ -6,6 +6,7 @@ process.env.NODE_ENV = 'test';
 var request   = require('supertest'),
   chai        = require('chai'),
   should      = chai.should();
+  // app        = require('../../app').main;
  // model       = require('../../app').sequelize;
 
 
