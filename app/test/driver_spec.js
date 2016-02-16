@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'test';
 
 var request   = require('supertest'),
   chai        = require('chai'),
-  should      = chai.should();
+  should      = chai.should(),
 
 
 // To Do: require App so we can test the api routes
