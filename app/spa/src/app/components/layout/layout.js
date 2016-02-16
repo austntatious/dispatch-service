@@ -65,9 +65,9 @@ let NavTop = React.createClass({
       // },
 
       {
-        name: 'orders',
-        text: 'Orders',
-        url: '/dashboard/orders',
+        name: 'jobs',
+        text: 'Jobs',
+        url: '/dashboard/jobs',
         icon: 'fa fa-tags'
       },
       {

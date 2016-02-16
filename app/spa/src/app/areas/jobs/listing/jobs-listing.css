@@ -1,4 +1,4 @@
-#drivers {
+#jobs {
   .column {
     width: 220px;
   }
@@ -6,7 +6,7 @@
     text-align: right;
   }
   .header{
-    a#new-driver{
+    a#new-job{
       i{
         margin-right: 10px
       }

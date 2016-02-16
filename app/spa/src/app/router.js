@@ -1,16 +1,19 @@
 var sitemap = window.sitemap = [
   {
+    routes: [''],
+    redirectTo: '/dispatch'
+  },
+  {
     routes: ['/dispatch'],
     handler: require('areas/dispatch/dispatch')
   },
-
   {
-    routes: ['/orders'],
-    handler: require('areas/orders/listing/orders-listing')
+    routes: ['/jobs'],
+    handler: require('areas/jobs/listing/jobs-listing')
   },
   {
-    routes: ['/orders/create', 'orders/:orderId/edit'],
-    handler: require('areas/orders/edit/order-edit')
+    routes: ['/jobs/create', 'jobs/:orderId/edit'],
+    handler: require('areas/jobs/edit/job-edit')
   },
 
   {
@@ -40,10 +43,10 @@ var Router = React.createClass({
         
         page(routeNormalized, (ctx, next) => {
 
-          if(area.redirect) {
-            console.log("redirecting to ", area.redirect)
+          if(area.redirectTo) {
+            console.log("redirecting to ", area.redirectTo)
             setTimeout( () => {
-              page(pathRoot + area.redirect);
+              page(pathRoot + area.redirectTo);
             }, 10)
             
           } else {

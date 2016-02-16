@@ -1,42 +1,44 @@
 let Layout  = require('components/layout/layout');
+let Loader  = require('components/loader/loader');
 let Table   = require('components/table/table');
 
 let TableActions = React.createClass({
   render() {
+    var job = this.props.item;
+
     return <span className="actions">
-      <i className="fa fa-pencil action"/>
-      <i className="fa fa-trash action"/>
+      <a href={`/dashboard/jobs/${job.id}/edit`}>
+        <i className="fa fa-pencil action"/>
+      </a>
     </span>
   }
 })
 
-let DriversListing = React.createClass({
-  initialState() {
+let JobsListing = React.createClass({
+  getInitialState() {
     return {
-      drivers: null
+      job: null
     }
   },
 
   componentWillMount() {
-    var drivers = [];
-    _.times(10, function() {
-      drivers.push({
-        
-      })
+    axios.get('/api/jobs')
+    .then((res) => {
+      var jobs = res.data;
+      this.setState({'jobs': jobs});
     })
-    this.setState({'drivers': drivers});
   },
 
-  renderDrivers() {
-    if (!this.state.drivers) {
-      return <div>loading...</div>
+  renderJobs() {
+    if (!this.state.jobs) {
+      return <Loader/>
     }
 
     var tableProps = {
       classNames: '',
       header: {
-        left: 'Drivers',
-        right: <a id="new-driver" className="btn success" href="/dashboard/drivers/create"><i className="fa fa-plus"/>New Driver</a>
+        left: 'Jobs',
+        right: <a id="new-job" className="btn success" href="/dashboard/jobs/create"><i className="fa fa-plus"/>New Job</a>
       },
       data: {
         columns: [
@@ -49,8 +51,8 @@ let DriversListing = React.createClass({
             key: 'name'
           },
           {
-            title: 'Orders',
-            key: 'orders'
+            title: 'Jobs',
+            key: 'jobs'
           },
           {
             title: 'Phone',
@@ -63,22 +65,22 @@ let DriversListing = React.createClass({
             sortingDisabled: true
           }
         ],
-        items: _.map(_.range(0,10), id => {
+        items: _.map(this.state.jobs, job => {
           return {
-            id: id,
-            updatedAt: new Date(), 
-            organization: "Chop't",  //organization ID to associate driver
-            name: "woosh",
-            phone: `${_.random(0, 999)}-${_.random(0, 999)}-${_.random(0, 9999)}`,
-            email: "woosh",
+            id: job.id,
+            updatedAt: new Date(job.updatedAt), 
+            organization: "TODO Chop't",  //organization ID to associate job
+            name: `${job.firstName} ${job.lastName}`,
+            phone: job.phone,
+            email: job.email || '',
             active: (() => {
-              var active = id < 6;
+              var active = job.onDuty;
               return (
                 <i className={cs({"fa fa-circle": true, active: active, inactive: !active})} />
               )
 s            })(),
             location: {}, //GeoJson or Long Lat ?
-            orders: _.random(6), //array of job ref IDs
+            jobs: _.random(6), //array of job ref IDs
             route: [] // array of pickup and dropoff objects
           }
         })
@@ -89,9 +91,9 @@ s            })(),
 
   render() {
     return (
-      <Layout navCurrent='orders'>
-        <div id="orders" className="cfww">
-          {this.renderDrivers()}
+      <Layout navCurrent='jobs'>
+        <div id="jobs" className="cfww">
+          {this.renderJobs()}
         </div>
       </Layout>
     )
@@ -99,6 +101,6 @@ s            })(),
 });
 
 
-module.exports = DriversListing
+module.exports = JobsListing
 
 

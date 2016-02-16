@@ -35,6 +35,7 @@ html, body {
 /*Stands for Center-fixed-width-wrapper*/
 .cfww{
   max-width: 1140px;
+  min-width: 1140px;
   margin: 0 auto;
 }
 
