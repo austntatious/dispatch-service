@@ -3,10 +3,12 @@
 process.env.NODE_ENV = 'test';
 
 var request   = require('supertest'),
-  app         = require('../../app').main,
   chai        = require('chai'),
-  should      = chai.should(),
+  should      = chai.should();
 
+
+// To Do: require App so we can test the api routes
+//          - add testing database to stop connection error from CI
 // TO DO: MOVE TO testUtils file
 //Test variables
     randomDigits    = Math.floor((Math.random() * 1000000000) + 10000000000),
