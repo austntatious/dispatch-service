@@ -4,10 +4,11 @@
 process.env.NODE_ENV = 'test';
 
 var request   = require('supertest'),
-  app         = require('../../app').main,
   chai        = require('chai'),
-  should      = chai.should(),
-  model       = require('../../app').sequelize;
+  should      = chai.should();
+  // app        = require('../../app').main;
+ // model       = require('../../app').sequelize;
+
 
  // To Do: clear local db and use seed db file to seed data, also use before/after 
  // hooks to cleanup database after tests**** 
