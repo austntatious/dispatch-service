@@ -4,9 +4,10 @@
 process.env.NODE_ENV = 'test';
 
 var request = require('supertest'),
-  app       = require('../../app').main,
   chai      = require('chai'),
   should    = chai.should();
+
+// To do: make sure route integration tests connect to a testing server
 
 // Basic tests for checking all main web app routes
 describe.skip('Web app endpoints', function() {
