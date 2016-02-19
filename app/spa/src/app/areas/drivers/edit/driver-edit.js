@@ -170,13 +170,24 @@ let DriversEdit = React.createClass({
     )
   },
 
+  renderTitle() {
+    if(!this.state.driver) return null;
+
+    return (
+      <div>
+        <i className="fa fa-car" style={{marginRight: 15}}/>
+        {this.state.title}
+      </div>
+    )
+  },
+
   render() {
     return (
       <Layout navCurrent='drivers'>
         <div id="driver-edit" className="cfww">
 
           <MUI.Card>
-            <MUI.CardTitle title={<div><i className="fa fa-car" style={{marginRight: 15}}/>{this.state.title}</div>} />
+            <MUI.CardTitle title={this.renderTitle()} />
             <MUI.CardText>
               {this.renderForm()}
             </MUI.CardText>
