@@ -3,8 +3,8 @@ var _            = require('lodash'),
   LocalStrategy  = require('passport-local').Strategy,
   OAuthStrategy  = require('passport-oauth').OAuthStrategy,
   OAuth2Strategy = require('passport-oauth').OAuth2Strategy,
-  BearerStrategy = require('passport-http-bearer').Strategy
-  User           = require('../app/models/User');
+  BearerStrategy = require('passport-http-bearer').Strategy,
+  User           = require('../app/models/User'),
   Token          = require('../app/models/Token');
 
 passport.serializeUser(function(user, done) {
@@ -61,11 +61,11 @@ exports.isAuthorized = function(req, res, next) {
 
 exports.isApiAuthenticated = function(req, res, next) {
   return passport.authenticate('bearer', { session: false })(req, res, next);
-}
+};
 
 passport.use(new BearerStrategy(
   function(accessToken, callback) {
-    console.log('logging in with bearer:', accessToken)
+    console.log('logging in with bearer:', accessToken);
     Token.findOne({ value: accessToken }, function (err, token) {
       if (err) { return callback(err); }
 

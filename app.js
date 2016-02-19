@@ -10,7 +10,7 @@ var express   = require('express'),
 // Load env varibles from .env file, API keys and other secrets are configured here
 // remember to change .env.example to .env in root with proper keys
 // Default path: .env
-dotenv.load({ path: '.env.example' });
+dotenv.load({ path: '.env' });
 
 // Load http server & socket.io
 var server = require('http').Server(app);
