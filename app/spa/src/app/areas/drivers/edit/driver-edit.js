@@ -33,7 +33,7 @@ let DriversEdit = React.createClass({
       },
       update: {
         method: 'post',
-        url: '/drivers/' + this.state.driverId
+        url: '/api/drivers/' + this.state.driverId
       }
     };
     var ajaxInfo = ajaxInfoMap[this.state.driverId? 'update' : 'create'];
