@@ -18,7 +18,7 @@ router.put('/company/:id', api.company.updateCompany);    // Update
 
 // ## Driver api endpoints
 //get all drivers and info associated with organization, allow query logic for different info and drivers
-router.post('/driver/login', api.driver.login);        // Retrieve access token for driver.
+router.post('/drivers/login', api.driver.login);        // Retrieve access token for driver.
 router.get('/drivers', api.driver.listDriver);        // List
 router.post('/drivers', api.driver.createDriver);     // Create
 router.get('/drivers/:id', api.driver.readDriver);    // Read

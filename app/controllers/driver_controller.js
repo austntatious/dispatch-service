@@ -58,6 +58,9 @@ exports.createDriver = function(req, res) {
   });
 };
 
+/**
+* # Get specific driver by ID or token
+**/
 exports.readDriver = function(req, res) {
   var token = req.params.id;
 
@@ -72,19 +75,26 @@ exports.readDriver = function(req, res) {
   });
 };
 
+/**
+* # Update a specific driver
+**/
 exports.updateDriver = function(req, res) {
   var token 	= req.params.id,
   	location 	= req.body.location,
+    phone     = req.body.phone,
   	onDuty 		= req.body.onDuty;
 
   var updateVals = {};
 
-  if (typeof req.body.location != 'undefined') {
+  if (typeof req.body.location !== 'undefined') {
     updateVals.locationLatitude = location[0];
     updateVals.locationLongitude = location[1];
   }
-  if (typeof req.body.onDuty != 'undefined') {
+  if (typeof req.body.onDuty !== 'undefined') {
     updateVals.onDuty = onDuty;
+  }
+  if (typeof req.body.phone !== 'undefined') {
+    updateVals.phone = phone;
   }
 
   driver.update(updateVals, {
@@ -121,7 +131,7 @@ exports.login = function(req, res) {
     res.sendStatus(400);
   }
 
-  console.log("logging in", req.body.email, req.body.password)
+  console.log("logging in", req.body.email, req.body.password);
 
 // TOOD: check for driver role
   passport.authenticate('local', function(err, user, info) {
@@ -137,11 +147,11 @@ exports.login = function(req, res) {
       userId: user._id
     });
 
-    console.log('creating token', token)
+    console.log('creating token', token);
 
     token.save(function(err) {
       if (err) {
-        console.log('error creating token', err)
+        console.log('error creating token', err);
         res.sendStatus(500);
       } else {
         res.send(token.value);
