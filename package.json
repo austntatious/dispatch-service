@@ -6,8 +6,7 @@
     "url": "https://github.com/austntatious/dispatch-service.git"
   },
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha ./app/test --reporter spec --timeout 5000",
+    "start": "node app/index.js",
     "watch": "gulp watch"
   },
   "dependencies": {

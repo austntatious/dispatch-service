@@ -2,7 +2,7 @@
 
 var express   = require('express'),
   app         = express(),
-  logger      = require('./config/logger'),
+  logger      = require('../config/logger'),
   dotenv      = require('dotenv'),
   Sequelize   = require('sequelize'),
   mongoose    = require('mongoose');
@@ -64,7 +64,7 @@ sequelize
   });
 
 // Load sequelize models and sync if in development!!
-var Driver = require('./app/models/driver')(sequelize);
+var Driver = require('./server/models/driver')(sequelize);
 
 // Set run environment variables so sync and drop tables only occur in DEVELOPMENT
 
@@ -73,12 +73,12 @@ Driver.sync({ force:false }).then(function(){
   logger.info('Driver table synced!');
 });
 
-var Company = require("./app/models/company")(sequelize);
+var Company = require("./server/models/company")(sequelize);
 Company.sync({ force:false }).then(function(){
   logger.info('Company table synced!');
 });
 
-var Job = require('./app/models/job')(sequelize);
+var Job = require('./server/models/job')(sequelize);
 Job.sync({ force:false}).then(function() {
   logger.info('Job tables synced');
 });
@@ -92,17 +92,17 @@ Job.sync({ force:false}).then(function() {
 exports.sequelize = sequelize;
 
 // Essential Express middleware config
-require('./config/express').primary(app);
+require('../config/express').primary(app);
 
 // Bootstrap api route
-app.use('/api', require('./app/routes/api'));
+app.use('/api', require('./server/routes/api'));
 
 // Web app middleware
-require('./config/express').web(app); 
+require('../config/express').web(app); 
 
 // Bootstrap web app routes
-app.use('/', require('./app/routes/main'));
-app.use('/plugins', require('./app/routes/plugins'));
+app.use('/', require('./server/routes/main'));
+app.use('/plugins', require('./server/routes/plugins'));
 
 // Start Express Server
 server.listen(app.get('port'), function () {

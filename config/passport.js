@@ -4,8 +4,8 @@ var _            = require('lodash'),
   OAuthStrategy  = require('passport-oauth').OAuthStrategy,
   OAuth2Strategy = require('passport-oauth').OAuth2Strategy,
   BearerStrategy = require('passport-http-bearer').Strategy,
-  User           = require('../app/models/User'),
-  Token          = require('../app/models/Token');
+  User           = require('../app/server/models/User'),
+  Token          = require('../app/server/models/Token');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);

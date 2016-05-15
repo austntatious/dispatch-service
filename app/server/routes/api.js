@@ -1,7 +1,7 @@
 'use strict';
 
 var router       = require('express').Router(),
-	passportConf = require('../../config/passport'),
+	passportConf = require('../../../config/passport'),
 	api          = require('../controllers/api');
 
 /**

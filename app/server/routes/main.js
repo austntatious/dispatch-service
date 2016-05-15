@@ -5,7 +5,7 @@
 'use strict';
 
 var router 			= require('express').Router(),
-	passportConf 	= require('../../config/passport'),
+	passportConf 	= require('../../../config/passport'),
 	mainController  = require('../controllers/main');
 
 router.get('/', mainController.index);

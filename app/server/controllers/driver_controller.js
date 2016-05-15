@@ -1,7 +1,7 @@
 'use strict';
 
-var logger     = require('../../config/logger'),
-    model      = require('../../app').sequelize,
+var logger     = require('../../../config/logger'),
+    model      = require('../../index').sequelize,
     driver     = require('../models/driver')(model),
     passport   = require('passport'),
     token_util = require('../util/token');

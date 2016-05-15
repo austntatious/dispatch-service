@@ -45,13 +45,13 @@ exports.primary = function(app) {
 exports.web = function(app) {
 
   // Middleware for static assets in public directory
-  app.use(favicon(__dirname + '/../app/public/favicon.png'));
-  app.use(express.static(__dirname + '/../app/public', { maxAge: 31557600000 }));
-  app.set('views', __dirname + '/../app/views');
+  app.use(favicon(__dirname + '/../app/client/public/favicon.png'));
+  app.use(express.static(__dirname + '/../app/client/public', { maxAge: 31557600000 }));
+  app.set('views', __dirname + '/../app/server/views');
   app.set('view engine', 'jade');
   app.use(sass({
-    src: (__dirname + '/../app/public'),
-    dest: (__dirname + '/../app/public'),
+    src: (__dirname + '/../app/client/public'),
+    dest: (__dirname + '/../app/client/public'),
     debug: true,
     outputStyle: 'expanded'
   }));
