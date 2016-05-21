@@ -3,13 +3,13 @@ var gulp = require('gulp');
 var config_css = {
   src: './src/app/**/*.css',
   srcVariables: './src/app/styles/appstyle-config.js',
-  destDir: './../public/css/spa',
+  destDir: './public/css/spa',
   destFileName: 'app.css'
 };
 
 gulp.task('css:build', function () {
   var sourcemaps = require('gulp-sourcemaps');
-  
+
   return gulp
     .src(config_css.src)
     .pipe(require('gulp-plumber')())

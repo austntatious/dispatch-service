@@ -1,24 +1,24 @@
 ## For all environments
-Ensure that ES6 is available for build process (Node version > 4, or 5). 
+Ensure that ES6 is available for build process (Node version > 4, or 5).
 ```
 # From http://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version
 sudo npm cache clean -f
 sudo npm install -g n
 sudo n stable
-sudo ln -sf /usr/local/n/versions/node/<VERSION>/bin/node /usr/bin/node 
+sudo ln -sf /usr/local/n/versions/node/<VERSION>/bin/node /usr/bin/node
 ```
 
 ## Getting started in local environment
-1. Go to the SPA folder:
+1. Go to the Single Page App folder:
 
-  `cd spa`
+  `cd app/client`
 1. Download all the NPM packages:
 
  `npm install`
 
 1. Run the frontend build:
 
-  `npm run local`
+  `npm start`, which runs `npm run local`.
 
 
 ## Building in DEV/UAT/Production
@@ -34,5 +34,3 @@ The following is used in Teamcity for building a minified, un-sourcemapped outpu
 
 
 Use color scheme based on https://dribbble.com/shots/2119206-Hixle-Feed/attachments/384630
-
-

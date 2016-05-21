@@ -15,7 +15,7 @@ var webpackConfigBase = {
     app: './src/app/app.js',
     vendor: './src/vendor/vendor.js'
   },
-  
+
   // noInfo: true,
 
   hot:false,
@@ -25,7 +25,7 @@ var webpackConfigBase = {
   //production: 'defined in extended config files'
 
   output:{
-    path: path.join(__dirname, './../public/js/spa/')//,
+    path: path.join(__dirname, './public/js/spa/')//,
     //filename: 'defined in extended config files'
     // hot:false
   },
@@ -47,8 +47,8 @@ var webpackConfigBase = {
   module: {
     loaders: [
       {
-        test: /\.js$/, 
-        include: [path.resolve(__dirname, "./src")], 
+        test: /\.js$/,
+        include: [path.resolve(__dirname, "./src")],
         loader: ["babel-loader"],
         query: {
           presets: ['es2015', 'react']
