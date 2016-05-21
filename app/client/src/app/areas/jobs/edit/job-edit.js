@@ -4,7 +4,7 @@ let Loader  = require('components/loader/loader');
 let DriversEdit = React.createClass({
   getDefaultProps() {
     return {
-          
+
     };
   },
 
@@ -65,7 +65,7 @@ let DriversEdit = React.createClass({
 
   renderForm() {
     var driver = this.state.driver;
-    if(!driver) 
+    if(!driver)
       return <Loader/>
 
     return (
@@ -78,16 +78,16 @@ let DriversEdit = React.createClass({
 
               return (
                 <div className="field grid1" key={index} data-field-type={field.type} data-field-name={field.name}>
-                  <MUI.TextField 
-                      floatingLabelText={field.display} 
-                      value={field.values[0] || ''} 
+                  <MUI.TextField
+                      floatingLabelText={field.display}
+                      value={field.values[0] || ''}
                       onChange={this.onChange.bind(this, fieldEvent)}/>
                 </div>
               )
             })}
         </div>
         <div className="actions">
-          <MUI.RaisedButton label="Create Driver" secondary={true} onClick={(e) => {
+          <MUI.RaisedButton label="Create Job" secondary={true} onClick={(e) => {
             console.log(e)
           }} />
         </div>
@@ -97,11 +97,11 @@ let DriversEdit = React.createClass({
 
   render() {
     return (
-      <Layout navCurrent='drivers'>
+      <Layout navCurrent='jobs'>
         <div id="driver-edit" className="cfww">
 
           <MUI.Card>
-            <MUI.CardTitle title={<div><i className="fa fa-car" style={{marginRight: 15}}/>New Driver</div>} />
+            <MUI.CardTitle title={<div><i className="fa fa-tags" style={{marginRight: 15}}/>New Job</div>} />
             <MUI.CardText>
               {this.renderForm()}
             </MUI.CardText>
@@ -112,5 +112,3 @@ let DriversEdit = React.createClass({
   }
 })
 module.exports = DriversEdit;
-
-

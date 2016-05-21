@@ -81,6 +81,9 @@ let DriversEdit = React.createClass({
       }
     })
     .then((driver) => {
+      debugger
+      // This driver object is either empty, or filled with data
+      // Set up fields that reflect the values in this driver object, with a default fallback
       var fieldsMap = {
         firstName: {
           name: 'firstName',
@@ -106,7 +109,8 @@ let DriversEdit = React.createClass({
           type: 'text',
           values: [driver.email || '']
         }
-      }
+      };
+      console.log('driver', driver, 'fieldsMap', fieldsMap)
       this.setState({
         driver: driver,
         fieldsMap: fieldsMap,
@@ -118,19 +122,22 @@ let DriversEdit = React.createClass({
         ]
       });
     });
-    
+
   },
 
 
   renderForm() {
     var driver = this.state.driver;
+
+    // Show a loader until the driver object is available.
+    if(!driver)
+      return <Loader/>
+
+    // Driver object is now available. Render the form
     var fields = this.state.fields;
     _.each(fields, (f) => {
       driver[f.name] = f.values[0]
     });
-
-    if(!driver) 
-      return <Loader/>
 
     return (
       <div className="form">
@@ -151,11 +158,11 @@ let DriversEdit = React.createClass({
 
               return (
                 <div className="field grid1" key={index} data-field-type={field.type} data-field-name={field.name}>
-                  <MUI.TextField 
-                      floatingLabelText={field.display} 
-                      value={field.values[0] || ''} 
-                      errorText={errorsTransformed}
-                      onChange={this.onChange.bind(this, fieldEvent)}/>
+                  <MUI.TextField
+                    floatingLabelText={field.display}
+                    value={field.values[0] || ''}
+                    errorText={errorsTransformed}
+                    onChange={this.onChange.bind(this, fieldEvent)}/>
                 </div>
               )
             })}
@@ -198,5 +205,3 @@ let DriversEdit = React.createClass({
   }
 })
 module.exports = DriversEdit;
-
-

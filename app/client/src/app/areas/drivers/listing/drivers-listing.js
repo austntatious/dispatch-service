@@ -68,7 +68,7 @@ let DriversListing = React.createClass({
         items: _.map(this.state.drivers, driver => {
           return {
             id: driver.id,
-            updatedAt: new Date(driver.updatedAt), 
+            updatedAt: new Date(driver.updatedAt),
             organization: "TODO Chop't",  //organization ID to associate driver
             name: (() => {
                 return <a href={`/dashboard/drivers/${driver.id}/edit`}>{`${driver.firstName} ${driver.lastName}`}</a>
@@ -104,5 +104,3 @@ let DriversListing = React.createClass({
 
 
 module.exports = DriversListing
-
-
